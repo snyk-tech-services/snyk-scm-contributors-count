@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "pretty": true,
+    "target": "esnext",
+    "module": "commonjs",
+    "sourceMap": true,
+    "declaration": true,
+    "importHelpers": true,
+    "strict": true,
+    "esModuleInterop": false
+  },
+  "include": ["./src/lib/**/*"]
+}

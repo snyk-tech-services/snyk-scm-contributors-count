@@ -1,0 +1,19 @@
+{
+  "name": "scm-contributor-count",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "azure-devops-node-api": "^10.2.2",
+    "base-64": "^1.0.0",
+    "bitbucket": "^2.6.1",
+    "node-fetch": "^2.6.1",
+    "yargs": "^17.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
