@@ -1,7 +1,7 @@
 import * as debugLib from "debug";
 import { BitbucketServerTarget, ContributorMap } from "../lib/types";
 import { fetchBitbucketContributors } from "../lib/bitbucket-server/bitbucket-server-contributors";
-import { retrieveMonitoredRepos, SourceType } from '../lib/snyk'
+// import { retrieveMonitoredRepos, SourceType } from '../lib/snyk'
 import * as ora from 'ora';
 import { SCMHandlerClass, SCMHandlerInterface } from '../lib/common/SCMHandler'
 
@@ -76,7 +76,7 @@ export async function handler(argv: {
 
     debug("Loading snyk monitored repos list \n");
     // TODO: Add option to set this to empty array when we want to count irrespective of what's in snyk
-    const snykImportedRepos = await retrieveMonitoredRepos(argv.url, SourceType["bitbucket-server"])
+    
     spinner.succeed()
     const scmTarget:BitbucketServerTarget = {
         token:argv.token,
@@ -84,7 +84,9 @@ export async function handler(argv: {
         projectKeys: argv.projectKeys?.split(','),
         repo: argv.repo
     }
-  let bitbucketServerTask = new BitbucketServer(scmTarget);
+    
+let bitbucketServerTask = new BitbucketServer(scmTarget);
+  const snykImportedRepos = await bitbucketServerTask.retrieveMonitoredRepos(argv.url, bitbucketServerTask.SourceType["bitbucket-server"])
   debug("Retrieving projects from Bitbucket server \n");
   spinner.text = 'Retrieving projects from Bitbucket server with commits in last 90 days';
   const contributors = await bitbucketServerTask.fetchSCMContributors(snykImportedRepos);
