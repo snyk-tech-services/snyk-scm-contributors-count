@@ -87,7 +87,8 @@ const fetchBitbucketContributorsForRepo = async (
 
     for (let i = 0; i < response.length; i++) {
       const commit = response[i];
-      if (date.getMilliseconds() - 7776000000 > commit.authorTimestamp) {
+      // < is the right way, > is for testing
+      if (date.getMilliseconds() - 7776000000 < commit.authorTimestamp) {
         // Skipping if more than 90 days old
         continue;
       }

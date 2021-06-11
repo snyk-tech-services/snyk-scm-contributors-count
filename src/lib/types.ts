@@ -11,9 +11,7 @@ export interface Contributor {
 }
 
 
-export interface SCMHandler {
-    fetchSCMContributors(snykMonitoredRepos?:string[]): Promise<ContributorMap>,
-}
+
 
 
 export interface BitbucketServerTarget {

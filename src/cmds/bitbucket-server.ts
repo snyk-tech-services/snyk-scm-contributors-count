@@ -1,9 +1,9 @@
 import * as debugLib from "debug";
-import { SCMHandler, BitbucketServerTarget, ContributorMap } from "../lib/types";
+import { BitbucketServerTarget, ContributorMap } from "../lib/types";
 import { fetchBitbucketContributors } from "../lib/bitbucket-server/bitbucket-server-contributors";
 import { retrieveMonitoredRepos, SourceType } from '../lib/snyk'
 import * as ora from 'ora';
-import { dedupRepos, dedupContributorsByEmail, excludeFromListByEmail } from '../lib/common'
+import { SCMHandlerClass, SCMHandlerInterface } from '../lib/common/SCMHandler'
 
 const debug = debugLib("snyk:bitbucket-server-count");
 
@@ -34,9 +34,10 @@ export const builder = {
   },
 };
 
-export class BitbucketServer implements SCMHandler {
+export class BitbucketServer extends SCMHandlerClass implements SCMHandlerInterface {
   bitbucketConnInfo: BitbucketServerTarget;
   constructor(bitbucketInfo: BitbucketServerTarget) {
+      super()
     this.bitbucketConnInfo = bitbucketInfo;
   }
 
@@ -90,13 +91,13 @@ export async function handler(argv: {
   spinner.succeed()
 
   debug('Repos in Snyk')
-  const deduppedSnykImportedRepos = dedupRepos(snykImportedRepos)
+  const deduppedSnykImportedRepos = bitbucketServerTask.dedupRepos(snykImportedRepos)
   debug(deduppedSnykImportedRepos)
   debug('Contributors before exclusion')
-  const deduppedContributors = dedupContributorsByEmail(contributors)
+  const deduppedContributors = bitbucketServerTask.dedupContributorsByEmail(contributors)
   debug(deduppedContributors)
 
-  const contributorsList = excludeFromListByEmail(deduppedContributors,argv.exclusionFilePath)
+  const contributorsList = bitbucketServerTask.excludeFromListByEmail(deduppedContributors,argv.exclusionFilePath)
   debug('Contributors after exclusion list')
   debug(contributorsList)
 
