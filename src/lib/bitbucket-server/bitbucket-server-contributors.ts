@@ -15,10 +15,12 @@ export const fetchBitbucketContributors = async (
   bitbucketServerInfo: BitbucketServerTarget,
   SnykMonitoredRepos: string[]
 ): Promise<ContributorMap> => {
+
+  
   let contributorsMap = new Map<Username, Contributor>();
   try {
     let repoList: Repo[] = [];
-
+    
     if (
       bitbucketServerInfo.repo &&
       (!bitbucketServerInfo.projectKeys ||
@@ -40,7 +42,7 @@ export const fetchBitbucketContributors = async (
         await fetchBitbucketReposForProjects(bitbucketServerInfo)
       );
     }
-
+    
     if(SnykMonitoredRepos && SnykMonitoredRepos.length > 0){
       repoList = repoList.filter(repo => SnykMonitoredRepos.includes(`${repo.project.key}/${repo.name}`) || SnykMonitoredRepos.includes(`${repo.project.name}/${repo.name}`))
     }
@@ -59,6 +61,7 @@ export const fetchBitbucketContributors = async (
       "Failed to retrieve contributors from bitbucket-server. Try running with `DEBUG=snyk* snyk-contributor`"
     );
   } finally {
+    debug(contributorsMap)
     return contributorsMap;
   }
 };
@@ -87,8 +90,8 @@ const fetchBitbucketContributorsForRepo = async (
 
     for (let i = 0; i < response.length; i++) {
       const commit = response[i];
-      // < is the right way, > is for testing
-      if (date.getMilliseconds() - 7776000000 > commit.authorTimestamp) {
+      // < is the right way, > is for testing really
+      if (date.getMilliseconds() - 7776000000 < commit.authorTimestamp) {
         // Skipping if more than 90 days old
         continue;
       }

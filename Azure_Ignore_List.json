@@ -1,6 +1,0 @@
-{
-    "usersToIgnore": [
-    "snyk-bot",
-    "snyk-test"
-]
-}

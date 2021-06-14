@@ -35,29 +35,3 @@ export interface BitbucketServerTarget {
   projectKeys?: string[];
   repo?: string;
 }
-
-
-
-// fetchSnykMonitoredRepos (fetchSnykCLIMonitoredRepos, fetchSnykSCMMonitoredRepos)
-// 2. fetchSCMContributors(snykMonitoredReposList?) => {projectKey, reponame, contributors[]}
-// 3. processResults(scmCounts, monitoredRepos,exclusionList)
-// 4. Common: outputResults(toFile| display)
-
-
-// contributors {
-//     username: string,
-//     email: string,
-//     count: number,
-//     reposContributedTo: string[]
-// }[]
-
-// snykmonitoredrepos: {
-//     reponame: string,
-//     snykOrg: string,
-//     snykGroup: string,
-// }[]
-
-// repos {
-//     reponame: string,
-//     projectKey: string,
-// }[]
