@@ -10,8 +10,23 @@ export interface Contributor {
     reposContributedTo: string[]
 }
 
+export interface ContributorMapWithSummary {
 
+  contributorsCount: number,
+  repoCount: number,
+  repoList: string[],
+  exclusionCount: number,
+  contributorsDetails: ContributorMap
+}
 
+export interface Output {
+
+  contributorsCount: number,
+  repoCount: number,
+  repoList: string[],
+  exclusionCount: number,
+  contributorsDetails: [string, Contributor][]
+}
 
 
 export interface BitbucketServerTarget {

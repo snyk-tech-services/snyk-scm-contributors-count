@@ -1,9 +1,8 @@
 import * as debugLib from "debug";
 import { BitbucketServerTarget, ContributorMap } from "../lib/types";
 import { fetchBitbucketContributors } from "../lib/bitbucket-server/bitbucket-server-contributors";
-// import { retrieveMonitoredRepos, SourceType } from '../lib/snyk'
-import * as ora from 'ora';
-import { SCMHandlerClass, SCMHandlerInterface } from '../lib/common/SCMHandler'
+import * as ora from "ora";
+import { SCMHandlerClass, SCMHandlerInterface } from "../lib/common/SCMHandler";
 
 const debug = debugLib("snyk:bitbucket-server-count");
 
@@ -32,28 +31,39 @@ export const builder = {
     default: undefined,
     desc: "[Optional] Exclusion list filepath",
   },
+  json: {
+    required: false,
+    desc: "[Optional] JSON output",
+  },
+  skipSnykMonitoredRepos: {
+      required: false,
+      desc: "[Optional] Skip Snyk monitored repos and count contributors for all repos"
+  }
 };
 
-export class BitbucketServer extends SCMHandlerClass implements SCMHandlerInterface {
+export class BitbucketServer
+  extends SCMHandlerClass
+  implements SCMHandlerInterface
+{
   bitbucketConnInfo: BitbucketServerTarget;
   constructor(bitbucketInfo: BitbucketServerTarget) {
-      super()
+    super();
     this.bitbucketConnInfo = bitbucketInfo;
   }
 
-  
-  async fetchSCMContributors(SnykMonitoredRepos:string[]) {
-
-    let contributors: ContributorMap = new Map()
+  async fetchSCMContributors(SnykMonitoredRepos: string[]) {
+    let contributors: ContributorMap = new Map();
     try {
       debug("ℹ️  Options: " + JSON.stringify(this.bitbucketConnInfo));
-      contributors = await fetchBitbucketContributors(this.bitbucketConnInfo, SnykMonitoredRepos)
-
+      contributors = await fetchBitbucketContributors(
+        this.bitbucketConnInfo,
+        SnykMonitoredRepos
+      );
     } catch (e) {
       debug("Failed \n" + e);
       console.error(`ERROR! ${e}`);
     } finally {
-        return contributors
+      return contributors;
     }
   }
 }
@@ -64,48 +74,90 @@ export async function handler(argv: {
   projectKeys?: string;
   repo?: string;
   exclusionFilePath?: string;
+  json: boolean;
+  skipSnykMonitoredRepos: boolean
 }): Promise<void> {
-    const spinner = ora('Loading snyk monitored repos list');
-    
-    if(process.env.DEBUG){
-        debug("DEBUG MODE ENABLED \n");    
-        spinner.stop()
-    } else {
-        spinner.start()
-    }
+  let isQuiet = false;
+  if (process.env.DEBUG) {
+    debug("DEBUG MODE ENABLED \n");
+    debug("ℹ️  Options: " + JSON.stringify(argv));
+    isQuiet = true;
+  } else if (argv.json) {
+    isQuiet = true;
+  }
 
-    debug("Loading snyk monitored repos list \n");
-    // TODO: Add option to set this to empty array when we want to count irrespective of what's in snyk
-    
-    spinner.succeed()
-    const scmTarget:BitbucketServerTarget = {
-        token:argv.token,
-        url: argv.url,
-        projectKeys: argv.projectKeys?.split(','),
-        repo: argv.repo
-    }
-    
-let bitbucketServerTask = new BitbucketServer(scmTarget);
-  const snykImportedRepos = await bitbucketServerTask.retrieveMonitoredRepos(argv.url, bitbucketServerTask.SourceType["bitbucket-server"])
+  const spinner = ora({ isSilent: isQuiet });
+  debug("Loading snyk monitored repos list \n");
+  // TODO: Add option to set this to empty array when we want to count irrespective of what's in snyk
+
+  const scmTarget: BitbucketServerTarget = {
+    token: argv.token,
+    url: argv.url,
+    projectKeys: argv.projectKeys?.split(","),
+    repo: argv.repo,
+  };
+  spinner.start();
+  spinner.text = "Loading snyk monitored repos list";
+  let bitbucketServerTask = new BitbucketServer(scmTarget);
+  let snykImportedRepos: string[] = []
+  if(!argv.skipSnykMonitoredRepos){    
+    snykImportedRepos = await bitbucketServerTask.retrieveMonitoredRepos(
+        argv.url,
+        bitbucketServerTask.SourceType["bitbucket-server"]
+      );
+      spinner.succeed();
+      
+      spinner.start();
+      spinner.text = "Removing monitored repository duplicates";
+      debug("Removing monitored repository duplicates");
+      const deduppedSnykImportedRepos =
+        bitbucketServerTask.dedupRepos(snykImportedRepos);
+      debug(deduppedSnykImportedRepos);
+      spinner.succeed();
+  }
+
+  spinner.start();
   debug("Retrieving projects from Bitbucket server \n");
-  spinner.text = 'Retrieving projects from Bitbucket server with commits in last 90 days';
-  const contributors = await bitbucketServerTask.fetchSCMContributors(snykImportedRepos);
-  spinner.succeed()
+  spinner.text =
+    "Retrieving projects from Bitbucket server with commits in last 90 days";
+  let contributors = await bitbucketServerTask.fetchSCMContributors(
+    snykImportedRepos
+  );
+  spinner.succeed();
 
-  debug('Repos in Snyk')
-  const deduppedSnykImportedRepos = bitbucketServerTask.dedupRepos(snykImportedRepos)
-  debug(deduppedSnykImportedRepos)
-  debug('Contributors before exclusion')
-  const deduppedContributors = bitbucketServerTask.dedupContributorsByEmail(contributors)
-  debug(deduppedContributors)
+  
 
-  const contributorsList = bitbucketServerTask.excludeFromListByEmail(deduppedContributors,argv.exclusionFilePath)
-  debug('Contributors after exclusion list')
-  debug(contributorsList)
+  spinner.start();
+  spinner.text = "Removing duplicate contributors";
+  debug("Contributors before exclusion");
+  contributors = bitbucketServerTask.dedupContributorsByEmail(contributors);
+  const contributorsCountBeforeExclusion = contributors.size;
+  debug(contributors);
+  spinner.succeed();
+
+  if (argv.exclusionFilePath) {
+    spinner.start();
+    spinner.text = "Applying exclusion list ";
+    contributors = bitbucketServerTask.excludeFromListByEmail(
+      contributors,
+      argv.exclusionFilePath
+    );
+    debug("Contributors after exclusion list");
+    debug(contributors);
+    spinner.succeed();
+  }
+
+  const contributorsCountAfterExclusion = contributors.size;
+  const outputResults = bitbucketServerTask.calculateSummaryStats(
+    contributors,
+    contributorsCountBeforeExclusion - contributorsCountAfterExclusion
+  );
+  debug("Output results");
+  debug(outputResults);
+  bitbucketServerTask.printOutResults(outputResults);
 
   // TODO:
   // - calculate summary stats
   // - build json output
   // - build display function
-
 }

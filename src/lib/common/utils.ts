@@ -1,4 +1,4 @@
-import { ContributorMap, Contributor } from "../../lib/types";
+import { ContributorMap, Contributor, ContributorMapWithSummary } from "../../lib/types";
 import * as debugLib from "debug";
 
 const debug = debugLib("snyk:bitbucket-server-dedup");
@@ -61,6 +61,21 @@ export const returnKeyIfEmailFoundInMap = (
   }
   return "";
 };
+
+
+export const calculateSummaryStats = (deduppedMap: ContributorMap, exclusionCount: number):ContributorMapWithSummary => {
+    const contributionsCount = deduppedMap.size
+    const uniqueRepoList = getUniqueReposFromMap(deduppedMap)
+    return {contributorsCount: contributionsCount, repoCount: uniqueRepoList.length, repoList: uniqueRepoList,exclusionCount: exclusionCount, contributorsDetails: deduppedMap}
+}
+
+const getUniqueReposFromMap = (map:ContributorMap): string[] => {
+    let repoList: string[] = []
+    map.forEach((item) => {
+        repoList = repoList.concat(item.reposContributedTo)
+    })
+    return dedupRepos(repoList)
+}
 
 export const serializeMapToJson = (map: ContributorMap) => {
   return JSON.stringify(Array.from(map.entries()));

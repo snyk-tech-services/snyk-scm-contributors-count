@@ -1,5 +1,5 @@
 
-import { dedupRepos, dedupContributorsByEmail, excludeFromListByEmail } from '.'
+import { dedupRepos, dedupContributorsByEmail, excludeFromListByEmail, calculateSummaryStats, printOutResults } from '.'
 import { ContributorMap } from '../types'
 import { retrieveMonitoredRepos, SourceType } from '../snyk'
 
@@ -12,6 +12,8 @@ export class SCMHandlerClass {
     dedupContributorsByEmail =dedupContributorsByEmail
     excludeFromListByEmail = excludeFromListByEmail
     retrieveMonitoredRepos = retrieveMonitoredRepos
+    calculateSummaryStats = calculateSummaryStats
+    printOutResults = printOutResults
     SourceType = SourceType
     
 }

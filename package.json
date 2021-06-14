@@ -8,6 +8,7 @@
     "base-64": "^1.0.0",
     "bitbucket": "^2.6.1",
     "bottleneck": "^2.19.5",
+    "chalk": "^4.1.1",
     "crypto": "^1.0.1",
     "debug": "^4.3.1",
     "node-fetch": "^2.6.1",
@@ -21,6 +22,10 @@
     "@types/jest": "^26.0.23",
     "@types/node-fetch": "^2.5.10",
     "@types/yargs": "^17.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.26.1",
+    "@typescript-eslint/parser": "^4.26.1",
+    "eslint": "^7.28.0",
+    "eslint-config-prettier": "^8.3.0",
     "jest": "^27.0.4",
     "ts-jest": "^27.0.3",
     "typescript": "^4.3.2"
@@ -28,7 +33,14 @@
   "scripts": {
     "build": "tsc",
     "build-watch": "tsc -w",
-    "test": "jest"
+    "format:check": "prettier --check '{''{lib,test}/!(fixtures)/**/*,*}.{js,ts,json,yml}'",
+    "format": "prettier --write '{''{lib,test}/!(fixtures)/**/*,*}.{js,ts,json,yml}'",
+    "lint": "npm run format:check && npm run lint:eslint",
+    "lint:eslint": "eslint --cache '{lib,test}/**/*.ts'",
+    "test": "npm run lint && npm run test:unit",
+    "test:unit": "jest",
+    "test:coverage": "npm run test:unit -- --coverage",
+    "test:watch": "tsc-watch --onSuccess 'npm run test:unit'"
   },
   "author": "",
   "license": "ISC"
