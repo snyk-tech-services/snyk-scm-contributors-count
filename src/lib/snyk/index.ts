@@ -17,15 +17,15 @@ export enum SourceType {
 interface OrgsResponseType {
   orgs: OrgType[];
 }
-interface OrgType {
+export interface OrgType {
   name: string;
   id: string;
   slug: string;
   url: string;
   group: {
     name: string;
-    id: string;
-  };
+    id: string ;
+  } | null;
 }
 
 export const retrieveMonitoredRepos = async (
@@ -51,7 +51,7 @@ export const retrieveMonitoredRepos = async (
   }
 };
 
-const retrieveMonitoredReposBySourceType = async (
+export const retrieveMonitoredReposBySourceType = async (
   orgs: OrgType[],
   sourceType: SourceType,
   scmHostname?: string
@@ -64,9 +64,10 @@ const retrieveMonitoredReposBySourceType = async (
       });
 
       // projects is always there even if empty
+      
       const projectNameList =
-        sourceType == SourceType.cli && scmHostname
-          ? extractRepoFromCLIProjectName(projectList, scmHostname)
+        (sourceType == SourceType.cli && scmHostname != '')
+          ? extractRepoFromCLIProjectName(projectList, scmHostname!)
           : extractRepoFromSCMProjectName(projectList);
 
       snykScmMonitoredRepos = snykScmMonitoredRepos.concat(projectNameList);

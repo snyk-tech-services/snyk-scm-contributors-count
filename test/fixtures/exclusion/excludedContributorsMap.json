@@ -1,0 +1,12 @@
+[
+  [
+    "snyk",
+    {
+      "email": "snyk@snyk.io",
+      "contributionsCount": 100,
+      "reposContributedTo": [
+        "project/repo"
+      ]
+    }
+  ]
+]

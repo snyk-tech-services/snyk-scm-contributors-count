@@ -69,7 +69,7 @@ export const calculateSummaryStats = (deduppedMap: ContributorMap, exclusionCoun
     return {contributorsCount: contributionsCount, repoCount: uniqueRepoList.length, repoList: uniqueRepoList,exclusionCount: exclusionCount, contributorsDetails: deduppedMap}
 }
 
-const getUniqueReposFromMap = (map:ContributorMap): string[] => {
+export const getUniqueReposFromMap = (map:ContributorMap): string[] => {
     let repoList: string[] = []
     map.forEach((item) => {
         repoList = repoList.concat(item.reposContributedTo)

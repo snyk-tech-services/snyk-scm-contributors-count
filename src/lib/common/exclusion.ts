@@ -25,7 +25,7 @@ export const excludeFromListByEmail = (contributorsMap:ContributorMap, inputFile
     return contributorsMapToReturn
 }
 
-const loadListFromFile = (inputFilePath: string):string[] => {
+export const loadListFromFile = (inputFilePath: string):string[] => {
     let list:string[] = []
     try {
         const exclusionListFullFilepath = path.normalize(inputFilePath);

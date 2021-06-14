@@ -1,0 +1,43 @@
+{
+    "org": {
+      "name": "My Other Org",
+      "id": "a04d9cbd-ae6e-44af-b573-0556b0ad4bd2"
+    },
+    "projects": [
+      {
+        "id": "4065a016-997d-4719-a31f-50d882737dd3",
+        "name": "snyk-tech-services/training-snyk-row:package.json",
+        "created": "2020-03-11T10:35:44.471Z",
+        "origin": "bitbucket-server",
+        "type": "npm",
+        "readOnly": false,
+        "testFrequency": "daily",
+        "isMonitored": true,
+        "totalDependencies": 83,
+        "issueCountsBySeverity": {
+          "low": 0,
+          "high": 3,
+          "medium": 2
+        },
+        "imageTag": "1.0.0",
+        "imagePlatform": "",
+        "imageBaseImage": "",
+        "lastTestedDate": "2021-06-14T03:40:04.373Z",
+        "browseUrl": "https://app.snyk.io/org/playground/project/4065a016-997d-4719-a31f-50d882737dd3",
+        "owner": {},
+        "importingUser": {
+          "id": "4eee4035-64c1-4d66-a2b2-5bfdcee0c448",
+          "name": "aarlaud",
+          "username": "aarlaud",
+          "email": "aarlaud@hotmail.com"
+        },
+        "tags": [],
+        "attributes": {
+          "criticality": [],
+          "lifecycle": [],
+          "environment": []
+        },
+        "branch": "master"
+      }
+    ]
+  }
