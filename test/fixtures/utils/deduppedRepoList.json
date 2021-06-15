@@ -1,0 +1,18 @@
+[
+  "jeff-snyk-demo/java-goof",
+  "Snyk Demo/goofy",
+  "Snyk-fixtures/mono-repo",
+  "Snyk-fixtures/maven-samples",
+  "Snyk Demo/java-goof",
+  "Snyk-fixtures/npm-simple-vuln-with-policy",
+  "Snyk-fixtures/scala-sbt-app-with-vulns",
+  "Snyk-fixtures/gradle-simple-repo",
+  "Snyk-fixtures/python-pip-app-with-vulns",
+  "Snyk-fixtures/goof",
+  "Snyk-fixtures/ruby-gem-simple-vuln",
+  "antoine-snyk-demo/testOrgana",
+  "Snyk test/goof",
+  "Aner Test/GoofTest",
+  "antoine-snyk-demo/TestRepoAntoine",
+  "http://bitbucket-server.dev.snyk.io/scm/an/testorgana.git"
+]

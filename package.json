@@ -1,19 +1,69 @@
 {
-  "name": "scm-contributor-count",
+  "name": "snyk-scm-contributor-count",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "bin": {
+    "snyk-scm-contributor-count": "dist/index.js"
+  },
   "dependencies": {
     "azure-devops-node-api": "^10.2.2",
     "base-64": "^1.0.0",
     "bitbucket": "^2.6.1",
+    "bottleneck": "^2.19.5",
+    "chalk": "^4.1.1",
+    "crypto": "^1.0.1",
+    "debug": "^4.3.1",
     "node-fetch": "^2.6.1",
+    "ora": "^5.4.1",
+    "snyk-api-ts-client": "^1.7.2",
+    "tslib": "^2.2.0",
     "yargs": "^17.0.1"
   },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "devDependencies": {
+    "@types/debug": "^4.1.5",
+    "@types/jest": "^26.0.23",
+    "@types/node-fetch": "^2.5.10",
+    "@types/yargs": "^17.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.26.1",
+    "@typescript-eslint/parser": "^4.26.1",
+    "eslint": "^7.28.0",
+    "eslint-config-prettier": "^8.3.0",
+    "jest": "^27.0.4",
+    "mock-stdin": "^1.0.0",
+    "nock": "^13.1.0",
+    "ts-jest": "^27.0.3",
+    "typescript": "^4.3.2"
   },
-  "author": "",
-  "license": "ISC"
+  "scripts": {
+    "build": "tsc",
+    "build-watch": "tsc -w",
+    "format:check": "prettier --check '{''{lib,test}/!(fixtures)/**/*,*}.{js,ts,json,yml}'",
+    "format": "prettier --write '{''{lib,test}/!(fixtures)/**/*,*}.{js,ts,json,yml}'",
+    "lint": "npm run format:check && npm run lint:eslint",
+    "lint:eslint": "eslint --cache '{lib,test}/**/*.ts'",
+    "test": "npm run lint && npm run test:unit",
+    "test:unit": "jest",
+    "test:coverage": "npm run test:unit -- --coverage",
+    "test:watch": "tsc-watch --onSuccess 'npm run test:unit'",
+    "pkg-binaries": "npx pkg . -t node14-linux-x64,node14-macos-x64,node14-win-x64 --out-path ./dist/binaries"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/snyk-tech-services/snyk-scm-contributor-count.git"
+  },
+  "author": "Snyk Tech Services",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "bin",
+    "dist"
+  ],
+  "pkg": {
+    "scripts": [
+      "dist/**/*.js"
+    ]
+  }
 }

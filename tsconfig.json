@@ -7,8 +7,7 @@
     "sourceMap": true,
     "declaration": true,
     "importHelpers": true,
-    "strict": true,
-    "esModuleInterop": false
+    "strict": true
   },
-  "include": ["./src/lib/**/*"]
+  "include": ["./src/**/**/*"]
 }

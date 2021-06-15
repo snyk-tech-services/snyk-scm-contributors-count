@@ -1,0 +1,64 @@
+{
+  "prepare": [
+    "@semantic-release/npm",
+    {
+      "//": "adds a file to identify a build as a standalone binary",
+      "path": "@semantic-release/exec",
+      "cmd": "echo '' > dist/STANDALONE"
+    },
+    {
+      "//": "build the alpine, macos, linux and windows binaries",
+      "path": "@semantic-release/exec",
+      "cmd": "npx pkg . -t node14-linux-x64,node14-macos-x64,node14-win-x64"
+    },
+    {
+      "//": "shasum all binaries",
+      "path": "@semantic-release/exec",
+      "cmd": "shasum -a 256 snyk-delta-linux > snyk-delta-linux.sha256 && shasum -a 256 snyk-delta-macos > snyk-delta-macos.sha256 && shasum -a 256 snyk-delta-win.exe > snyk-delta-win.exe.sha256"
+    },
+    {
+      "//": "removes the file we use to identify a build as a standalone binary",
+      "path": "@semantic-release/exec",
+      "cmd": "rm dist/STANDALONE"
+    }
+  ],
+  "publish": [
+    "@semantic-release/npm",
+    {
+      "path": "@semantic-release/github",
+      "assets": [
+        {
+          "path": "./snyk-delta-linux",
+          "name": "snyk-delta-linux",
+          "label": "snyk-delta-linux"
+        },
+        {
+          "path": "./snyk-delta-linux.sha256",
+          "name": "snyk-delta-linux.sha256",
+          "label": "snyk-delta-linux.sha256"
+        },
+        {
+          "path": "./snyk-delta-macos",
+          "name": "snyk-delta-macos",
+          "label": "snyk-delta-macos"
+        },
+        {
+          "path": "./snyk-delta-macos.sha256",
+          "name": "snyk-delta-macos.sha256",
+          "label": "snyk-delta-macos.sha256"
+        },
+        {
+          "path": "./snyk-delta-win.exe",
+          "name": "snyk-delta-win.exe",
+          "label": "snyk-delta-win.exe"
+        },
+        {
+          "path": "./snyk-delta-win.exe.sha256",
+          "name": "snyk-delta-win.exe.sha256",
+          "label": "snyk-delta-win.exe.sha256"
+        }
+      ]
+    }
+  ],
+  "branches": ["main"]
+}

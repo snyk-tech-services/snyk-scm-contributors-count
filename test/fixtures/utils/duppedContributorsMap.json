@@ -1,0 +1,41 @@
+[
+  [
+    "aarlaud",
+    {
+      "email": "antoine@snyk.io",
+      "contributionsCount": 1,
+      "reposContributedTo": ["antoine-snyk-demo/testOrgana"]
+    }
+  ],
+  [
+    "Jean Claude",
+    {
+      "email": "antoine@snyk.io",
+      "contributionsCount": 6,
+      "reposContributedTo": [
+        "antoine-snyk-demo/xyz"
+      ]
+    }
+  ],
+  [
+    "Antoine Arlaud",
+    {
+      "email": "antoine@snyk.io",
+      "contributionsCount": 3,
+      "reposContributedTo": [
+        "antoine-snyk-demo/testOrgana",
+        "antoine-snyk-demo/TestRepoAntoine"
+      ]
+    }
+  ],
+  [
+    "snyk",
+    {
+      "email": "snyk@snyk.io",
+      "contributionsCount": 100,
+      "reposContributedTo": [
+        "project/repo"
+      ]
+    }
+  ]
+]
