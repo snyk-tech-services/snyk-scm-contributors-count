@@ -1,5 +1,0 @@
-describe('Testing bitbucket-server interaction', () => {
-  test('[TODO] Mock the hell out of BBS API', () => {
-    expect(true).toBeTruthy;
-  });
-});

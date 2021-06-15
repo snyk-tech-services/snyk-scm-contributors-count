@@ -66,7 +66,7 @@ export const fetchBitbucketContributors = async (
   }
 };
 
-const fetchBitbucketContributorsForRepo = async (
+export const fetchBitbucketContributorsForRepo = async (
   bitbucketServerInfo: BitbucketServerTarget,
   repo: Repo,
   contributorsMap: ContributorMap
@@ -87,11 +87,15 @@ const fetchBitbucketContributorsForRepo = async (
     )) as Commits[];
 
     const date: Date = new Date();
-
+    let today = date.getTime()
+    if(process.env.NODE_ENV == 'test'){
+      today = date.setFullYear(2020,6,15)
+    }
     for (let i = 0; i < response.length; i++) {
       const commit = response[i];
-      // < is the right way, > is for testing really
-      if (date.getMilliseconds() - 7776000000 < commit.authorTimestamp) {
+      // > is the right way, < is for testing really
+      // todayDate - 90 days should be smaller than commit timestamp, otherwise timestamp occured before 90days
+      if (today - 7776000000 > commit.authorTimestamp) {
         // Skipping if more than 90 days old
         continue;
       }
@@ -124,7 +128,7 @@ const fetchBitbucketContributorsForRepo = async (
   }
 };
 
-const fetchBitbucketReposForProjects = async (
+export const fetchBitbucketReposForProjects = async (
   bitbucketServerInfo: BitbucketServerTarget
 ): Promise<Repo[]> => {
   let repoList: Repo[] = [];

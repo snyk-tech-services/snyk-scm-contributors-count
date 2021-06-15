@@ -1,0 +1,49 @@
+{
+    "size": 1,
+    "limit": 1,
+    "isLastPage": true,
+    "values": [
+        {
+            "slug": "testrepoantoine",
+            "id": 4163,
+            "name": "TestRepoAntoine",
+            "scmId": "git",
+            "state": "AVAILABLE",
+            "statusMessage": "Available",
+            "forkable": true,
+            "project": {
+                "key": "AN",
+                "id": 403,
+                "name": "antoine-snyk-demo",
+                "public": false,
+                "type": "NORMAL",
+                "links": {
+                    "self": [
+                        {
+                            "href": "http://bitbucket-server.dev.snyk.io/projects/AN"
+                        }
+                    ]
+                }
+            },
+            "public": false,
+            "links": {
+                "clone": [
+                    {
+                        "href": "http://bitbucket-server.dev.snyk.io/scm/an/testrepoantoine.git",
+                        "name": "http"
+                    },
+                    {
+                        "href": "ssh://git@bitbucket-server.dev.snyk.io:7999/an/testrepoantoine.git",
+                        "name": "ssh"
+                    }
+                ],
+                "self": [
+                    {
+                        "href": "http://bitbucket-server.dev.snyk.io/projects/AN/repos/testrepoantoine/browse"
+                    }
+                ]
+            }
+        }
+    ],
+    "start": 1
+}

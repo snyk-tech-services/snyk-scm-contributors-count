@@ -22,12 +22,16 @@ limiter.on("failed", async (error, jobInfo) => {
 });
 
 export const isAnyCommitMoreThan90Days = (values: unknown[]) => {
-    const date: Date = new Date();
+  const date: Date = new Date();
+  if(process.env.NODE_ENV == 'test') {
+    date.setFullYear(2020,6,15)
+  }
+    
     const typedValues = values as Commits[];
     // return true to break pagination if any commit if more than 90 days old
     return typedValues.some(
-      (typedValue) =>
-        date.getMilliseconds() - 7776000000 < typedValue.authorTimestamp
+      (typedValue) => 
+       date.getTime() - 7776000000 > typedValue.authorTimestamp
     );
   };
 
@@ -49,7 +53,6 @@ export const fetchAllPages = async (
         headers: { Authorization: "Bearer " + token },
       })
     );
-
     const apiResponse = (await response.json()) as repoListApiResponse;
     values = values.concat(apiResponse.values);
     isLastPage = apiResponse.isLastPage;
