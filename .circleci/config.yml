@@ -1,0 +1,75 @@
+version: 2.1
+orbs:
+    snyk: snyk/snyk@0.0.8
+jobs:
+    build-test-monitor:
+        docker:
+            - image: circleci/node:latest
+        steps:
+            - checkout
+            - run: npm install semantic-release @semantic-release/exec pkg --save-dev --legacy-peer-deps
+            - run: npm install
+            - run: npm test
+            - snyk/scan:
+                fail-on-issues: true
+                monitor-on-build: true
+                token-variable: SNYK_TOKEN
+            - run: npx semantic-release
+    build-test:
+        docker:
+            - image: circleci/node:latest
+        steps:
+            - checkout
+            - run: npm install
+            - run: npm test
+            - snyk/scan:
+                fail-on-issues: true
+                monitor-on-build: false
+                token-variable: SNYK_TOKEN
+            - run: npx tsc
+    build-test-from-fork:
+        docker:
+            - image: circleci/node:latest
+        steps:
+            - checkout
+            - run: npm install
+            - run: npm test
+            - run: npx tsc
+
+workflows:
+    version: 2.1
+    nightly:
+        triggers:
+          - schedule:
+              cron: "0 0 * * *"
+              filters:
+                branches:
+                  only:
+                    - master
+        jobs:
+            - build-test-monitor:
+                context: SNYK
+
+    build-test-monitor:
+        jobs:
+            - build-test-monitor:
+                context: SNYK
+                filters:
+                    branches:
+                        only:
+                            - master
+
+    build-test:
+        jobs:
+            - build-test:
+                context: SNYK
+                filters:
+                    branches:
+                        ignore:
+                        - master
+                        - /pull\/[0-9]+/
+            - build-test-from-fork:
+                filters:
+                    branches:
+                        only:
+                        - /pull\/[0-9]+/
