@@ -1,95 +1,85 @@
-## Add a command
+# Snyk SCM Contributors counting
 
-1. Create a new ts file under cmds
-2. Implement the below for your command. Implementing the interface will require you to implement the fetchSCMContributors function returning a predictable type
-3. From there, the functions to dedup repos, contributors and exclusion are simply steps to execute with already built functions expecting fetchSCMContributors of a certain shape.
-4. in other words, once you implement fetchSCMContributors to return a Map with the expected fields, you only need to go through the steps with already built functions.
+This tool is used to count contributors with commits in the last 90 days in repositories matching the following criteria:
+1. Repo name XYZ (single repo mode if available for SCM command - see help)
+2. All repos in given projects/org/group (ex: Bitbucket Server project(s))
+3. All repos in given projects/org/group (ex: Bitbucket Server project(s)) AND monitored by Snyk
+4. All repos in SCM (varies a little depending on SCM)
+5. All repos in SCM (varies a little depending on SCM) AND monitored by Snyk
+ 
+### Example
+I want to know the countributors count for Snyk monitored projects in bitbucket server project key AN.
 
-5. this file needs to following
-
+## Installation
 ```
-import * as debugLib from "debug";
-import * as ora from 'ora';
-import { SCMHandlerClass, SCMHandlerInterface } from '../lib/common/SCMHandler'
-
-const debug = debugLib("snyk:YOUR-CMD-count");
-
-export const command = ["<YOUR-CMD>"];
-export const desc = "Count contributors for YOUR-CMD.\n";
-
-export const builder = {
-// options like
-  token: { required: true, default: undefined, desc: "Bitbucket server token" },
-
-};
-
-export class YOURCLASS extends SCMHandlerClass implements SCMHandlerInterface {
-  
-  constructor(xyzInfo:XYZTarget) {
-      super()
-    ...
-  }
-
-  
-  async fetchSCMContributors(SnykMonitoredRepos:string[]) {
-    ...
-    // to implement, return Promise<ContributorMap>
-  }
-}
-
-export async function handler(argv: {
-  token: string;
-  url: string;
-  projectKeys?: string;
-  repo?: string;
-  exclusionFilePath?: string;
-}): Promise<void> {
-
-    const scmTarget: xyzTarget = {
-        // relevant options from command line
-    }
-
-    const spinner = ora('Loading snyk monitored repos list');
-    
-    if(process.env.DEBUG){
-        debug("DEBUG MODE ENABLED \n");    
-        spinner.stop()
-    } else {
-        spinner.start()
-    }
-
-    debug("Loading snyk monitored repos list \n");
-    spinner.succeed()
-    const scmTarget:XYZTarget = {
-        // options like
-        token:argv.token,
-        url: argv.url,
-        projectKeys: argv.projectKeys?.split(','),
-        repo: argv.repo
-    }
-
-    // Instantiate your class implementing fetchSCMContributors
-    let xyzTask = new YOURCLASS(xyzTarget)
-
-    const snykImportedRepos = await xyzTask.retrieveMonitoredRepos(argv.url, xyzTask.SourceType["YOUR-CMD"])
-    debug("Retrieving projects from YOUR-CMD \n");
-    spinner.text = 'Retrieving projects from YOUR-CMD with commits in last 90 days';
-    const contributors = await xyzTask.fetchSCMContributors(snykImportedRepos);
-    spinner.succeed()
-
-    debug('Repos in Snyk')
-    const deduppedSnykImportedRepos = xyzTask.dedupRepos(snykImportedRepos)
-    debug(deduppedSnykImportedRepos)
-    debug('Contributors before exclusion')
-    const deduppedContributors = xyzTask.dedupContributorsByEmail(contributors)
-    debug(deduppedContributors)
-
-    const contributorsList = xyzTask.excludeFromListByEmail(deduppedContributors,argv.exclusionFilePath)
-    debug('Contributors after exclusion list')
-    debug(contributorsList)
-
-}
+npm i snyk-scm-contributor-count
 ```
-6. See cmds/bitbucket-server.ts for example. Note that the stats calculation and the output functions are not yet built. They will be generic anyways so you don't need to worry about it, simply use them
-7. Use debug and ora spinners for good UX
-8. run with DEBUG=SNYK* node index.js ...... to run in debug mode.
+or use corresponding binaries in the [release page](https://github.com/snyk-tech-services/snyk-scm-contributors-count/releases)
+
+
+## Usage
+```
+export SNYK_TOKEN=<YOUR-SNYK-TOKEN>
+snyk-scm-contributor-count <command> <command-options>
+```
+
+##### Example: 
+```
+snyk-scm-contributor-count bitbucket-server --token BITBUCKET-TOKEN --url http://bitbucket-server.mycompany.com --projectKeys Key1,Key2 --exclusionFilePath=./snyk.exclude
+```
+
+## Common options across commands
+- `--skipSnykMonitoredRepos` to skip checking with repos are monitored by Snyk (useful for sizing before Snyk rollout). In that case the SNYK_TOKEN is not required
+- `--exclusionFilePath` pointing to snyk.exclude file, simple text file containing emails of committers to exclude (i.e bot@snyk.io, etc...)
+- `--json` output JSON
+
+Additional options might be available depending on the command
+
+### Run in DEBUG MODE
+Use DEBUG=snyk* env var before your command, for example:
+```
+DEBUG=snyk* snyk-scm-contributor-count bitbucket-server --token BITBUCKET-TOKEN --url http://bitbucket-server.mycompany.com --projectKeys Key1,Key2 --exclusionFilePath=./snyk.exclude
+```
+
+
+
+# Development
+
+
+## Add a command and SCM support
+
+1. Create a new ts file under cmds (duplicate cmds/bitbucket-server.ts)
+
+2. Fill out command, desc, and builder options, leaving in:
+- exclusionFilePath
+- json
+- skipSnykMonitoredRepos
+
+3. The handler function will be called with argv which should match the builder options
+
+4. Create a class with your command name extending SCMHandlerClass.
+It'll require you to implement the abstract method `fetchSCMContributors` expecting a `Promise<ContributorMap>` in return
+- types can be function in src/lib/types.ts
+
+5. Once create and asbtract function implemented, in handler, instantiate the class you just created
+
+6. Call 
+```
+<classInstance>.scmContributorCount(argv.url,SourceType["YOUR-SOURCE"],argv.skipSnykMonitoredRepos,argv.exclusionFilePath,argv.json)
+```
+
+7. profit.
+
+## Build
+```
+npm run build
+```
+or in watch mode
+```
+npm run build-watch
+```
+
+## Best Practices
+- Most SCMs have paginated results, fetch all the relevant pages, only what's useful
+- Be gentle with rates against SCM. Use client or throttling libs like bottleneck
+- Snyk API interaction is using snyk-api-ts-client with built-in throttling and retries
