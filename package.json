@@ -1,10 +1,10 @@
 {
-  "name": "snyk-scm-contributor-count",
+  "name": "snyk-scm-contributors-count",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
   "bin": {
-    "snyk-scm-contributor-count": "dist/index.js"
+    "snyk-scm-contributors-count": "dist/index.js"
   },
   "dependencies": {
     "azure-devops-node-api": "^10.2.2",
@@ -50,7 +50,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/snyk-tech-services/snyk-scm-contributor-count.git"
+    "url": "https://github.com/snyk-tech-services/snyk-scm-contributors-count.git"
   },
   "author": "Snyk Tech Services",
   "license": "Apache-2.0",

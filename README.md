@@ -12,7 +12,7 @@ I want to know the countributors count for Snyk monitored projects in bitbucket 
 
 ## Installation
 ```
-npm i snyk-scm-contributor-count
+npm i snyk-scm-contributors-count
 ```
 or use corresponding binaries in the [release page](https://github.com/snyk-tech-services/snyk-scm-contributors-count/releases)
 
@@ -20,12 +20,12 @@ or use corresponding binaries in the [release page](https://github.com/snyk-tech
 ## Usage
 ```
 export SNYK_TOKEN=<YOUR-SNYK-TOKEN>
-snyk-scm-contributor-count <command> <command-options>
+snyk-scm-contributors-count <command> <command-options>
 ```
 
 ##### Example: 
 ```
-snyk-scm-contributor-count bitbucket-server --token BITBUCKET-TOKEN --url http://bitbucket-server.mycompany.com --projectKeys Key1,Key2 --exclusionFilePath=./snyk.exclude
+snyk-scm-contributors-count bitbucket-server --token BITBUCKET-TOKEN --url http://bitbucket-server.mycompany.com --projectKeys Key1,Key2 --exclusionFilePath=./snyk.exclude
 ```
 
 ## Common options across commands
@@ -38,7 +38,7 @@ Additional options might be available depending on the command
 ### Run in DEBUG MODE
 Use DEBUG=snyk* env var before your command, for example:
 ```
-DEBUG=snyk* snyk-scm-contributor-count bitbucket-server --token BITBUCKET-TOKEN --url http://bitbucket-server.mycompany.com --projectKeys Key1,Key2 --exclusionFilePath=./snyk.exclude
+DEBUG=snyk* snyk-scm-contributors-count bitbucket-server --token BITBUCKET-TOKEN --url http://bitbucket-server.mycompany.com --projectKeys Key1,Key2 --exclusionFilePath=./snyk.exclude
 ```
 
 

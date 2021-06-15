@@ -14,7 +14,7 @@
     {
       "//": "shasum all binaries",
       "path": "@semantic-release/exec",
-      "cmd": "shasum -a 256 snyk-delta-linux > snyk-delta-linux.sha256 && shasum -a 256 snyk-delta-macos > snyk-delta-macos.sha256 && shasum -a 256 snyk-delta-win.exe > snyk-delta-win.exe.sha256"
+      "cmd": "shasum -a 256 snyk-scm-contributors-count-linux > snyk-scm-contributors-count-linux.sha256 && shasum -a 256 snyk-scm-contributors-count-macos > snyk-scm-contributors-count-macos.sha256 && shasum -a 256 snyk-scm-contributors-count-win.exe > snyk-scm-contributors-count-win.exe.sha256"
     },
     {
       "//": "removes the file we use to identify a build as a standalone binary",
@@ -28,34 +28,34 @@
       "path": "@semantic-release/github",
       "assets": [
         {
-          "path": "./snyk-delta-linux",
-          "name": "snyk-delta-linux",
-          "label": "snyk-delta-linux"
+          "path": "./snyk-scm-contributors-count-linux",
+          "name": "snyk-scm-contributors-count-linux",
+          "label": "snyk-scm-contributors-count-linux"
         },
         {
-          "path": "./snyk-delta-linux.sha256",
-          "name": "snyk-delta-linux.sha256",
-          "label": "snyk-delta-linux.sha256"
+          "path": "./snyk-scm-contributors-count-linux.sha256",
+          "name": "snyk-scm-contributors-count-linux.sha256",
+          "label": "snyk-scm-contributors-count-linux.sha256"
         },
         {
-          "path": "./snyk-delta-macos",
-          "name": "snyk-delta-macos",
-          "label": "snyk-delta-macos"
+          "path": "./snyk-scm-contributors-count-macos",
+          "name": "snyk-scm-contributors-count-macos",
+          "label": "snyk-scm-contributors-count-macos"
         },
         {
-          "path": "./snyk-delta-macos.sha256",
-          "name": "snyk-delta-macos.sha256",
-          "label": "snyk-delta-macos.sha256"
+          "path": "./snyk-scm-contributors-count-macos.sha256",
+          "name": "snyk-scm-contributors-count-macos.sha256",
+          "label": "snyk-scm-contributors-count-macos.sha256"
         },
         {
-          "path": "./snyk-delta-win.exe",
-          "name": "snyk-delta-win.exe",
-          "label": "snyk-delta-win.exe"
+          "path": "./snyk-scm-contributors-count-win.exe",
+          "name": "snyk-scm-contributors-count-win.exe",
+          "label": "snyk-scm-contributors-count-win.exe"
         },
         {
-          "path": "./snyk-delta-win.exe.sha256",
-          "name": "snyk-delta-win.exe.sha256",
-          "label": "snyk-delta-win.exe.sha256"
+          "path": "./snyk-scm-contributors-count-win.exe.sha256",
+          "name": "snyk-scm-contributors-count-win.exe.sha256",
+          "label": "snyk-scm-contributors-count-win.exe.sha256"
         }
       ]
     }

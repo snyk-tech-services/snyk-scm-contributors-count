@@ -8,7 +8,7 @@ jobs:
         steps:
             - checkout
             - run: npm install semantic-release @semantic-release/exec pkg --save-dev --legacy-peer-deps
-            - run: npm install
+            - run: npm run build
             - run: npm test
             - snyk/scan:
                 fail-on-issues: true
@@ -20,7 +20,7 @@ jobs:
             - image: circleci/node:latest
         steps:
             - checkout
-            - run: npm install
+            - run: npm run build
             - run: npm test
             - snyk/scan:
                 fail-on-issues: true
@@ -32,7 +32,7 @@ jobs:
             - image: circleci/node:latest
         steps:
             - checkout
-            - run: npm install
+            - run: npm run build
             - run: npm test
             - run: npx tsc
 
@@ -45,7 +45,7 @@ workflows:
               filters:
                 branches:
                   only:
-                    - master
+                    - main
         jobs:
             - build-test-monitor:
                 context: SNYK
@@ -57,7 +57,7 @@ workflows:
                 filters:
                     branches:
                         only:
-                            - master
+                            - main
 
     build-test:
         jobs:
@@ -66,7 +66,7 @@ workflows:
                 filters:
                     branches:
                         ignore:
-                        - master
+                        - main
                         - /pull\/[0-9]+/
             - build-test-from-fork:
                 filters:
