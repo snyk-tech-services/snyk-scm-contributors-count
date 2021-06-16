@@ -8,6 +8,7 @@ jobs:
         steps:
             - checkout
             - run: npm install semantic-release @semantic-release/exec pkg --save-dev --legacy-peer-deps
+            - run: npm install
             - run: npm run build
             - run: npm test
             - snyk/scan:
@@ -20,21 +21,21 @@ jobs:
             - image: circleci/node:latest
         steps:
             - checkout
+            - run: npm install
             - run: npm run build
             - run: npm test
             - snyk/scan:
                 fail-on-issues: true
                 monitor-on-build: false
                 token-variable: SNYK_TOKEN
-            - run: npx tsc
     build-test-from-fork:
         docker:
             - image: circleci/node:latest
         steps:
             - checkout
+            - run: npm install
             - run: npm run build
             - run: npm test
-            - run: npx tsc
 
 workflows:
     version: 2.1
