@@ -11,13 +11,18 @@ This tool is used to count contributors with commits in the last 90 days in repo
 I want to know the countributors count for Snyk monitored projects in bitbucket server project key AN.
 
 ## Installation
+> Require node 14 !
+
 ```
-npm i snyk-scm-contributors-count
+npm i -g snyk-scm-contributors-count
 ```
 or use corresponding binaries in the [release page](https://github.com/snyk-tech-services/snyk-scm-contributors-count/releases)
 
 
 ## Usage
+
+> If using binaries, `chmod +x snyk-scm-contributors-count-<env>` to allow execution
+
 ```
 export SNYK_TOKEN=<YOUR-SNYK-TOKEN>
 snyk-scm-contributors-count <command> <command-options>
@@ -27,6 +32,8 @@ snyk-scm-contributors-count <command> <command-options>
 ```
 snyk-scm-contributors-count bitbucket-server --token BITBUCKET-TOKEN --url http://bitbucket-server.mycompany.com --projectKeys Key1,Key2 --exclusionFilePath=./snyk.exclude
 ```
+
+If you can't then type `snyk-scm-contributors-count` in your terminal, then add you bin folder to the PATH in ~/.bash_profile or equivalent. If using nvm, make sure the bin folder for your node version is also in the PATH.
 
 ## Common options across commands
 - `--skipSnykMonitoredRepos` to skip checking with repos are monitored by Snyk (useful for sizing before Snyk rollout). In that case the SNYK_TOKEN is not required
