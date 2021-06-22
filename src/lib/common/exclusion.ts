@@ -2,7 +2,7 @@ import { ContributorMap, Contributor } from "../../lib/types";
 import { returnKeyIfEmailFoundInMap } from './utils'
 import * as debugLib from "debug";
 
-const debug = debugLib("snyk:bitbucket-server-exclude");
+const debug = debugLib("snyk:scm-exclude");
 import * as fs from 'fs';
 import * as path from 'path'
 
