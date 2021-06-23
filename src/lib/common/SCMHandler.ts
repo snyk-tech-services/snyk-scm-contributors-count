@@ -31,7 +31,7 @@ export abstract class SCMHandlerClass {
     skipSnykMonitoredRepos: boolean,
     exclusionFilePath: string,
     json: boolean,
-  ) => {
+  ): Promise<void> => {
     let isQuiet = false;
     if (process.env.DEBUG) {
       debug('DEBUG MODE ENABLED \n');

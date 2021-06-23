@@ -10,9 +10,9 @@ const debug = debugLib('snyk:dedup');
 export const dedupContributorsByEmail = (
   contributorsMap: ContributorMap,
 ): ContributorMap => {
-  let deduppedContributorsMap = contributorsMap;
-  let contributorsMapToReturn = new Map<string, Contributor>();
-  for (let [username, contributor] of contributorsMap) {
+  const deduppedContributorsMap = contributorsMap;
+  const contributorsMapToReturn = new Map<string, Contributor>();
+  for (const [username, contributor] of contributorsMap) {
     const contributorsMapMinusContributor = contributorsMap;
     contributorsMapMinusContributor.delete(username);
     let duplicateEmailKey = returnKeyIfEmailFoundInMap(
@@ -58,7 +58,7 @@ export const returnKeyIfEmailFoundInMap = (
   map: ContributorMap,
   email: string,
 ): string => {
-  for (let [key, value] of map) {
+  for (const [key, value] of map) {
     if (value.email.replace(' ', '') === email.replace(' ', '')) {
       return key;
     }
@@ -89,7 +89,7 @@ export const getUniqueReposFromMap = (map: ContributorMap): string[] => {
   return dedupRepos(repoList);
 };
 
-export const serializeMapToJson = (map: ContributorMap) => {
+export const serializeMapToJson = (map: ContributorMap): string => {
   return JSON.stringify(Array.from(map.entries()));
 };
 

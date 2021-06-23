@@ -20,7 +20,7 @@ limiter.on('failed', async (error, jobInfo) => {
   }
 });
 
-export const isAnyCommitMoreThan90Days = (values: unknown[]) => {
+export const isAnyCommitMoreThan90Days = (values: unknown[]): boolean => {
   const date: Date = new Date();
   if (process.env.NODE_ENV == 'test') {
     date.setFullYear(2020, 6, 15);
@@ -37,7 +37,7 @@ export const fetchAllPages = async (
   url: string,
   token: string,
   breakIfTrue?: (values: unknown[]) => boolean,
-) => {
+): Promise<unknown[]> => {
   let isLastPage = false;
 
   let values: unknown[] = [];

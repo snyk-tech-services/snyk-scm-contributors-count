@@ -9,7 +9,7 @@ export const printOutResults = (
   isJsonOutput = false,
 ): void => {
   debug(resultMap);
-  let output: Output = {
+  const output: Output = {
     contributorsCount: resultMap.contributorsCount,
     repoCount: resultMap.repoCount,
     repoList: resultMap.repoList,

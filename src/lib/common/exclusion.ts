@@ -37,10 +37,10 @@ export const loadListFromFile = (inputFilePath: string): string[] => {
       .toString()
       .split('\n')
       .filter((x) => x);
+    return list;
   } catch (err) {
     debug(`Issue loading exclusion list\n`, err);
     console.log('Issue loading exclusion list');
-  } finally {
-    return list;
   }
+  return list;
 };

@@ -48,7 +48,9 @@ class BitbucketServer extends SCMHandlerClass {
     this.bitbucketConnInfo = bitbucketInfo;
   }
 
-  async fetchSCMContributors(SnykMonitoredRepos: string[]) {
+  async fetchSCMContributors(
+    SnykMonitoredRepos: string[],
+  ): Promise<ContributorMap> {
     let contributors: ContributorMap = new Map();
     try {
       debug('ℹ️  Options: ' + JSON.stringify(this.bitbucketConnInfo));
@@ -56,12 +58,12 @@ class BitbucketServer extends SCMHandlerClass {
         this.bitbucketConnInfo,
         SnykMonitoredRepos,
       );
+      return contributors;
     } catch (e) {
       debug('Failed \n' + e);
       console.error(`ERROR! ${e}`);
-    } finally {
-      return contributors;
     }
+    return contributors;
   }
 }
 
@@ -86,7 +88,7 @@ export async function handler(argv: {
     repo: argv.repo,
   };
 
-  let bitbucketServerTask = new BitbucketServer(scmTarget);
+  const bitbucketServerTask = new BitbucketServer(scmTarget);
 
   await bitbucketServerTask.scmContributorCount(
     argv.url,
