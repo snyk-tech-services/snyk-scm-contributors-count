@@ -37,9 +37,6 @@ export const fetchAzureDevopsContributors = async (
         project: { key: azureInfo.projectKeys[0] },
       });
     }
-    else{
-      debug("Oops, seems we couldn't find a project name. Please retry");
-    }
     } else {
       // Otherwise retrieve all repos (for given projects or all repos)
       repoList = repoList.concat(

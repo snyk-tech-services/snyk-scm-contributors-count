@@ -23,7 +23,7 @@ export const builder = {
     desc: "Your Org name in Azure Devops e.g. https://dev.azure.com/{OrgName}",
   },
   projectKeys: {
-    required: false,
+    required: true,
     default: undefined,
     desc: "[Optional] Azure Devops project key/name to count contributors for",
   },
