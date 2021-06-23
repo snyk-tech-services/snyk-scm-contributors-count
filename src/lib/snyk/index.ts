@@ -47,19 +47,19 @@ export const retrieveMonitoredRepos = async (
         url.replace(/https?:\/\//, '').split('/')[0],
       ),
     );
+    return snykMonitoredRepos;
   } catch (err) {
     debug('Failed retrieving Snyk monitored repos\n' + err);
     console.log('Failed retrieving Snyk monitored repos');
-  } finally {
-    return snykMonitoredRepos;
   }
+  return snykMonitoredRepos;
 };
 
 export const retrieveMonitoredReposBySourceType = async (
   orgs: OrgType[],
   sourceType: SourceType,
   scmHostname?: string,
-) => {
+): Promise<string[]> => {
   let snykScmMonitoredRepos: string[] = [];
   try {
     for (let i = 0; i < orgs.length; i++) {
@@ -76,17 +76,17 @@ export const retrieveMonitoredReposBySourceType = async (
 
       snykScmMonitoredRepos = snykScmMonitoredRepos.concat(projectNameList);
     }
+    return snykScmMonitoredRepos;
   } catch (err) {
     debug('Failed retrieving Snyk monitored SCM repos\n' + err);
     console.log('Failed retrieving Snyk monitored SCM repos');
-  } finally {
-    return snykScmMonitoredRepos;
   }
+  return snykScmMonitoredRepos;
 };
 
 const extractRepoFromSCMProjectName = (
   projectList: ProjectsPostResponseType,
-) => {
+): string[] => {
   return projectList.projects
     ? projectList.projects
         ?.filter((x) => x)
@@ -97,7 +97,7 @@ const extractRepoFromSCMProjectName = (
 const extractRepoFromCLIProjectName = (
   projectList: ProjectsPostResponseType,
   scmHostname: string,
-) => {
+): string[] => {
   const projectWithRemoteRepoUrlList =
     projectList.projects
       ?.filter((x) => x.remoteRepoUrl && x.remoteRepoUrl.includes(scmHostname))

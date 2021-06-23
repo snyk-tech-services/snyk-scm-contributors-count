@@ -15,7 +15,7 @@ export const fetchBitbucketContributors = async (
   bitbucketServerInfo: BitbucketServerTarget,
   SnykMonitoredRepos: string[],
 ): Promise<ContributorMap> => {
-  let contributorsMap = new Map<Username, Contributor>();
+  const contributorsMap = new Map<Username, Contributor>();
   try {
     let repoList: Repo[] = [];
 
@@ -56,15 +56,16 @@ export const fetchBitbucketContributors = async (
         contributorsMap,
       );
     }
+    debug(contributorsMap);
+    return contributorsMap;
   } catch (err) {
     debug('Failed to retrieve contributors from bitbucket-server.\n' + err);
     console.log(
       'Failed to retrieve contributors from bitbucket-server. Try running with `DEBUG=snyk* snyk-contributor`',
     );
-  } finally {
-    debug(contributorsMap);
-    return contributorsMap;
   }
+  debug(contributorsMap);
+  return contributorsMap;
 };
 
 export const fetchBitbucketContributorsForRepo = async (
@@ -157,12 +158,12 @@ export const fetchBitbucketReposForProjects = async (
         )) as Repo[],
       );
     }
+    return repoList;
   } catch (err) {
     debug('Failed to retrieve repo list from bitbucket-server.\n' + err);
     console.log(
       'Failed to retrieve repo list from bitbucket-server. Try running with `DEBUG=snyk* snyk-contributor`',
     );
-  } finally {
-    return repoList;
   }
+  return repoList;
 };
