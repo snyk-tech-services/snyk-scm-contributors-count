@@ -2,7 +2,8 @@ import * as debugLib from "debug";
 import { ContributorMapWithSummary, Output } from "../types";
 import * as chalk from 'chalk'
 
-const debug = debugLib("snyk:bitbucket-server-count-output");
+
+const debug = debugLib("snyk:count-output");
 
 export const printOutResults = (
   resultMap: ContributorMapWithSummary,

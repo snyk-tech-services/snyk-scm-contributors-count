@@ -1,7 +1,7 @@
 import { ContributorMap, Contributor, ContributorMapWithSummary } from "../../lib/types";
 import * as debugLib from "debug";
 
-const debug = debugLib("snyk:bitbucket-server-dedup");
+const debug = debugLib("snyk:dedup");
 
 export const dedupContributorsByEmail = (
   contributorsMap: ContributorMap

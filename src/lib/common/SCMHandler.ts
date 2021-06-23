@@ -8,7 +8,7 @@ const debug = debugLib("snyk:scm-handler");
 
 export abstract class SCMHandlerClass {
     dedupRepos = dedupRepos
-    dedupContributorsByEmail =dedupContributorsByEmail
+    dedupContributorsByEmail = dedupContributorsByEmail
     excludeFromListByEmail = excludeFromListByEmail
     retrieveMonitoredRepos = retrieveMonitoredRepos
     calculateSummaryStats = calculateSummaryStats

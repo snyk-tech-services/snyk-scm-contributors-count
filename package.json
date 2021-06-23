@@ -7,17 +7,15 @@
     "snyk-scm-contributors-count": "dist/index.js"
   },
   "dependencies": {
-    "azure-devops-node-api": "^10.2.2",
+    "@types/base-64": "^1.0.0",
     "base-64": "^1.0.0",
     "bitbucket": "^2.6.1",
     "bottleneck": "^2.19.5",
     "chalk": "^4.1.1",
-    "crypto": "^1.0.1",
     "debug": "^4.3.1",
     "node-fetch": "^2.6.1",
     "ora": "^5.4.1",
     "snyk-api-ts-client": "^1.7.2",
-    "tslib": "^2.2.0",
     "yargs": "^17.0.1"
   },
   "devDependencies": {

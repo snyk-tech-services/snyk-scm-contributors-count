@@ -1,0 +1,91 @@
+{
+    "count": 4,
+    "value": [
+        {
+            "commitId": "4ca03ed6ccdfb8c462e75227504d01167f194633",
+            "author": {
+                "name": "Ilan Torbaty",
+                "email": "ilan.torbaty@snyk.io",
+                "date": "2021-06-15T21:15:52Z"
+            },
+            "committer": {
+                "name": "Ilan Torbaty",
+                "email": "ilan.torbaty@snyk.io",
+                "date": "2021-06-15T21:15:52Z"
+            },
+            "comment": "Merge pull request 4 from snyk-fix-b59f92667eacced653b08182f509b0d7 into master",
+            "changeCounts": {
+                "Add": 0,
+                "Edit": 1,
+                "Delete": 0
+            },
+            "url": "https://dev.azure.com/ilantorbaty/5ce02f49-7e0e-4aba-9c24-3428111da778/_apis/git/repositories/ea98e6fa-ee51-48d4-914b-08b69494ca3f/commits/4ca03ed6ccdfb8c462e75227504d01167f194633",
+            "remoteUrl": "https://dev.azure.com/ilantorbaty/Test105/_git/Test105/commit/4ca03ed6ccdfb8c462e75227504d01167f194633"
+        },
+        {
+            "commitId": "0b4f957e5381abf11055c2e016f85635e6a070a5",
+            "author": {
+                "name": "Ilan Torbaty",
+                "email": "ilan.torbaty@snyk.io",
+                "date": "2021-06-15T21:15:51Z"
+            },
+            "committer": {
+                "name": "Ilan Torbaty",
+                "email": "ilan.torbaty@snyk.io",
+                "date": "2021-06-15T21:15:51Z"
+            },
+            "comment": "fix: Dockerfile to reduce vulnerabilities",
+            "commentTruncated": true,
+            "changeCounts": {
+                "Add": 0,
+                "Edit": 1,
+                "Delete": 0
+            },
+            "url": "https://dev.azure.com/ilantorbaty/5ce02f49-7e0e-4aba-9c24-3428111da778/_apis/git/repositories/ea98e6fa-ee51-48d4-914b-08b69494ca3f/commits/0b4f957e5381abf11055c2e016f85635e6a070a5",
+            "remoteUrl": "https://dev.azure.com/ilantorbaty/Test105/_git/Test105/commit/0b4f957e5381abf11055c2e016f85635e6a070a5"
+        },
+        {
+            "commitId": "639fb8e5b9d0af6989204df8b5e93b3881c0c81b",
+            "author": {
+                "name": "Ilan Torbaty",
+                "email": "ilan.torbaty@snyk.io",
+                "date": "2021-06-12T21:51:47Z"
+            },
+            "committer": {
+                "name": "Ilan Torbaty",
+                "email": "ilan.torbaty@snyk.io",
+                "date": "2021-06-12T21:51:47Z"
+            },
+            "comment": "Merge pull request 3 from snyk-fix-c48ae99e8e8bbe5f9d7582979a78b6c5 into master",
+            "changeCounts": {
+                "Add": 0,
+                "Edit": 1,
+                "Delete": 0
+            },
+            "url": "https://dev.azure.com/ilantorbaty/5ce02f49-7e0e-4aba-9c24-3428111da778/_apis/git/repositories/ea98e6fa-ee51-48d4-914b-08b69494ca3f/commits/639fb8e5b9d0af6989204df8b5e93b3881c0c81b",
+            "remoteUrl": "https://dev.azure.com/ilantorbaty/Test105/_git/Test105/commit/639fb8e5b9d0af6989204df8b5e93b3881c0c81b"
+        },
+        {
+            "commitId": "f8ce27ac996bac748577914e6ae51d8a71c63a8f",
+            "author": {
+                "name": "Ilan Torbaty",
+                "email": "ilan.torbaty@snyk.io",
+                "date": "2021-06-12T21:51:45Z"
+            },
+            "committer": {
+                "name": "Ilan Torbaty",
+                "email": "ilan.torbaty@snyk.io",
+                "date": "2021-06-12T21:51:45Z"
+            },
+            "comment": "fix: Dockerfile to reduce vulnerabilities",
+            "commentTruncated": true,
+            "changeCounts": {
+                "Add": 0,
+                "Edit": 1,
+                "Delete": 0
+            },
+            "url": "https://dev.azure.com/ilantorbaty/5ce02f49-7e0e-4aba-9c24-3428111da778/_apis/git/repositories/ea98e6fa-ee51-48d4-914b-08b69494ca3f/commits/f8ce27ac996bac748577914e6ae51d8a71c63a8f",
+            "remoteUrl": "https://dev.azure.com/ilantorbaty/Test105/_git/Test105/commit/f8ce27ac996bac748577914e6ae51d8a71c63a8f"
+        }
+    ]
+}
