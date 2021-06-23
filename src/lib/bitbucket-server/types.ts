@@ -13,19 +13,19 @@ export interface author {
 }
 
 export interface repoListApiResponse {
-    size: number,
-    limit: number,
-    isLastPage: boolean,
-    start: number,
-    nextPageStart?: number,
-    values: unknown[]
+  size: number;
+  limit: number;
+  isLastPage: boolean;
+  start: number;
+  nextPageStart?: number;
+  values: unknown[];
 }
 
 export interface Repo {
-    name: string,
-    project: {
-        key: string,
-        name?: string
-    },
-    public?: boolean
+  name: string;
+  project: {
+    key: string;
+    name?: string;
+  };
+  public?: boolean;
 }

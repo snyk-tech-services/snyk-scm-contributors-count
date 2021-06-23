@@ -1,12 +1,12 @@
-import * as debugLib from "debug";
-import { ContributorMapWithSummary, Output } from "../types";
-import * as chalk from 'chalk'
+import * as debugLib from 'debug';
+import { ContributorMapWithSummary, Output } from '../types';
+import * as chalk from 'chalk';
 
-const debug = debugLib("snyk:count-output");
+const debug = debugLib('snyk:count-output');
 
 export const printOutResults = (
   resultMap: ContributorMapWithSummary,
-  isJsonOutput = false
+  isJsonOutput = false,
 ): void => {
   debug(resultMap);
   let output: Output = {
@@ -26,9 +26,15 @@ export const printOutResults = (
     if (output.contributorsCount > 0) {
       console.log(`\n\n${chalk.yellowBright('### Details:')}`);
       console.log(`## Repository List`);
-      console.log(`${output.repoList.join("\n")}`);
+      console.log(`${output.repoList.join('\n')}`);
       console.log(`\n## Contributors details`);
-      console.log(`${JSON.stringify(Array.from(resultMap.contributorsDetails.entries()), null, 4)}`);
+      console.log(
+        `${JSON.stringify(
+          Array.from(resultMap.contributorsDetails.entries()),
+          null,
+          4,
+        )}`,
+      );
     }
   }
 };

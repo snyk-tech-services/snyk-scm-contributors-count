@@ -11,11 +11,11 @@ export interface author {
 }
 
 export interface Repo {
-    name: string,
-    project: {
-        key: string,
-        id? : string,
-        name?: string
-    },
-    public?: boolean
+  name: string;
+  project: {
+    key: string;
+    id?: string;
+    name?: string;
+  };
+  public?: boolean;
 }
