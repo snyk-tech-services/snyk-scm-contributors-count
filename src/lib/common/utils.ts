@@ -1,10 +1,14 @@
-import { ContributorMap, Contributor, ContributorMapWithSummary } from "../../lib/types";
-import * as debugLib from "debug";
+import {
+  ContributorMap,
+  Contributor,
+  ContributorMapWithSummary,
+} from '../../lib/types';
+import * as debugLib from 'debug';
 
-const debug = debugLib("snyk:dedup");
+const debug = debugLib('snyk:dedup');
 
 export const dedupContributorsByEmail = (
-  contributorsMap: ContributorMap
+  contributorsMap: ContributorMap,
 ): ContributorMap => {
   let deduppedContributorsMap = contributorsMap;
   let contributorsMapToReturn = new Map<string, Contributor>();
@@ -13,7 +17,7 @@ export const dedupContributorsByEmail = (
     contributorsMapMinusContributor.delete(username);
     let duplicateEmailKey = returnKeyIfEmailFoundInMap(
       contributorsMapMinusContributor,
-      contributor.email
+      contributor.email,
     );
     if (duplicateEmailKey) {
       while (duplicateEmailKey) {
@@ -23,10 +27,10 @@ export const dedupContributorsByEmail = (
           // we know it's there since that's how we found it with returnKeyIfEmailFoundInMap
           contributor.reposContributedTo =
             contributor.reposContributedTo.concat(
-              duplicateEntry!.reposContributedTo
+              duplicateEntry!.reposContributedTo,
             );
           contributor.reposContributedTo = dedupRepos(
-            contributor.reposContributedTo
+            contributor.reposContributedTo,
           );
           contributor.contributionsCount += duplicateEntry!.contributionsCount;
           deduppedContributorsMap.delete(duplicateEmailKey);
@@ -35,7 +39,7 @@ export const dedupContributorsByEmail = (
         }
         duplicateEmailKey = returnKeyIfEmailFoundInMap(
           contributorsMapMinusContributor,
-          contributor.email
+          contributor.email,
         );
       }
     } else {
@@ -52,30 +56,38 @@ export const dedupRepos = (list: string[]): string[] => {
 
 export const returnKeyIfEmailFoundInMap = (
   map: ContributorMap,
-  email: string
+  email: string,
 ): string => {
   for (let [key, value] of map) {
-    if (value.email.replace(" ","") === email.replace(" ","")) {   
+    if (value.email.replace(' ', '') === email.replace(' ', '')) {
       return key;
     }
   }
-  return "";
+  return '';
 };
 
+export const calculateSummaryStats = (
+  deduppedMap: ContributorMap,
+  exclusionCount: number,
+): ContributorMapWithSummary => {
+  const contributionsCount = deduppedMap.size;
+  const uniqueRepoList = getUniqueReposFromMap(deduppedMap);
+  return {
+    contributorsCount: contributionsCount,
+    repoCount: uniqueRepoList.length,
+    repoList: uniqueRepoList,
+    exclusionCount: exclusionCount,
+    contributorsDetails: deduppedMap,
+  };
+};
 
-export const calculateSummaryStats = (deduppedMap: ContributorMap, exclusionCount: number):ContributorMapWithSummary => {
-    const contributionsCount = deduppedMap.size
-    const uniqueRepoList = getUniqueReposFromMap(deduppedMap)
-    return {contributorsCount: contributionsCount, repoCount: uniqueRepoList.length, repoList: uniqueRepoList,exclusionCount: exclusionCount, contributorsDetails: deduppedMap}
-}
-
-export const getUniqueReposFromMap = (map:ContributorMap): string[] => {
-    let repoList: string[] = []
-    map.forEach((item) => {
-        repoList = repoList.concat(item.reposContributedTo)
-    })
-    return dedupRepos(repoList)
-}
+export const getUniqueReposFromMap = (map: ContributorMap): string[] => {
+  let repoList: string[] = [];
+  map.forEach((item) => {
+    repoList = repoList.concat(item.reposContributedTo);
+  });
+  return dedupRepos(repoList);
+};
 
 export const serializeMapToJson = (map: ContributorMap) => {
   return JSON.stringify(Array.from(map.entries()));

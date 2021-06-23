@@ -1,0 +1,45 @@
+{
+  "value": [
+      {
+          "id": "ea98e6fa-ee51-48d4-914b-08b69494ca3f",
+          "name": "testRepo1",
+          "url": "https://dev.azure.com/ilantorbaty/5ce02f49-7e0e-4aba-9c24-3428111da778/_apis/git/repositories/ea98e6fa-ee51-48d4-914b-08b69494ca3f",
+          "project": {
+              "id": "5ce02f49-7e0e-4aba-9c24-3428111da778",
+              "name": "testProject1",
+              "url": "https://dev.azure.com/ilantorbaty/_apis/projects/5ce02f49-7e0e-4aba-9c24-3428111da778",
+              "state": "wellFormed",
+              "revision": 851,
+              "visibility": "private",
+              "lastUpdateTime": "2021-04-06T05:47:09.8Z"
+          },
+          "defaultBranch": "refs/heads/master",
+          "size": 4106387,
+          "remoteUrl": "https://ilantorbaty@dev.azure.com/ilantorbaty/Test105/_git/Test105",
+          "sshUrl": "git@ssh.dev.azure.com:v3/ilantorbaty/Test105/Test105",
+          "webUrl": "https://dev.azure.com/ilantorbaty/Test105/_git/Test105",
+          "isDisabled": false
+      },
+      {
+          "id": "968d4c93-9015-45a2-95ab-224ec3bb6dbe",
+          "name": "goof.git",
+          "url": "https://dev.azure.com/ilantorbaty/5ce02f49-7e0e-4aba-9c24-3428111da778/_apis/git/repositories/968d4c93-9015-45a2-95ab-224ec3bb6dbe",
+          "project": {
+              "id": "5ce02f49-7e0e-4aba-9c24-3428111da778",
+              "name": "testProject1",
+              "url": "https://dev.azure.com/ilantorbaty/_apis/projects/5ce02f49-7e0e-4aba-9c24-3428111da778",
+              "state": "wellFormed",
+              "revision": 851,
+              "visibility": "private",
+              "lastUpdateTime": "2021-04-06T05:47:09.8Z"
+          },
+          "defaultBranch": "refs/heads/master",
+          "size": 3703569,
+          "remoteUrl": "https://ilantorbaty@dev.azure.com/ilantorbaty/Test105/_git/goof.git",
+          "sshUrl": "git@ssh.dev.azure.com:v3/ilantorbaty/Test105/goof.git",
+          "webUrl": "https://dev.azure.com/ilantorbaty/Test105/_git/goof.git",
+          "isDisabled": false
+      }
+  ],
+  "count": 2
+}
