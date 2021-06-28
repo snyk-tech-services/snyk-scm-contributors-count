@@ -19,3 +19,8 @@ export interface Repo {
   };
   public?: boolean;
 }
+
+export interface Project {
+  name: string;
+  id: string;
+}
