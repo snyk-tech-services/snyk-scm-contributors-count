@@ -34,12 +34,14 @@ beforeEach(() => {
 
 describe('Testing azure-devops interaction', () => {
   test('Test fetchAzureProjects', async () => {
-
-    const projects = await azureDevops.fetchAzureProjects('https://dev.azure.com', 'testOrg', '123');
+    const projects = await azureDevops.fetchAzureProjects(
+      'https://dev.azure.com',
+      'testOrg',
+      '123',
+    );
     expect(projects).toHaveLength(10);
     expect(projects[0].name).toEqual('Test68');
-    expect(projects[1].id).toEqual('5bdff632-3ff7-4378-9d25-1c6355885b0f',
-    );
+    expect(projects[1].id).toEqual('5bdff632-3ff7-4378-9d25-1c6355885b0f');
     expect(projects[0]).not.toEqual(projects[1]);
   });
 

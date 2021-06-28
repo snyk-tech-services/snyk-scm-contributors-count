@@ -29,20 +29,21 @@ export const getRepoCommits = async (
   threeMonthsDate: string,
 ): Promise<Response> => {
   debug('Fetching commints for ' + repo);
-  const data = await limiter.schedule(() => fetch(
-    url +
-      '/' +
-      project +
-      '/_apis/git/repositories/' +
-      repo +
-      '/commits?$top=1000000&searchCriteria.fromDate=' +
-      threeMonthsDate +
-      '&api-version=4.1',
-    {
-      method: 'GET',
-      headers: { Authorization: 'Basic ' + base64.encode(':' + token) },
-    },
-  )
+  const data = await limiter.schedule(() =>
+    fetch(
+      url +
+        '/' +
+        project +
+        '/_apis/git/repositories/' +
+        repo +
+        '/commits?$top=1000000&searchCriteria.fromDate=' +
+        threeMonthsDate +
+        '&api-version=4.1',
+      {
+        method: 'GET',
+        headers: { Authorization: 'Basic ' + base64.encode(':' + token) },
+      },
+    ),
   );
   return data;
 };
@@ -53,16 +54,17 @@ export const getReposPerProjects = async (
   token: string,
 ): Promise<Response> => {
   debug('Fetching repos for ' + project);
-  const data = await limiter.schedule(() => fetch(
-    url +
-      '/' +
-      project +
-      '/_apis/git/repositories?$top=1000000&api-version=4.1',
-    {
-      method: 'GET',
-      headers: { Authorization: 'Basic ' + base64.encode(':' + token) },
-    },
-    )
+  const data = await limiter.schedule(() =>
+    fetch(
+      url +
+        '/' +
+        project +
+        '/_apis/git/repositories?$top=1000000&api-version=4.1',
+      {
+        method: 'GET',
+        headers: { Authorization: 'Basic ' + base64.encode(':' + token) },
+      },
+    ),
   );
   return data;
 };
@@ -73,16 +75,14 @@ export const getProjects = async (
   token: string,
 ): Promise<Response> => {
   debug('Fetching projects');
-  const data = await limiter.schedule(() => fetch(
-    url +
-      '/' +
-      OrgName +
-      '/_apis/projects?$top=1000000&api-version=4.1',
-    {
-      method: 'GET',
-      headers: { Authorization: 'Basic ' + base64.encode(':' + token) },
-    },
-  )
+  const data = await limiter.schedule(() =>
+    fetch(
+      url + '/' + OrgName + '/_apis/projects?$top=1000000&api-version=4.1',
+      {
+        method: 'GET',
+        headers: { Authorization: 'Basic ' + base64.encode(':' + token) },
+      },
+    ),
   );
   return data;
 };

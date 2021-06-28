@@ -5,7 +5,7 @@ import {
   ContributorMap,
 } from '../types';
 import { Commits, Repo, Project } from './types';
-import { getRepoCommits, getReposPerProjects , getProjects} from './utils';
+import { getRepoCommits, getReposPerProjects, getProjects } from './utils';
 
 import * as debugLib from 'debug';
 const azureDefaultUrl = 'https://dev.azure.com/';
@@ -36,15 +36,20 @@ export const fetchAzureDevopsContributors = async (
           project: { key: azureInfo.projectKeys[0] },
         });
       }
-    } else if (!azureInfo.projectKeys){
+    } else if (!azureInfo.projectKeys) {
       azureInfo.projectKeys = [];
-      projectList = projectList.concat(await fetchAzureProjects(azureDefaultUrl, azureInfo.OrgName, azureInfo.token));
+      projectList = projectList.concat(
+        await fetchAzureProjects(
+          azureDefaultUrl,
+          azureInfo.OrgName,
+          azureInfo.token,
+        ),
+      );
       for (let i = 0; i < projectList.length; i++) {
-        azureInfo.projectKeys.push(projectList[i].name)
+        azureInfo.projectKeys.push(projectList[i].name);
       }
       repoList = repoList.concat(await fetchAzureReposForProjects(azureInfo));
-    }
-    else {
+    } else {
       // Otherwise retrieve all repos (for given projects or all repos)
       repoList = repoList.concat(await fetchAzureReposForProjects(azureInfo));
     }
@@ -173,27 +178,21 @@ export const fetchAzureProjects = async (
   token: string,
 ): Promise<Project[]> => {
   const projectList: Project[] = [];
-    try {
-        const projects = await getProjects(
-          azureDefaultUrl, OrgName,
-          token,
-        );
-        const result = await projects.text();
-        const parsedResponse = JSON.parse(result).value;
-        parsedResponse.map(
-          (project: { name: string; id: string; } ) => {
-            const { name, id } = project;
-            if (name && id) {
-              projectList.push({id: project.id, name: project.name },
-              );
-            }
-          },
-        );
-    } catch (err) {
-      debug('Failed to retrieve project list from Azure Devops.\n' + err);
-      console.log(
-        'Failed to retrieve project list from Azure Devops. Try running with `DEBUG=snyk* snyk-contributor`',
-      );
-    }
+  try {
+    const projects = await getProjects(azureDefaultUrl, OrgName, token);
+    const result = await projects.text();
+    const parsedResponse = JSON.parse(result).value;
+    parsedResponse.map((project: { name: string; id: string }) => {
+      const { name, id } = project;
+      if (name && id) {
+        projectList.push({ id: project.id, name: project.name });
+      }
+    });
+  } catch (err) {
+    debug('Failed to retrieve project list from Azure Devops.\n' + err);
+    console.log(
+      'Failed to retrieve project list from Azure Devops. Try running with `DEBUG=snyk* snyk-contributor`',
+    );
+  }
   return projectList;
 };
