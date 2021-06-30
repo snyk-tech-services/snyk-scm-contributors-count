@@ -61,9 +61,9 @@ export abstract class SCMHandlerClass {
     }
 
     spinner.start();
-    debug('Retrieving projects from Bitbucket server \n');
+    debug('Retrieving projects from the SCM \n');
     spinner.text =
-      'Retrieving projects from Bitbucket server with commits in last 90 days';
+      'Retrieving projects from the SCM with commits in last 90 days';
 
     let contributors = (await this.fetchSCMContributors(
       snykImportedRepos,
