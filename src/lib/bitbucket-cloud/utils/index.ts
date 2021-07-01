@@ -1,4 +1,4 @@
-import fetch  from 'node-fetch';
+import fetch from 'node-fetch';
 import * as debugLib from 'debug';
 import { repoListApiResponse, Commits } from '../types';
 import Bottleneck from 'bottleneck';
@@ -49,15 +49,16 @@ export const fetchAllPages = async (
     const response = await limiter.schedule(() =>
       fetch(`${url}`, {
         method: 'GET',
-        headers: { Authorization: 'Basic ' + base64.encode(user + ":" + password) },
+        headers: {
+          Authorization: 'Basic ' + base64.encode(user + ':' + password),
+        },
       }),
     );
     const apiResponse = (await response.json()) as repoListApiResponse;
     values = values.concat(apiResponse.values);
-    if (apiResponse.next){
-    url = apiResponse.next;
-    }
-    else{
+    if (apiResponse.next) {
+      url = apiResponse.next;
+    } else {
       isLastPage = true;
     }
     pageCount++;

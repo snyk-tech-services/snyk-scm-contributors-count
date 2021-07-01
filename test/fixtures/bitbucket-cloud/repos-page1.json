@@ -1,0 +1,128 @@
+{
+    "pagelen": 10,
+    "values": [
+        {
+            "scm": "git",
+            "website": "",
+            "has_wiki": false,
+            "uuid": "{3f630668-75f1-4903-ae5e-8ea37437e09e}",
+            "links": {
+                "watchers": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-main/testRepo1/watchers"
+                },
+                "branches": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-main/testRepo1/refs/branches"
+                },
+                "tags": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-main/testRepo1/refs/tags"
+                },
+                "commits": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-main/testRepo1/commits"
+                },
+                "clone": [
+                    {
+                        "href": "https://snyk-main-scm@bitbucket.org/snyk-main/testRepo1.git",
+                        "name": "https"
+                    },
+                    {
+                        "href": "git@bitbucket.org:snyk-main/testRepo1.git",
+                        "name": "ssh"
+                    }
+                ],
+                "self": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-main/testRepo1"
+                },
+                "source": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-main/testRepo1/src"
+                },
+                "html": {
+                    "href": "https://bitbucket.org/snyk-main/testRepo1"
+                },
+                "avatar": {
+                    "href": "https://bytebucket.org/ravatar/%7B3f630668-75f1-4903-ae5e-8ea37437e09e%7D?ts=java"
+                },
+                "hooks": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-main/testRepo1/hooks"
+                },
+                "forks": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-main/testRepo1/forks"
+                },
+                "downloads": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-main/testRepo1/downloads"
+                },
+                "pullrequests": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-main/testRepo1/pullrequests"
+                }
+            },
+            "fork_policy": "allow_forks",
+            "full_name": "snyk-main/testRepo1",
+            "name": "testRepo1",
+            "project": {
+                "links": {
+                    "self": {
+                        "href": "https://bitbucket.org/!api/2.0/workspaces/snyk-main/projects/PROJ"
+                    },
+                    "html": {
+                        "href": "https://bitbucket.org/snyk-main/workspace/projects/PROJ"
+                    },
+                    "avatar": {
+                        "href": "https://bitbucket.org/account/user/snyk-main/projects/PROJ/avatar/32?ts=1543460518"
+                    }
+                },
+                "type": "project",
+                "name": "Untitled project",
+                "key": "PROJ",
+                "uuid": "{57fac509-0df2-47ce-ad8e-27be013523fa}"
+            },
+            "language": "java",
+            "created_on": "2011-06-06T03:40:09.505792+00:00",
+            "mainbranch": {
+                "type": "branch",
+                "name": "master"
+            },
+            "workspace": {
+                "slug": "snyk-main",
+                "type": "workspace",
+                "name": "snyk-main",
+                "links": {
+                    "self": {
+                        "href": "https://bitbucket.org/!api/2.0/workspaces/snyk-main"
+                    },
+                    "html": {
+                        "href": "https://bitbucket.org/snyk-main/"
+                    },
+                    "avatar": {
+                        "href": "https://bitbucket.org/workspaces/snyk-main/avatar/?ts=1543460518"
+                    }
+                },
+                "uuid": "{cedfd0d1-899f-49de-acf7-a2fa8e924b6f}"
+            },
+            "has_issues": false,
+            "owner": {
+                "display_name": "snyk-main",
+                "uuid": "{cedfd0d1-899f-49de-acf7-a2fa8e924b6f}",
+                "links": {
+                    "self": {
+                        "href": "https://bitbucket.org/!api/2.0/users/%7Bcedfd0d1-899f-49de-acf7-a2fa8e924b6f%7D"
+                    },
+                    "html": {
+                        "href": "https://bitbucket.org/%7Bcedfd0d1-899f-49de-acf7-a2fa8e924b6f%7D/"
+                    },
+                    "avatar": {
+                        "href": "https://bitbucket.org/account/snyk-main/avatar/"
+                    }
+                },
+                "type": "user",
+                "nickname": "snyk-main",
+                "account_id": null
+            },
+            "updated_on": "2014-11-16T23:19:16.674082+00:00",
+            "size": 22877949,
+            "type": "repository",
+            "slug": "testRepo1",
+            "is_private": false,
+            "description": ""
+        }
+    ],
+    "next": "https://bitbucket.org/api/2.0/repositories/snyk-main/page2"
+}

@@ -83,14 +83,12 @@ export const fetchBitbucketCloudContributorsForRepo = async (
 
     // 7776000000 == 90 days in ms
 
-    const response = await fetchAllPages(
+    const response = (await fetchAllPages(
       fullUrl,
       bitbucketCloudInfo.user,
       bitbucketCloudInfo.password,
       isAnyCommitMoreThan90Days,
-    ) as Commits[];
-    // const result = await response.text();
-    // const parsedResponse = JSON.parse(result).values as Commits[];
+    )) as Commits[];
 
     const date: Date = new Date();
     let today = date.getTime();
@@ -99,18 +97,27 @@ export const fetchBitbucketCloudContributorsForRepo = async (
     }
     for (let i = 0; i < response.length; i++) {
       const commit = response[i];
-      if(commit.author.user && commit.author.user.display_name){
-      commit.author.displayName = commit.author.user.display_name;
+      // Setting the display name if present
+      if (commit.author.user && commit.author.user.display_name) {
+        commit.author.displayName = commit.author.user.display_name;
       }
-      if(commit.author.raw){
-      commit.author.emailAddress = commit.author.raw.split('<')[1].split('>')[0];
+      // Extracting the email from the "raw" json
+      if (commit.author.raw) {
+        commit.author.emailAddress = commit.author.raw
+          .split('<')[1]
+          .split('>')[0];
       }
-      if(commit.author.user && commit.author.user.nickname){
-      commit.author.name = commit.author.user.nickname;
+      // BBCLoud has no "name" field for commits, setting the name to be the display name is exists
+      if (commit.author.user && commit.author.user.nickname) {
+        commit.author.name = commit.author.user.nickname;
+      }
+      // Still if no name was issued and no display name exists, setting the email as name
+      if (!commit.author.name && commit.author.raw) {
+        commit.author.name = commit.author.raw.split('<')[1].split('>')[0];
       }
       // > is the right way, < is for testing really
       // todayDate - 90 days should be smaller than commit timestamp, otherwise timestamp occured before 90days
-      const epochDateFromCommit = new Date(commit.date).getTime(); //((new Date(commit.date)).getTime())) 
+      const epochDateFromCommit = new Date(commit.date).getTime();
       if (today - 7776000000 > epochDateFromCommit) {
         // Skipping if more than 90 days old
         continue;
@@ -155,29 +162,32 @@ export const fetchBitbucketCloudReposForWorkspaces = async (
 ): Promise<Repo[]> => {
   let repoList: Repo[] = [];
 
+  // Filtering only private repos and the lowest role (member) to get the most repos (role is mandatory when using the is_private query)
   const fullUrlSet: string[] = !bitbucketCloudInfo.workspaces
-    ? [`${bitbucketCloudDefaultUrl}/api/2.0/repositories?q=is_private=true&role=member`]
+    ? [
+        `${bitbucketCloudDefaultUrl}/api/2.0/repositories?q=is_private=true&role=member`,
+      ]
     : bitbucketCloudInfo.workspaces.map(
         (workspace) =>
-          `${bitbucketCloudDefaultUrl}/api/2.0/repositories/${workspace}`,
+          `${bitbucketCloudDefaultUrl}/api/2.0/repositories/${workspace}?q=is_private=true&role=member`,
       );
-      try {
-        for (let i = 0; i < fullUrlSet.length; i++) {
-          debug(`Fetching repos list ${fullUrlSet[i]}\n`);
-          repoList = repoList.concat(
-            (await fetchAllPages(
-              fullUrlSet[i],
-              bitbucketCloudInfo.user,
-              bitbucketCloudInfo.password,
-            )) as Repo[],
-          );
-        }
-        return repoList;
-      } catch (err) {
-        debug('Failed to retrieve repo list from bitbucket-cloud.\n' + err);
-        console.log(
-          'Failed to retrieve repo list from bitbucket-cloud. Try running with `DEBUG=snyk* snyk-contributor`',
-        );
-      }
-      return repoList;
-    };
+  try {
+    for (let i = 0; i < fullUrlSet.length; i++) {
+      debug(`Fetching repos list ${fullUrlSet[i]}\n`);
+      repoList = repoList.concat(
+        (await fetchAllPages(
+          fullUrlSet[i],
+          bitbucketCloudInfo.user,
+          bitbucketCloudInfo.password,
+        )) as Repo[],
+      );
+    }
+    return repoList;
+  } catch (err) {
+    debug('Failed to retrieve repo list from bitbucket-cloud.\n' + err);
+    console.log(
+      'Failed to retrieve repo list from bitbucket-cloud. Try running with `DEBUG=snyk* snyk-contributor`',
+    );
+  }
+  return repoList;
+};

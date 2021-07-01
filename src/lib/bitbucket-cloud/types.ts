@@ -15,9 +15,9 @@ export interface author {
 }
 
 interface user {
-display_name: string;
-type: string;
-nickname: string;
+  display_name: string;
+  type: string;
+  nickname: string;
 }
 
 export interface repoListApiResponse {
