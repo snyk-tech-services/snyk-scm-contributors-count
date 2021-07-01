@@ -101,25 +101,4 @@ describe('Testing bitbucket-cloud interaction', () => {
 
     expect(repos).toEqual(expectedRepos);
   });
-
-  //   test('Test util isAnyCommitMoreThan90Days false', () => {
-  //     const values = JSON.parse(
-  //       fs
-  //         .readFileSync(
-  //           fixturesFolderPath +
-  //             'commits-for-AN-testorgana-with-90d-commits.json',
-  //         )
-  //         .toString(),
-  //     ).values;
-  //     expect(bitbucketCloudUtils.isAnyCommitMoreThan90Days(values)).toBeFalsy();
-  //   });
-
-  //   test('Test util isAnyCommitMoreThan90Days true', () => {
-  //     const values = JSON.parse(
-  //       fs
-  //         .readFileSync(fixturesFolderPath + 'commits-for-AN-testorgana.json')
-  //         .toString(),
-  //     ).values;
-  //     expect(bitbucketCloudUtils.isAnyCommitMoreThan90Days(values)).toBeTruthy();
-  //   });
 });
