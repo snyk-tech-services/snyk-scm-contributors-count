@@ -38,3 +38,10 @@ export interface AzureDevopsTarget {
   projectKeys?: string[];
   repo?: string;
 }
+
+export interface BitbucketCloudTarget {
+  user: string;
+  password: string;
+  workspaces?: string[];
+  repo?: string;
+}

@@ -1,0 +1,512 @@
+{
+    "pagelen": 10,
+    "values": [
+        {
+            "scm": "git",
+            "website": null,
+            "has_wiki": false,
+            "uuid": "{f776549c-1e0c-4a8d-89ae-6b83fd0cc407}",
+            "links": {
+                "watchers": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/watchers"
+                },
+                "branches": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/refs/branches"
+                },
+                "tags": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/refs/tags"
+                },
+                "commits": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/commits"
+                },
+                "clone": [
+                    {
+                        "href": "https://snyk-test@bitbucket.org/snyk-test/testRepo1.git",
+                        "name": "https"
+                    },
+                    {
+                        "href": "git@bitbucket.org:snyk-test/testRepo1.git",
+                        "name": "ssh"
+                    }
+                ],
+                "self": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1"
+                },
+                "source": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/src"
+                },
+                "html": {
+                    "href": "https://bitbucket.org/snyk-test/testRepo1"
+                },
+                "avatar": {
+                    "href": "https://bytebucket.org/ravatar/%7Bf776549c-1e0c-4a8d-89ae-6b83fd0cc407%7D?ts=default"
+                },
+                "hooks": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/hooks"
+                },
+                "forks": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/forks"
+                },
+                "downloads": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/downloads"
+                },
+                "pullrequests": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/pullrequests"
+                }
+            },
+            "fork_policy": "allow_forks",
+            "full_name": "snyk-test/testRepo1",
+            "name": "testRepo1",
+            "project": {
+                "links": {
+                    "self": {
+                        "href": "https://bitbucket.org/!api/2.0/workspaces/snyk-test/projects/PROJ"
+                    },
+                    "html": {
+                        "href": "https://bitbucket.org/snyk-test/workspace/projects/PROJ"
+                    },
+                    "avatar": {
+                        "href": "https://bitbucket.org/account/user/snyk-test/projects/PROJ/avatar/32?ts=1585492348"
+                    }
+                },
+                "type": "project",
+                "name": "Untitled project",
+                "key": "PROJ",
+                "uuid": "{0e343a1c-2ab0-4e6e-b6bd-cccf053bdb0f}"
+            },
+            "language": "",
+            "created_on": "2020-03-30T11:58:01.635743+00:00",
+            "mainbranch": {
+                "type": "branch",
+                "name": "master"
+            },
+            "workspace": {
+                "slug": "snyk-test",
+                "type": "workspace",
+                "name": "Snyk",
+                "links": {
+                    "self": {
+                        "href": "https://bitbucket.org/!api/2.0/workspaces/snyk-test"
+                    },
+                    "html": {
+                        "href": "https://bitbucket.org/snyk-test/"
+                    },
+                    "avatar": {
+                        "href": "https://bitbucket.org/workspaces/snyk-test/avatar/?ts=1585474995"
+                    }
+                },
+                "uuid": "{69a57492-684f-4c09-b8ba-17e03bd5e04a}"
+            },
+            "has_issues": false,
+            "owner": {
+                "display_name": "Snyk",
+                "uuid": "{69a57492-684f-4c09-b8ba-17e03bd5e04a}",
+                "links": {
+                    "self": {
+                        "href": "https://bitbucket.org/!api/2.0/users/%7B69a57492-684f-4c09-b8ba-17e03bd5e04a%7D"
+                    },
+                    "html": {
+                        "href": "https://bitbucket.org/%7B69a57492-684f-4c09-b8ba-17e03bd5e04a%7D/"
+                    },
+                    "avatar": {
+                        "href": "https://secure.gravatar.com/avatar/dd549c6a687de8ad155420e1cab9ba97?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FS-4.png"
+                    }
+                },
+                "type": "user",
+                "nickname": "Snyk",
+                "account_id": "5e806d76db49780c148112e1"
+            },
+            "updated_on": "2021-06-30T22:54:16.594187+00:00",
+            "size": 2116246,
+            "type": "repository",
+            "slug": "testRepo1",
+            "is_private": true,
+            "description": ""
+        },
+        {
+            "scm": "git",
+            "website": null,
+            "has_wiki": false,
+            "uuid": "{3045b484-573c-4d57-a561-27982ed66b75}",
+            "links": {
+                "watchers": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo2/watchers"
+                },
+                "branches": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo2/refs/branches"
+                },
+                "tags": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo2/refs/tags"
+                },
+                "commits": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo2/commits"
+                },
+                "clone": [
+                    {
+                        "href": "https://snyk-test@bitbucket.org/snyk-test/testRepo2.git",
+                        "name": "https"
+                    },
+                    {
+                        "href": "git@bitbucket.org:snyk-test/testRepo2.git",
+                        "name": "ssh"
+                    }
+                ],
+                "self": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo2"
+                },
+                "source": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo2/src"
+                },
+                "html": {
+                    "href": "https://bitbucket.org/snyk-test/testRepo2"
+                },
+                "avatar": {
+                    "href": "https://bytebucket.org/ravatar/%7B3045b484-573c-4d57-a561-27982ed66b75%7D?ts=default"
+                },
+                "hooks": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo2/hooks"
+                },
+                "forks": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo2/forks"
+                },
+                "downloads": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo2/downloads"
+                },
+                "pullrequests": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo2/pullrequests"
+                }
+            },
+            "fork_policy": "no_public_forks",
+            "full_name": "snyk-test/testRepo2",
+            "name": "testRepo2",
+            "project": {
+                "links": {
+                    "self": {
+                        "href": "https://bitbucket.org/!api/2.0/workspaces/snyk-test/projects/PROJ"
+                    },
+                    "html": {
+                        "href": "https://bitbucket.org/snyk-test/workspace/projects/PROJ"
+                    },
+                    "avatar": {
+                        "href": "https://bitbucket.org/account/user/snyk-test/projects/PROJ/avatar/32?ts=1585492348"
+                    }
+                },
+                "type": "project",
+                "name": "Untitled project",
+                "key": "PROJ",
+                "uuid": "{0e343a1c-2ab0-4e6e-b6bd-cccf053bdb0f}"
+            },
+            "language": "",
+            "created_on": "2020-03-30T11:58:46.133482+00:00",
+            "mainbranch": {
+                "type": "branch",
+                "name": "master"
+            },
+            "workspace": {
+                "slug": "snyk-test",
+                "type": "workspace",
+                "name": "Snyk",
+                "links": {
+                    "self": {
+                        "href": "https://bitbucket.org/!api/2.0/workspaces/snyk-test"
+                    },
+                    "html": {
+                        "href": "https://bitbucket.org/snyk-test/"
+                    },
+                    "avatar": {
+                        "href": "https://bitbucket.org/workspaces/snyk-test/avatar/?ts=1585474995"
+                    }
+                },
+                "uuid": "{69a57492-684f-4c09-b8ba-17e03bd5e04a}"
+            },
+            "has_issues": false,
+            "owner": {
+                "display_name": "Snyk",
+                "uuid": "{69a57492-684f-4c09-b8ba-17e03bd5e04a}",
+                "links": {
+                    "self": {
+                        "href": "https://bitbucket.org/!api/2.0/users/%7B69a57492-684f-4c09-b8ba-17e03bd5e04a%7D"
+                    },
+                    "html": {
+                        "href": "https://bitbucket.org/%7B69a57492-684f-4c09-b8ba-17e03bd5e04a%7D/"
+                    },
+                    "avatar": {
+                        "href": "https://secure.gravatar.com/avatar/dd549c6a687de8ad155420e1cab9ba97?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FS-4.png"
+                    }
+                },
+                "type": "user",
+                "nickname": "Snyk",
+                "account_id": "5e806d76db49780c148112e1"
+            },
+            "updated_on": "2020-03-30T12:02:27.555843+00:00",
+            "size": 311296,
+            "type": "repository",
+            "slug": "testRepo2",
+            "is_private": true,
+            "description": ""
+        },
+        {
+            "scm": "git",
+            "website": null,
+            "has_wiki": false,
+            "uuid": "{63e883df-0596-45fc-97b4-7c950378f19d}",
+            "links": {
+                "watchers": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo3/watchers"
+                },
+                "branches": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo3/refs/branches"
+                },
+                "tags": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo3/refs/tags"
+                },
+                "commits": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo3/commits"
+                },
+                "clone": [
+                    {
+                        "href": "https://snyk-test@bitbucket.org/snyk-test/testRepo3.git",
+                        "name": "https"
+                    },
+                    {
+                        "href": "git@bitbucket.org:snyk-test/testRepo3.git",
+                        "name": "ssh"
+                    }
+                ],
+                "self": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo3"
+                },
+                "source": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo3/src"
+                },
+                "html": {
+                    "href": "https://bitbucket.org/snyk-test/testRepo3"
+                },
+                "avatar": {
+                    "href": "https://bytebucket.org/ravatar/%7B63e883df-0596-45fc-97b4-7c950378f19d%7D?ts=default"
+                },
+                "hooks": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo3/hooks"
+                },
+                "forks": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo3/forks"
+                },
+                "downloads": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo3/downloads"
+                },
+                "pullrequests": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo3/pullrequests"
+                }
+            },
+            "fork_policy": "no_public_forks",
+            "full_name": "snyk-test/testRepo3",
+            "name": "test spaces",
+            "project": {
+                "links": {
+                    "self": {
+                        "href": "https://bitbucket.org/!api/2.0/workspaces/snyk-test/projects/PROJ"
+                    },
+                    "html": {
+                        "href": "https://bitbucket.org/snyk-test/workspace/projects/PROJ"
+                    },
+                    "avatar": {
+                        "href": "https://bitbucket.org/account/user/snyk-test/projects/PROJ/avatar/32?ts=1585492348"
+                    }
+                },
+                "type": "project",
+                "name": "Untitled project",
+                "key": "PROJ",
+                "uuid": "{0e343a1c-2ab0-4e6e-b6bd-cccf053bdb0f}"
+            },
+            "language": "",
+            "created_on": "2020-03-30T11:58:56.521545+00:00",
+            "mainbranch": {
+                "type": "branch",
+                "name": "master"
+            },
+            "workspace": {
+                "slug": "snyk-test",
+                "type": "workspace",
+                "name": "Snyk",
+                "links": {
+                    "self": {
+                        "href": "https://bitbucket.org/!api/2.0/workspaces/snyk-test"
+                    },
+                    "html": {
+                        "href": "https://bitbucket.org/snyk-test/"
+                    },
+                    "avatar": {
+                        "href": "https://bitbucket.org/workspaces/snyk-test/avatar/?ts=1585474995"
+                    }
+                },
+                "uuid": "{69a57492-684f-4c09-b8ba-17e03bd5e04a}"
+            },
+            "has_issues": false,
+            "owner": {
+                "display_name": "Snyk",
+                "uuid": "{69a57492-684f-4c09-b8ba-17e03bd5e04a}",
+                "links": {
+                    "self": {
+                        "href": "https://bitbucket.org/!api/2.0/users/%7B69a57492-684f-4c09-b8ba-17e03bd5e04a%7D"
+                    },
+                    "html": {
+                        "href": "https://bitbucket.org/%7B69a57492-684f-4c09-b8ba-17e03bd5e04a%7D/"
+                    },
+                    "avatar": {
+                        "href": "https://secure.gravatar.com/avatar/dd549c6a687de8ad155420e1cab9ba97?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FS-4.png"
+                    }
+                },
+                "type": "user",
+                "nickname": "Snyk",
+                "account_id": "5e806d76db49780c148112e1"
+            },
+            "updated_on": "2020-03-30T12:03:02.963835+00:00",
+            "size": 86865,
+            "type": "repository",
+            "slug": "testRepo3",
+            "is_private": true,
+            "description": ""
+        },
+        {
+            "scm": "git",
+            "has_wiki": false,
+            "links": {
+                "watchers": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo4/watchers"
+                },
+                "branches": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo4/refs/branches"
+                },
+                "tags": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo4/refs/tags"
+                },
+                "commits": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo4/commits"
+                },
+                "clone": [
+                    {
+                        "href": "https://snyk-test@bitbucket.org/snyk-test/testRepo4.git",
+                        "name": "https"
+                    },
+                    {
+                        "href": "git@bitbucket.org:snyk-test/testRepo4.git",
+                        "name": "ssh"
+                    }
+                ],
+                "self": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo4"
+                },
+                "source": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo4/src"
+                },
+                "html": {
+                    "href": "https://bitbucket.org/snyk-test/testRepo4"
+                },
+                "avatar": {
+                    "href": "https://bytebucket.org/ravatar/%7B78b50848-8868-41f8-8036-43cb90b9d3e4%7D?ts=ruby"
+                },
+                "hooks": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo4/hooks"
+                },
+                "forks": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo4/forks"
+                },
+                "downloads": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo4/downloads"
+                },
+                "pullrequests": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo4/pullrequests"
+                }
+            },
+            "created_on": "2020-03-31T14:41:52.482951+00:00",
+            "full_name": "snyk-test/testRepo4",
+            "owner": {
+                "display_name": "Snyk",
+                "uuid": "{69a57492-684f-4c09-b8ba-17e03bd5e04a}",
+                "links": {
+                    "self": {
+                        "href": "https://bitbucket.org/!api/2.0/users/%7B69a57492-684f-4c09-b8ba-17e03bd5e04a%7D"
+                    },
+                    "html": {
+                        "href": "https://bitbucket.org/%7B69a57492-684f-4c09-b8ba-17e03bd5e04a%7D/"
+                    },
+                    "avatar": {
+                        "href": "https://secure.gravatar.com/avatar/dd549c6a687de8ad155420e1cab9ba97?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FS-4.png"
+                    }
+                },
+                "type": "user",
+                "nickname": "Snyk",
+                "account_id": "5e806d76db49780c148112e1"
+            },
+            "size": 111136,
+            "uuid": "{78b50848-8868-41f8-8036-43cb90b9d3e4}",
+            "type": "repository",
+            "website": null,
+            "description": "",
+            "parent": {
+                "links": {
+                    "self": {
+                        "href": "https://bitbucket.org/!api/2.0/repositories/snyktest/testRepo4"
+                    },
+                    "html": {
+                        "href": "https://bitbucket.org/snyktest/testRepo4"
+                    },
+                    "avatar": {
+                        "href": "https://bytebucket.org/ravatar/%7Be690e871-163c-4542-970a-ae3edc8cb621%7D?ts=ruby"
+                    }
+                },
+                "type": "repository",
+                "name": "testRepo4",
+                "full_name": "snyktest/testRepo4",
+                "uuid": "{e690e871-163c-4542-970a-ae3edc8cb621}"
+            },
+            "has_issues": false,
+            "slug": "testRepo4",
+            "is_private": true,
+            "name": "testRepo4",
+            "language": "ruby",
+            "fork_policy": "no_public_forks",
+            "project": {
+                "links": {
+                    "self": {
+                        "href": "https://bitbucket.org/!api/2.0/workspaces/snyk-test/projects/PROJ"
+                    },
+                    "html": {
+                        "href": "https://bitbucket.org/snyk-test/workspace/projects/PROJ"
+                    },
+                    "avatar": {
+                        "href": "https://bitbucket.org/account/user/snyk-test/projects/PROJ/avatar/32?ts=1585492348"
+                    }
+                },
+                "type": "project",
+                "name": "Untitled project",
+                "key": "PROJ",
+                "uuid": "{0e343a1c-2ab0-4e6e-b6bd-cccf053bdb0f}"
+            },
+            "mainbranch": {
+                "type": "branch",
+                "name": "master"
+            },
+            "workspace": {
+                "slug": "snyk-test",
+                "type": "workspace",
+                "name": "Snyk",
+                "links": {
+                    "self": {
+                        "href": "https://bitbucket.org/!api/2.0/workspaces/snyk-test"
+                    },
+                    "html": {
+                        "href": "https://bitbucket.org/snyk-test/"
+                    },
+                    "avatar": {
+                        "href": "https://bitbucket.org/workspaces/snyk-test/avatar/?ts=1585474995"
+                    }
+                },
+                "uuid": "{69a57492-684f-4c09-b8ba-17e03bd5e04a}"
+            },
+            "updated_on": "2020-03-31T14:41:52.620027+00:00"
+        }
+    ],
+    "page": 1,
+    "size": 4
+}
