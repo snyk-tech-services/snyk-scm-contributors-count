@@ -169,7 +169,7 @@ export const fetchBitbucketCloudReposForWorkspaces = async (
       ]
     : bitbucketCloudInfo.workspaces.map(
         (workspace) =>
-          `${bitbucketCloudDefaultUrl}/api/2.0/repositories/${workspace}?q=is_private=true&role=member`,
+          `${bitbucketCloudDefaultUrl}/api/2.0/repositories/${workspace}`,
       );
   try {
     for (let i = 0; i < fullUrlSet.length; i++) {
