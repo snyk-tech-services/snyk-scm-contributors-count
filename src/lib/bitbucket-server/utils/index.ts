@@ -7,7 +7,7 @@ const debug = debugLib('snyk:bitbucket-server-count');
 
 const limiter = new Bottleneck({
   maxConcurrent: 1,
-  minTime: 333,
+  minTime: 500,
 });
 
 limiter.on('failed', async (error, jobInfo) => {
@@ -56,7 +56,7 @@ export const fetchAllPages = async (
     isLastPage = apiResponse.isLastPage;
     start = apiResponse.nextPageStart || -1;
     pageCount++;
-    if (breakIfTrue && breakIfTrue(values)) {
+    if (typeof breakIfTrue == 'function' && breakIfTrue(values)) {
       break;
     }
   }

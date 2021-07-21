@@ -8,7 +8,7 @@ const debug = debugLib('snyk:bitbucket-cloud-count');
 
 const limiter = new Bottleneck({
   maxConcurrent: 1,
-  minTime: 333,
+  minTime: 500,
 });
 
 limiter.on('failed', async (error, jobInfo) => {
@@ -30,7 +30,7 @@ export const isAnyCommitMoreThan90Days = (values: unknown[]): boolean => {
   const typedValues = values as Commits[];
   // return true to break pagination if any commit if more than 90 days old
   return typedValues.some(
-    (typedValue) => date.getTime() - 7776000000 > typedValue.date,
+    (typedValue) => date.getTime() - 7776000000 > new Date(typedValue.date).getTime(),
   );
 };
 
@@ -62,7 +62,7 @@ export const fetchAllPages = async (
       isLastPage = true;
     }
     pageCount++;
-    if (breakIfTrue && breakIfTrue(values)) {
+    if (typeof breakIfTrue == 'function' && breakIfTrue(values)) {
       break;
     }
   }

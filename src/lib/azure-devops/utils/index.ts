@@ -8,7 +8,7 @@ const debug = debugLib('snyk:azure-devops-count');
 
 const limiter = new Bottleneck({
   maxConcurrent: 1,
-  minTime: 333,
+  minTime: 500,
 });
 
 limiter.on('failed', async (error, jobInfo) => {
