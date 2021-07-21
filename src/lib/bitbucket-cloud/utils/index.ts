@@ -30,7 +30,8 @@ export const isAnyCommitMoreThan90Days = (values: unknown[]): boolean => {
   const typedValues = values as Commits[];
   // return true to break pagination if any commit if more than 90 days old
   return typedValues.some(
-    (typedValue) => date.getTime() - 7776000000 > new Date(typedValue.date).getTime(),
+    (typedValue) =>
+      date.getTime() - 7776000000 > new Date(typedValue.date).getTime(),
   );
 };
 

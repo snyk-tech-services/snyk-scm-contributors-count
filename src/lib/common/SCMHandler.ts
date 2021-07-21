@@ -43,9 +43,9 @@ export abstract class SCMHandlerClass {
     const spinner = ora({ isSilent: isQuiet });
     debug('Loading snyk monitored repos list \n');
     // TODO: Add option to set this to empty array when we want to count irrespective of what's in snyk
-    if(!process.env.SNYK_TOKEN && !skipSnykMonitoredRepos) { 
+    if (!process.env.SNYK_TOKEN && !skipSnykMonitoredRepos) {
       debug('SNYK_TOKEN must be exported before running the script');
-      return; 
+      return;
     }
     spinner.start();
     spinner.text = 'Loading snyk monitored repos list';
