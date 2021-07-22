@@ -7,6 +7,9 @@ import base64 = require('base-64');
 const debug = debugLib('snyk:bitbucket-cloud-count');
 
 const limiter = new Bottleneck({
+  reservoir: 1000,
+  reservoirRefreshAmount: 1000,
+  reservoirRefreshInterval: 3600 * 1000,
   maxConcurrent: 1,
   minTime: 500,
 });
@@ -55,6 +58,9 @@ export const fetchAllPages = async (
         },
       }),
     );
+    if (!response.ok) {
+      debug(`Failed to fetch page: ${url}\n ${response.body}`);
+    }
     const apiResponse = (await response.json()) as repoListApiResponse;
     values = values.concat(apiResponse.values);
     if (apiResponse.next) {
