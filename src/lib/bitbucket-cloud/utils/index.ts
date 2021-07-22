@@ -58,6 +58,9 @@ export const fetchAllPages = async (
         },
       }),
     );
+    if(!response.ok){
+      debug(`Failed to fetch page: ${url}\n ${response.body}`);
+    }
     const apiResponse = (await response.json()) as repoListApiResponse;
     values = values.concat(apiResponse.values);
     if (apiResponse.next) {

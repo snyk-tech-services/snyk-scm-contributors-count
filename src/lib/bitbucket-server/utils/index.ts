@@ -54,6 +54,9 @@ export const fetchAllPages = async (
         headers: { Authorization: 'Bearer ' + token },
       }),
     );
+    if(!response.ok){
+      debug(`Failed to fetch page: ${url}\n ${response.body}`);
+    }
     const apiResponse = (await response.json()) as repoListApiResponse;
     values = values.concat(apiResponse.values);
     isLastPage = apiResponse.isLastPage;
