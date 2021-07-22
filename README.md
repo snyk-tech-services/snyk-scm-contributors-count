@@ -90,3 +90,6 @@ npm run build-watch
 - Most SCMs have paginated results, fetch all the relevant pages, only what's useful
 - Be gentle with rates against SCM. Use client or throttling libs like bottleneck
 - Snyk API interaction is using snyk-api-ts-client with built-in throttling and retries
+
+### Note of rate limits
+- Please be aware that both [Azure](https://docs.microsoft.com/en-us/azure/devops/integrate/concepts/rate-limits?view=azure-devops) and [Bitbucket](https://support.atlassian.com/bitbucket-cloud/docs/api-request-limits/) have api calls rate limitation.
