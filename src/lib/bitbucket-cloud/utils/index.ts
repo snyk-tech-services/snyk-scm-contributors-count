@@ -7,6 +7,9 @@ import base64 = require('base-64');
 const debug = debugLib('snyk:bitbucket-cloud-count');
 
 const limiter = new Bottleneck({
+  reservoir: 1000,
+  reservoirRefreshAmount: 1000,
+  reservoirRefreshInterval: 3600 * 1000,
   maxConcurrent: 1,
   minTime: 500,
 });

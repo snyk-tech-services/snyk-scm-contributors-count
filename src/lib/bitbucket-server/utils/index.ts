@@ -6,6 +6,9 @@ import Bottleneck from 'bottleneck';
 const debug = debugLib('snyk:bitbucket-server-count');
 
 const limiter = new Bottleneck({
+  reservoir: 1000, // initial value
+  reservoirRefreshAmount: 1000,
+  reservoirRefreshInterval: 3600 * 1000,
   maxConcurrent: 1,
   minTime: 500,
 });
