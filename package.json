@@ -9,7 +9,7 @@
   "dependencies": {
     "@types/base-64": "^1.0.0",
     "base-64": "^1.0.0",
-    "bitbucket": "^2.6.1",
+    "bitbucket": "^2.6.2",
     "bottleneck": "^2.19.5",
     "chalk": "^4.1.1",
     "debug": "^4.3.1",
