@@ -10,7 +10,7 @@ const limiter = new Bottleneck({
   reservoirRefreshAmount: 1000,
   reservoirRefreshInterval: 3600 * 1000,
   maxConcurrent: 1,
-  minTime: 500,
+  minTime: 1000,
 });
 
 limiter.on('failed', async (error, jobInfo) => {
@@ -48,14 +48,31 @@ export const fetchAllPages = async (
   let start = 0;
   while (!isLastPage) {
     debug(`Fetching page ${pageCount}\n`);
-    const response = await limiter.schedule(() =>
+    let response = await limiter.schedule(() =>
       fetch(`${url}?start=${start}`, {
         method: 'GET',
         headers: { Authorization: 'Bearer ' + token },
       }),
     );
     if (!response.ok) {
-      debug(`Failed to fetch page: ${url}\n ${response.body}`);
+      if (response.status == 429) {
+        debug(
+          `Failed to fetch page: ${url}\nResponse Status: ${response.status}\nToo many requests \nWaiting for 3 minutes before resuming`,
+        );
+        await sleepNow(180000);
+        debug(`Retrying to fetch page: ${url}`);
+        debug(`Fetching page ${pageCount}\n`);
+        response = await limiter.schedule(() =>
+          fetch(`${url}?start=${start}`, {
+            method: 'GET',
+            headers: { Authorization: 'Bearer ' + token },
+          }),
+        );
+      } else {
+        debug(
+          `Failed to fetch page: ${url}\nResponse Status: ${response.status}\nResponse Status Text: ${response.statusText} `,
+        );
+      }
     }
     const apiResponse = (await response.json()) as repoListApiResponse;
     values = values.concat(apiResponse.values);
@@ -68,3 +85,6 @@ export const fetchAllPages = async (
   }
   return values;
 };
+
+const sleepNow = (delay: number): unknown =>
+  new Promise((resolve) => setTimeout(resolve, delay));
