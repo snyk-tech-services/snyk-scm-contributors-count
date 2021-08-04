@@ -28,15 +28,29 @@ export SNYK_TOKEN=<YOUR-SNYK-TOKEN>
 snyk-scm-contributors-count <command> <command-options>
 ```
 
-##### Example: 
+##### Examples: 
 ```
 snyk-scm-contributors-count bitbucket-server --token BITBUCKET-TOKEN --url http://bitbucket-server.mycompany.com --projectKeys Key1,Key2 --exclusionFilePath=./snyk.exclude
 ```
 
+```
+snyk-scm-contributors-count bitbucket-cloud --user USERNAME --password PASSWORD --workspaces Workspace1,Workspace2 --repo Repo --skipSnykMonitoredRepos
+```
+
+```
+snyk-scm-contributors-count azure-devops --token AZURE-TOKEN --org AZURE-ORG ----projectKeys Key1 --json
+```
 If you can't then type `snyk-scm-contributors-count` in your terminal, then add you bin folder to the PATH in ~/.bash_profile or equivalent. If using nvm, make sure the bin folder for your node version is also in the PATH.
 
+
+##### Walkthroughs: 
+- [Azure-Devops](./docs/azure-example.md)
+- [Bitbucket-Server](./docs/bitbucket-server-example.md)
+- [Bitbucket-Cloud](./docs/bitbucket-cloud-example.md)
+
+
 ## Common options across commands
-- `--skipSnykMonitoredRepos` to skip checking with repos are monitored by Snyk (useful for sizing before Snyk rollout). In that case the SNYK_TOKEN is not required
+- `--skipSnykMonitoredRepos` to skip checking with repos that are monitored by Snyk (useful for sizing before Snyk rollout). In that case the SNYK_TOKEN is not required
 - `--exclusionFilePath` pointing to snyk.exclude file, simple text file containing emails of committers to exclude (i.e bot@snyk.io, etc...)
 - `--json` output JSON
 
