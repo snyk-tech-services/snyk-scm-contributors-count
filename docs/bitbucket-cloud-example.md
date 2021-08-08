@@ -1,5 +1,6 @@
 ## Bitbucket-Cloud
 Available options:
+```
   --version                 Show version number                        [boolean]
   --help                    Show help                                  [boolean]
   --user                    Bitbucket cloud username                   [required]
@@ -9,7 +10,7 @@ Available options:
   --exclusionFilePath       [Optional] Exclusion list filepath
   --json                    [Optional] JSON output
   --skipSnykMonitoredRepos  [Optional] Skip Snyk monitored repos and count contributors for all repos
-
+```
 
 Before running the command:
 1. Export SNYK_TOKEN (if you want to get the contributors ONLY for repos that are already monitored by Snyk) =>
