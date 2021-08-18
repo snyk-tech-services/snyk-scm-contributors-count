@@ -58,8 +58,8 @@ export abstract class SCMHandlerClass {
       spinner.start();
       spinner.text = 'Removing monitored repository duplicates';
       debug('Removing monitored repository duplicates');
-      const deduppedSnykImportedRepos = this.dedupRepos(snykImportedRepos);
-      debug(deduppedSnykImportedRepos);
+      snykImportedRepos = this.dedupRepos(snykImportedRepos);
+      debug(snykImportedRepos);
       spinner.succeed();
     }
 

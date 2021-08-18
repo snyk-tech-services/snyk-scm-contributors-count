@@ -165,7 +165,8 @@ export const fetchBitbucketCloudReposForWorkspaces = async (
   // Filtering only private repos and the lowest role (member) to get the most repos (role is mandatory when using the is_private query)
   const fullUrlSet: string[] = !bitbucketCloudInfo.workspaces
     ? [
-        `${bitbucketCloudDefaultUrl}/api/2.0/repositories?q=is_private=false&role=member`,
+        `${bitbucketCloudDefaultUrl}/api/2.0/repositories?q=is_private=true&role=member`,
+        `${bitbucketCloudDefaultUrl}/api/2.0/repositories?q=is_private=false&role=member`
       ]
     : bitbucketCloudInfo.workspaces.map(
         (workspace) =>
