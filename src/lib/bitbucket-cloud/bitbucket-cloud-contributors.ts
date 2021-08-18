@@ -166,7 +166,7 @@ export const fetchBitbucketCloudReposForWorkspaces = async (
   const fullUrlSet: string[] = !bitbucketCloudInfo.workspaces
     ? [
         `${bitbucketCloudDefaultUrl}/api/2.0/repositories?q=is_private=true&role=member`,
-        `${bitbucketCloudDefaultUrl}/api/2.0/repositories?q=is_private=false&role=member`
+        `${bitbucketCloudDefaultUrl}/api/2.0/repositories?q=is_private=false&role=member`,
       ]
     : bitbucketCloudInfo.workspaces.map(
         (workspace) =>
