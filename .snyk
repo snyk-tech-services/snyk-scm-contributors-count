@@ -1,4 +1,33 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
 version: v1.19.0
-ignore: {}
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  SNYK-JS-TAR-1579147:
+    - snyk-api-ts-client > snyk > tar:
+        reason: None given
+        expires: '2021-10-05T13:54:01.451Z'
+    - snyk-api-ts-client > snyk-request-manager > snyk > tar:
+        reason: None given
+        expires: '2021-10-05T13:54:01.451Z'
+  SNYK-JS-TAR-1579152:
+    - snyk-api-ts-client > snyk > tar:
+        reason: None given
+        expires: '2021-10-05T13:54:01.451Z'
+    - snyk-api-ts-client > snyk-request-manager > snyk > tar:
+        reason: None given
+        expires: '2021-10-05T13:54:01.451Z'
+  SNYK-JS-TAR-1579155:
+    - snyk-api-ts-client > snyk > tar:
+        reason: None given
+        expires: '2021-10-05T13:54:01.451Z'
+    - snyk-api-ts-client > snyk-request-manager > snyk > tar:
+        reason: None given
+        expires: '2021-10-05T13:54:01.451Z'
+  SNYK-JS-AXIOS-1579269:
+    - snyk-api-ts-client > axios:
+        reason: None given
+        expires: '2021-10-05T13:54:01.451Z'
+    - snyk-api-ts-client > snyk-request-manager > axios:
+        reason: None given
+        expires: '2021-10-05T13:54:01.451Z'
 patch: {}
