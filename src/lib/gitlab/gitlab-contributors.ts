@@ -67,7 +67,7 @@ export const fetchGitlabContributorsForProject = async (
     const encodedProjectPath = encodeURIComponent(project.id);
     const response = (await fetchAllPages(
       host +
-        `api/v4/projects/${encodedProjectPath}/repository/commits?since=${threeMonthsDate}`,
+        `api/v4/projects/${encodedProjectPath}/repository/commits?since=${threeMonthsDate}&per_page=100`,
       gitlabInfo.token,
     )) as Commits[];
     for (let i = 0; i < response.length; i++) {

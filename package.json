@@ -9,6 +9,7 @@
   "dependencies": {
     "@types/base-64": "^1.0.0",
     "@types/jest": "^26.0.24",
+    "ansi-regex": "^5.0.1",
     "base-64": "^1.0.0",
     "bottleneck": "^2.19.5",
     "chalk": "^4.1.2",
