@@ -45,3 +45,9 @@ export interface BitbucketCloudTarget {
   workspaces?: string[];
   repo?: string;
 }
+
+export interface GitlabTarget {
+  token: string;
+  host?: string;
+  projectKeys?: string[];
+}

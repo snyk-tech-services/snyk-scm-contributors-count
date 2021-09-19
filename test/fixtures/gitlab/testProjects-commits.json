@@ -1,0 +1,162 @@
+[
+    {
+        "id": "9300e9afa7637bd7825d308e0780b1fe65ad8ff7",
+        "short_id": "9300e9af",
+        "title": "chore: codeowners -> devrel",
+        "created_at": "2020-09-06T12:19:22.000+03:00",
+        "parent_ids": [
+            "4ff67c0c88fdbe349f062838c775ec7a80f54b61"
+        ],
+        "message": "chore: codeowners -> devrel",
+        "author_name": "Tech Services",
+        "author_email": "tech.services@snyk.io",
+        "authored_date": "2020-09-06T12:19:22.000+03:00",
+        "committer_name": "GitHub",
+        "committer_email": "noreply@github.com",
+        "committed_date": "2020-09-06T12:19:22.000+03:00"
+    },
+    {
+        "id": "4ff67c0c88fdbe349f062838c775ec7a80f54b61",
+        "short_id": "4ff67c0c",
+        "title": "chore: engines specification in package.json is outdated (#797)",
+        "created_at": "2020-08-27T10:18:40.000+01:00",
+        "parent_ids": [
+            "be9a290ee3997f12a51cfae053d7d263e873a0bc"
+        ],
+        "message": "chore: engines specification in package.json is outdated (#797)\n\n",
+        "author_name": "Chris West",
+        "author_email": "gpg@goeswhere.com",
+        "authored_date": "2020-08-27T10:18:40.000+01:00",
+        "committer_name": "GitHub",
+        "committer_email": "noreply@github.com",
+        "committed_date": "2020-08-27T10:18:40.000+01:00"
+    },
+    {
+        "id": "be9a290ee3997f12a51cfae053d7d263e873a0bc",
+        "short_id": "be9a290e",
+        "title": "feat: add prototype pollution exploit in typeorm (#784)",
+        "created_at": "2020-08-12T18:28:39.000+03:00",
+        "parent_ids": [
+            "0bd4d3c394a54ba54f6c44705ac73d7d87b39525"
+        ],
+        "message": "feat: add prototype pollution exploit in typeorm (#784)\n\n* feat: add prototype pollution exploit in typeorm\r\n\r\n* fix: container and db setup",
+        "author_name": "Tech Services",
+        "author_email": "tech.services@snyk.io",
+        "authored_date": "2020-08-12T18:28:39.000+03:00",
+        "committer_name": "GitHub",
+        "committer_email": "noreply@github.com",
+        "committed_date": "2020-08-12T18:28:39.000+03:00"
+    },
+    {
+        "id": "0bd4d3c394a54ba54f6c44705ac73d7d87b39525",
+        "short_id": "0bd4d3c3",
+        "title": "Revert \"policy\"",
+        "created_at": "2020-02-06T11:43:11.000+00:00",
+        "parent_ids": [
+            "a349cd04c6cd7daf0eb1501135cefccc096fbafe"
+        ],
+        "message": "Revert \"policy\"\n\nThis reverts commit a349cd04c6cd7daf0eb1501135cefccc096fbafe.\n",
+        "author_name": "erank",
+        "author_email": "eran.keren@snyk.io",
+        "authored_date": "2020-02-06T11:43:11.000+00:00",
+        "committer_name": "erank",
+        "committer_email": "eran.keren@snyk.io",
+        "committed_date": "2020-02-06T11:43:11.000+00:00"
+    },
+    {
+        "id": "a349cd04c6cd7daf0eb1501135cefccc096fbafe",
+        "short_id": "a349cd04",
+        "title": "policy",
+        "created_at": "2020-02-06T10:56:32.000+00:00",
+        "parent_ids": [
+            "c20267ac84a9b81a30e6e41e4437906a69e6b8c0"
+        ],
+        "message": "policy\n",
+        "author_name": "erank",
+        "author_email": "eran.keren@snyk.io",
+        "authored_date": "2020-02-06T10:56:32.000+00:00",
+        "committer_name": "erank",
+        "committer_email": "eran.keren@snyk.io",
+        "committed_date": "2020-02-06T10:56:32.000+00:00"
+    },
+    {
+        "id": "c20267ac84a9b81a30e6e41e4437906a69e6b8c0",
+        "short_id": "c20267ac",
+        "title": "chore(heroku): add instructions for deployment",
+        "created_at": "2020-02-02T23:31:13.000+02:00",
+        "parent_ids": [
+            "9dabba3667520f7e2baf1ac75fb58369ea16050c"
+        ],
+        "message": "chore(heroku): add instructions for deployment",
+        "author_name": "Tech Services",
+        "author_email": "tech.services@snyk.io",
+        "authored_date": "2020-02-02T23:31:13.000+02:00",
+        "committer_name": "GitHub",
+        "committer_email": "noreply@github.com",
+        "committed_date": "2020-02-02T23:31:13.000+02:00"
+    },
+    {
+        "id": "9dabba3667520f7e2baf1ac75fb58369ea16050c",
+        "short_id": "9dabba36",
+        "title": "chore(heroku): support heroku mongodb url (#720)",
+        "created_at": "2020-02-02T23:23:41.000+02:00",
+        "parent_ids": [
+            "aab037bb663849598af20bc4e8903ecf4df21552"
+        ],
+        "message": "chore(heroku): support heroku mongodb url (#720)\n\n",
+        "author_name": "Tech Services",
+        "author_email": "tech.services@snyk.io",
+        "authored_date": "2020-02-02T23:23:41.000+02:00",
+        "committer_name": "GitHub",
+        "committer_email": "noreply@github.com",
+        "committed_date": "2020-02-02T23:23:41.000+02:00"
+    },
+    {
+        "id": "aab037bb663849598af20bc4e8903ecf4df21552",
+        "short_id": "aab037bb",
+        "title": "chore(project): correct license key name",
+        "created_at": "2020-02-02T08:38:13.000+02:00",
+        "parent_ids": [
+            "b897ba41cf2d04fda4e893f153ae7f8d787c0dcc"
+        ],
+        "message": "chore(project): correct license key name",
+        "author_name": "Tech Services",
+        "author_email": "tech.services@snyk.io",
+        "authored_date": "2020-02-02T08:38:13.000+02:00",
+        "committer_name": "GitHub",
+        "committer_email": "noreply@github.com",
+        "committed_date": "2020-02-02T08:38:13.000+02:00"
+    },
+    {
+        "id": "b897ba41cf2d04fda4e893f153ae7f8d787c0dcc",
+        "short_id": "b897ba41",
+        "title": "chore(project): add license key in manifest file",
+        "created_at": "2020-02-02T08:37:53.000+02:00",
+        "parent_ids": [
+            "30facfd8e7fe0fa3d6dca7b49177e7a9b7c758f1"
+        ],
+        "message": "chore(project): add license key in manifest file",
+        "author_name": "Tech Services",
+        "author_email": "tech.services@snyk.io",
+        "authored_date": "2020-02-02T08:37:53.000+02:00",
+        "committer_name": "GitHub",
+        "committer_email": "noreply@github.com",
+        "committed_date": "2020-02-02T08:37:53.000+02:00"
+    },
+    {
+        "id": "30facfd8e7fe0fa3d6dca7b49177e7a9b7c758f1",
+        "short_id": "30facfd8",
+        "title": "docs: add apache 2 license",
+        "created_at": "2020-02-02T08:36:50.000+02:00",
+        "parent_ids": [
+            "c67b1ba7073b46ff0922569820449527b7bcd86d"
+        ],
+        "message": "docs: add apache 2 license",
+        "author_name": "Tech Services",
+        "author_email": "tech.services@snyk.io",
+        "authored_date": "2020-02-02T08:36:50.000+02:00",
+        "committer_name": "GitHub",
+        "committer_email": "noreply@github.com",
+        "committed_date": "2020-02-02T08:36:50.000+02:00"
+    }
+]

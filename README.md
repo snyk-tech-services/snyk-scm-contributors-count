@@ -40,6 +40,10 @@ snyk-scm-contributors-count bitbucket-cloud --user USERNAME --password PASSWORD 
 ```
 snyk-scm-contributors-count azure-devops --token AZURE-TOKEN --org AZURE-ORG ----projectKeys Key1 --json
 ```
+
+```
+snyk-scm-contributors-count gitlab --token TOKEN --host URL --exclusionFilePath PATH_TO_FILE --json
+```
 If you can't then type `snyk-scm-contributors-count` in your terminal, then add you bin folder to the PATH in ~/.bash_profile or equivalent. If using nvm, make sure the bin folder for your node version is also in the PATH.
 
 
@@ -47,14 +51,16 @@ If you can't then type `snyk-scm-contributors-count` in your terminal, then add 
 - [Azure-Devops](./docs/azure-example.md)
 - [Bitbucket-Server](./docs/bitbucket-server-example.md)
 - [Bitbucket-Cloud](./docs/bitbucket-cloud-example.md)
-
+- [Gitlab](./docs/gitlab-example.md)
 
 ## Common options across commands
-- `--skipSnykMonitoredRepos` to skip checking with repos that are monitored by Snyk (useful for sizing before Snyk rollout). In that case the SNYK_TOKEN is not required
 - `--exclusionFilePath` pointing to snyk.exclude file, simple text file containing emails of committers to exclude (i.e bot@snyk.io, etc...)
 - `--json` output JSON
 
 Additional options might be available depending on the command
+
+## Common options across the Bitbucket Cloud, Bitbucket server and Azure Devops commands
+- `--skipSnykMonitoredRepos` to skip checking with repos that are monitored by Snyk (useful for sizing before Snyk rollout). In that case the SNYK_TOKEN is not required (This flag is auto-applied to the Gitlab command)
 
 ### Run in DEBUG MODE
 Use DEBUG=snyk* env var before your command, for example:
@@ -105,5 +111,6 @@ npm run build-watch
 - Be gentle with rates against SCM. Use client or throttling libs like bottleneck
 - Snyk API interaction is using snyk-api-ts-client with built-in throttling and retries
 
-### Note of rate limits
+### Note of rate and other limitations
 - Please be aware that both [Azure](https://docs.microsoft.com/en-us/azure/devops/integrate/concepts/rate-limits?view=azure-devops) and [Bitbucket](https://support.atlassian.com/bitbucket-cloud/docs/api-request-limits/) have api calls rate limitation.
+- Please note that for Gitlab there is no option to use the --skipSnykMonitoredRepos flag since that data is available in the Snyk app's UI under Settings/Usage.
