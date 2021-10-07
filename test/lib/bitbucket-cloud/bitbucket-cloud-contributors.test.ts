@@ -76,12 +76,12 @@ describe('Testing bitbucket-cloud interaction', () => {
     expectedMap.set('snyk-test@snyk.io', {
       contributionsCount: 1,
       email: 'snyk-test@snyk.io',
-      reposContributedTo: ['snyk-test/testRepo1'],
+      reposContributedTo: ['snyk-test/testRepo1(Private)'],
     });
     expectedMap.set('snyk test', {
       contributionsCount: 1,
       email: 'snyk-test@snyk.io',
-      reposContributedTo: ['snyk-test/testRepo1'],
+      reposContributedTo: ['snyk-test/testRepo1(Private)'],
     });
     expect(contributorsMap).toEqual(expectedMap);
   });

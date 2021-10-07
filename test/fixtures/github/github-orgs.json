@@ -1,0 +1,30 @@
+[
+    {
+        "login": "snyk",
+        "id": 12959162,
+        "node_id": "MDEyOk9yZ2FuaXphdGlvbjEyOTU5MTYy",
+        "url": "https://api.github.com/orgs/snyk",
+        "repos_url": "https://api.github.com/orgs/snyk/repos",
+        "events_url": "https://api.github.com/orgs/snyk/events",
+        "hooks_url": "https://api.github.com/orgs/snyk/hooks",
+        "issues_url": "https://api.github.com/orgs/snyk/issues",
+        "members_url": "https://api.github.com/orgs/snyk/members{/member}",
+        "public_members_url": "https://api.github.com/orgs/snyk/public_members{/member}",
+        "avatar_url": "https://avatars.githubusercontent.com/u/12959162?v=4",
+        "description": "Continuously find & fix vulnerabilities in dependencies pulled from npm, Maven, RubyGems, PyPI and more"
+    },
+    {
+        "login": "snyk-tech-services",
+        "id": 60094082,
+        "node_id": "MDEyOk9yZ2FuaXphdGlvbjYwMDk0MDgy",
+        "url": "https://api.github.com/orgs/snyk-tech-services",
+        "repos_url": "https://api.github.com/orgs/snyk-tech-services/repos",
+        "events_url": "https://api.github.com/orgs/snyk-tech-services/events",
+        "hooks_url": "https://api.github.com/orgs/snyk-tech-services/hooks",
+        "issues_url": "https://api.github.com/orgs/snyk-tech-services/issues",
+        "members_url": "https://api.github.com/orgs/snyk-tech-services/members{/member}",
+        "public_members_url": "https://api.github.com/orgs/snyk-tech-services/public_members{/member}",
+        "avatar_url": "https://avatars.githubusercontent.com/u/60094082?v=4",
+        "description": ""
+    }
+]

@@ -84,7 +84,7 @@ export async function handler(argv: {
   const scmTarget: BitbucketServerTarget = {
     token: argv.token,
     url: argv.url,
-    projectKeys: argv.projectKeys?.split(','),
+    projectKeys: argv.projectKeys?.toString().split(','),
     repo: argv.repo,
   };
 

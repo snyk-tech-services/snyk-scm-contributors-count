@@ -1,6 +1,3 @@
-// export interface CommitsApiResponse {
-//   values: Commits[];
-// }
 export interface Commits {
   author: author;
 }
@@ -16,8 +13,8 @@ export interface Repo {
     key: string;
     id?: string;
     name?: string;
+    visibility?: string;
   };
-  public?: boolean;
 }
 
 export interface Project {

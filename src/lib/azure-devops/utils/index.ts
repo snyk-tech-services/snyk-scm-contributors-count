@@ -28,7 +28,7 @@ export const getRepoCommits = async (
   token: string,
   threeMonthsDate: string,
 ): Promise<Response> => {
-  debug('Fetching commints for ' + repo);
+  debug('Fetching commits for ' + repo);
   const data = await limiter.schedule(() =>
     fetch(
       url +

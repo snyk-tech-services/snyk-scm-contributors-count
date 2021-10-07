@@ -5,7 +5,7 @@ Available options:
   --help                    Show help                                  [boolean]
   --token                   Bitbucket server token                     [required]
   --url                     Bitbucket server base url e.g. (https://bitbucket.mycompany.com)         [required]
-  --projectKeys             Bitbucket server project key to count contributors for
+  --projectKeys             [Optional] Bitbucket server project key to count contributors for
   --repo                    [Optional] Specific repo to count only for
   --exclusionFilePath       [Optional] Exclusion list filepath
   --json                    [Optional] JSON output

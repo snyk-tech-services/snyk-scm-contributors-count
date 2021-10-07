@@ -5,7 +5,7 @@ Available options:
   --help                    Show help                                  [boolean]
   --user                    Bitbucket cloud username                   [required]
   --password                Bitbucket cloud password                   [required]
-  --workspaces              Bitbucket cloud workspace name/uuid to count contributors for
+  --workspaces              [Optional] Bitbucket cloud workspace name/uuid to count contributors for
   --repo                    [Optional] Specific repo to count only for
   --exclusionFilePath       [Optional] Exclusion list filepath
   --json                    [Optional] JSON output

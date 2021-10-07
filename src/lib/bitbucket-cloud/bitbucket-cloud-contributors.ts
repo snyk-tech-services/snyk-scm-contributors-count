@@ -87,6 +87,7 @@ export const fetchBitbucketCloudContributorsForRepo = async (
       fullUrl,
       bitbucketCloudInfo.user,
       bitbucketCloudInfo.password,
+      repo.slug,
       isAnyCommitMoreThan90Days,
     )) as Commits[];
 
@@ -123,8 +124,11 @@ export const fetchBitbucketCloudContributorsForRepo = async (
         continue;
       }
       let contributionsCount = 1;
+      const visibility = repo.is_private ? 'Private' : 'Public';
       let reposContributedTo = [
-        `${repo.workspace.slug || repo.workspace.uuid}/${repo.slug}`,
+        `${repo.workspace.slug || repo.workspace.uuid}/${
+          repo.slug
+        }(${visibility})`,
       ];
 
       if (contributorsMap && contributorsMap.has(commit.author.name)) {
@@ -136,11 +140,15 @@ export const fetchBitbucketCloudContributorsForRepo = async (
           contributorsMap.get(commit.author.name)?.reposContributedTo || [];
         if (
           !reposContributedTo.includes(
-            `${repo.workspace.slug || repo.workspace.uuid}/${repo.slug}`,
+            `${repo.workspace.slug || repo.workspace.uuid}/${
+              repo.slug
+            }(${visibility})`,
           )
         ) {
           // Dedupping repo list here
-          reposContributedTo.push(`${repo.workspace.slug}/${repo.slug}`);
+          reposContributedTo.push(
+            `${repo.workspace.slug}/${repo.slug}(${visibility})`,
+          );
         }
       }
       contributorsMap.set(commit.author.name, {
@@ -162,7 +170,7 @@ export const fetchBitbucketCloudReposForWorkspaces = async (
 ): Promise<Repo[]> => {
   let repoList: Repo[] = [];
 
-  // Filtering only private repos and the lowest role (member) to get the most repos (role is mandatory when using the is_private query)
+  // Filtering only the lowest role (member) to get the most repos (role is mandatory when using the is_private query)
   const fullUrlSet: string[] = !bitbucketCloudInfo.workspaces
     ? [
         `${bitbucketCloudDefaultUrl}/api/2.0/repositories?q=is_private=true&role=member`,
@@ -174,12 +182,13 @@ export const fetchBitbucketCloudReposForWorkspaces = async (
       );
   try {
     for (let i = 0; i < fullUrlSet.length; i++) {
-      debug(`Fetching repos list ${fullUrlSet[i]}\n`);
+      debug(`Fetching repos list\n`);
       repoList = repoList.concat(
         (await fetchAllPages(
           fullUrlSet[i],
           bitbucketCloudInfo.user,
           bitbucketCloudInfo.password,
+          'Repositories',
         )) as Repo[],
       );
     }

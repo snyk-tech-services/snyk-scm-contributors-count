@@ -41,15 +41,18 @@ export abstract class SCMHandlerClass {
     }
 
     const spinner = ora({ isSilent: isQuiet });
-    debug('Loading snyk monitored repos list \n');
+    if (!skipSnykMonitoredRepos) {
+      debug('Loading snyk monitored repos list \n');
+    }
     // TODO: Add option to set this to empty array when we want to count irrespective of what's in snyk
     if (!process.env.SNYK_TOKEN && !skipSnykMonitoredRepos) {
       debug('SNYK_TOKEN must be exported before running the script');
       return;
     }
     spinner.start();
-    spinner.text = 'Loading snyk monitored repos list';
-
+    if (!skipSnykMonitoredRepos) {
+      spinner.text = 'Loading snyk monitored repos list';
+    }
     let snykImportedRepos: string[] = [];
     if (!skipSnykMonitoredRepos) {
       snykImportedRepos = await this.retrieveMonitoredRepos(url, sourceType);
@@ -64,9 +67,9 @@ export abstract class SCMHandlerClass {
     }
 
     spinner.start();
-    debug('Retrieving projects from the SCM \n');
+    debug('Retrieving projects/orgs from the SCM \n');
     spinner.text =
-      'Retrieving projects from the SCM with commits in last 90 days';
+      'Retrieving projects/orgs from the SCM with commits in last 90 days';
 
     let contributors = (await this.fetchSCMContributors(
       snykImportedRepos,

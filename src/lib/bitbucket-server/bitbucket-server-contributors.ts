@@ -85,6 +85,7 @@ export const fetchBitbucketContributorsForRepo = async (
     const response = (await fetchAllPages(
       fullUrl,
       bitbucketServerInfo.token,
+      repo.name,
       isAnyCommitMoreThan90Days,
     )) as Commits[];
 
@@ -102,8 +103,9 @@ export const fetchBitbucketContributorsForRepo = async (
         continue;
       }
       let contributionsCount = 1;
+      const visibility = repo.public ? 'Public' : 'Private';
       let reposContributedTo = [
-        `${repo.project.name || repo.project.key}/${repo.name}`,
+        `${repo.project.name || repo.project.key}/${repo.name}(${visibility})`,
       ];
 
       if (contributorsMap && contributorsMap.has(commit.author.name)) {
@@ -115,11 +117,15 @@ export const fetchBitbucketContributorsForRepo = async (
           contributorsMap.get(commit.author.name)?.reposContributedTo || [];
         if (
           !reposContributedTo.includes(
-            `${repo.project.name || repo.project.key}/${repo.name}`,
+            `${repo.project.name || repo.project.key}/${
+              repo.name
+            }(${visibility})`,
           )
         ) {
           // Dedupping repo list here
-          reposContributedTo.push(`${repo.project.name}/${repo.name}`);
+          reposContributedTo.push(
+            `${repo.project.name}/${repo.name}(${visibility})`,
+          );
         }
       }
       contributorsMap.set(commit.author.name, {
@@ -155,6 +161,7 @@ export const fetchBitbucketReposForProjects = async (
         (await fetchAllPages(
           fullUrlSet[i],
           bitbucketServerInfo.token,
+          'Projects',
         )) as Repo[],
       );
     }

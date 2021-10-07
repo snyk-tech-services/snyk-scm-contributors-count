@@ -88,7 +88,7 @@ export async function handler(argv: {
   const scmTarget: BitbucketCloudTarget = {
     user: argv.user,
     password: argv.password,
-    workspaces: argv.workspaces?.split(','),
+    workspaces: argv.workspaces?.toString().split(','),
     repo: argv.repo,
   };
 

@@ -42,13 +42,14 @@ export const fetchAllPages = async (
   url: string,
   user: string,
   password: string,
+  itemName?: string,
   breakIfTrue?: (values: unknown[]) => boolean,
 ): Promise<unknown[]> => {
   let isLastPage = false;
   let values: unknown[] = [];
   let pageCount = 1;
   while (!isLastPage) {
-    debug(`Fetching page ${pageCount}\n`);
+    debug(`Fetching page ${pageCount} for ${itemName}\n`);
     let response = await limiter.schedule(() =>
       fetch(`${url}`, {
         method: 'GET',

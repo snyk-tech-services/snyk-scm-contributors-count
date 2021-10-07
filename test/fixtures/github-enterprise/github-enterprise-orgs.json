@@ -1,0 +1,23 @@
+[
+    {
+        "login": "snyk-fixtures",
+        "id": 50,
+        "node_id": "",
+        "description": null
+    },
+    {
+        "login": "snyk-test",
+        "id": 14,
+        "description": null
+    },
+    {
+        "login": "custom-branches",
+        "id": 18,
+        "description": null
+    },
+    {
+        "login": "snyk-fixed",
+        "id": 100,
+        "description": null
+    }
+]

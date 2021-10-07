@@ -87,7 +87,7 @@ describe('Testing bitbucket-server interaction', () => {
     expectedMap.set('aarlaud', {
       contributionsCount: 1,
       email: 'antoine@snyk.io',
-      reposContributedTo: ['antoine-snyk-demo/testOrgana'],
+      reposContributedTo: ['antoine-snyk-demo/testOrgana(Private)'],
     });
     expect(contributorsMap).toEqual(expectedMap);
   });
@@ -106,7 +106,7 @@ describe('Testing bitbucket-server interaction', () => {
     expectedMap.set('aarlaud', {
       contributionsCount: 1,
       email: 'antoine@snyk.io',
-      reposContributedTo: ['antoine-snyk-demo/testOrgana'],
+      reposContributedTo: ['antoine-snyk-demo/testOrgana(Private)'],
     });
     expect(contributorsMap).toEqual(expectedMap);
   });
@@ -125,6 +125,7 @@ describe('Testing bitbucket-server interaction', () => {
     const values = await bitbucketServerUtils.fetchAllPages(
       'http://bitbucket-server.dev.snyk.io/90dayscutoff/',
       '123',
+      'tests',
       bitbucketServerUtils.isAnyCommitMoreThan90Days,
     );
     const expected = JSON.parse(
