@@ -21,12 +21,15 @@ or use corresponding binaries in the [release page](https://github.com/snyk-tech
 
 ## Usage
 
-> If using binaries, `chmod +x snyk-scm-contributors-count-<env>` to allow execution
-
+> For Azure, Bitbucket Cloud and Bitbucket Server, you need to export your Snyk Token or apply the --skipSnykMonitoredRepos flag:
 ```
 export SNYK_TOKEN=<YOUR-SNYK-TOKEN>
 snyk-scm-contributors-count <command> <command-options>
 ```
+> If using binaries, `chmod +x snyk-scm-contributors-count-<env>` to allow execution
+> If you can't type `snyk-scm-contributors-count` in your terminal, then add you bin folder to the PATH in ~/.bash_profile or equivalent.
+> If using nvm, make sure the bin folder for your node version is also in the PATH.
+
 
 ##### Examples: 
 ```
@@ -38,20 +41,27 @@ snyk-scm-contributors-count bitbucket-cloud --user USERNAME --password PASSWORD 
 ```
 
 ```
-snyk-scm-contributors-count azure-devops --token AZURE-TOKEN --org AZURE-ORG ----projectKeys Key1 --json
+snyk-scm-contributors-count azure-devops --token AZURE-TOKEN --org AZURE-ORG --projectKeys ProjectKey1 --json
 ```
 
 ```
-snyk-scm-contributors-count gitlab --token TOKEN --host URL --exclusionFilePath PATH_TO_FILE --json
+snyk-scm-contributors-count gitlab --token TOKEN --url URL --exclusionFilePath PATH_TO_FILE --json
 ```
-If you can't then type `snyk-scm-contributors-count` in your terminal, then add you bin folder to the PATH in ~/.bash_profile or equivalent. If using nvm, make sure the bin folder for your node version is also in the PATH.
 
+```
+snyk-scm-contributors-count github --token TOKEN --orgs ORG --repo REPO
+```
+```
+snyk-scm-contributors-count github-enterprise --token TOKEN --orgs ORG1,ORG2
+```
 
 ##### Walkthroughs: 
 - [Azure-Devops](./docs/azure-example.md)
 - [Bitbucket-Server](./docs/bitbucket-server-example.md)
 - [Bitbucket-Cloud](./docs/bitbucket-cloud-example.md)
 - [Gitlab](./docs/gitlab-example.md)
+- [Github](./docs/github-example.md)
+- [Github-enterprise](./docs/github-enterprise-example.md)
 
 ## Common options across commands
 - `--exclusionFilePath` pointing to snyk.exclude file, simple text file containing emails of committers to exclude (i.e bot@snyk.io, etc...)
@@ -112,5 +122,4 @@ npm run build-watch
 - Snyk API interaction is using snyk-api-ts-client with built-in throttling and retries
 
 ### Note of rate and other limitations
-- Please be aware that both [Azure](https://docs.microsoft.com/en-us/azure/devops/integrate/concepts/rate-limits?view=azure-devops) and [Bitbucket](https://support.atlassian.com/bitbucket-cloud/docs/api-request-limits/) have api calls rate limitation.
-- Please note that for Gitlab there is no option to use the --skipSnykMonitoredRepos flag since that data is available in the Snyk app's UI under Settings/Usage.
+- Please be aware that all the SCMs have an API rate limit control. The tool takes that into account.

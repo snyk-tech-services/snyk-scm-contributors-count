@@ -8,10 +8,11 @@ const debug = debugLib('snyk:azure-devops-count');
 const azureDefaultUrl = 'https://dev.azure.com/';
 
 const d = new Date();
+d.setDate(d.getDate() - 90);
 export const threeMonthsDate =
   d.getFullYear() +
   '/' +
-  (d.getMonth() - 2) +
+  d.getMonth() +
   '/' +
   d.getDate() +
   ' ' +
@@ -98,7 +99,7 @@ export async function handler(argv: {
   const scmTarget: AzureDevopsTarget = {
     token: argv.token,
     OrgName: argv.org,
-    projectKeys: argv.projectKeys?.split(','),
+    projectKeys: argv.projectKeys?.toString().split(','),
     repo: argv.repo,
   };
 

@@ -20,7 +20,9 @@ export interface ContributorMapWithSummary {
 export interface Output {
   contributorsCount: number;
   repoCount: number;
-  repoList: string[];
+  privateRepoList: string[];
+  publicRepoList: string[];
+  undefinedRepoList: string[];
   exclusionCount: number;
   contributorsDetails: [string, Contributor][];
 }
@@ -48,6 +50,21 @@ export interface BitbucketCloudTarget {
 
 export interface GitlabTarget {
   token: string;
-  host?: string;
-  projectKeys?: string[];
+  url?: string;
+  groups?: string[];
+  project?: string;
+}
+
+export interface GithubTarget {
+  token: string;
+  orgs?: string[];
+  repo?: string;
+}
+
+export interface GithubEnterpriseTarget {
+  url: string;
+  token: string;
+  orgs?: string[];
+  repo?: string;
+  fetchAllOrgs?: boolean;
 }

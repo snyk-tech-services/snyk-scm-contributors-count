@@ -72,8 +72,8 @@ describe('Testing azure-devops interaction', () => {
       project: {
         key: '5ce02f49-7e0e-4aba-9c24-3428111da778',
         name: 'testProject1',
+        visibility: 'private',
       },
-      public: false,
     };
     await azureDevops.fetchAzureContributorsForRepo(
       azureDevopsInfo,
@@ -86,7 +86,7 @@ describe('Testing azure-devops interaction', () => {
     expectedMap.set('Ilan Torbaty', {
       contributionsCount: 4,
       email: 'ilan.torbaty@snyk.io',
-      reposContributedTo: ['testProject1/testRepo1'],
+      reposContributedTo: ['testProject1/testRepo1(private)'],
     });
     expect(contributorsMap).toEqual(expectedMap);
   });
@@ -109,12 +109,12 @@ describe('Testing azure-devops interaction', () => {
     expectedMap.set('Ilan Torbaty', {
       contributionsCount: 4,
       email: 'ilan.torbaty@snyk.io',
-      reposContributedTo: ['testProject1/testRepo1'],
+      reposContributedTo: ['testProject1/testRepo1(private)'],
     });
     expectedMap.set('testUser', {
       contributionsCount: 37,
       email: 'testUser@snyk.io',
-      reposContributedTo: ['testProject1/goof.git'],
+      reposContributedTo: ['testProject1/goof.git(private)'],
     });
     expect(contributorsMap).toEqual(expectedMap);
   });

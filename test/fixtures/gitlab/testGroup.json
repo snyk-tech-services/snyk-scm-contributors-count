@@ -1,0 +1,16 @@
+[
+    {
+        "id": 172,
+        "name": "testGroup",
+        "path": "testGroup",
+        "description": "",
+        "visibility": "private",
+        "lfs_enabled": true,
+        "avatar_url": null,
+        "web_url": "",
+        "request_access_enabled": false,
+        "full_name": "top-level / sub-level1 / testGroup",
+        "full_path": "top-level/sub-level1/testGroup",
+        "parent_id": 171
+    }
+]

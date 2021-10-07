@@ -7,7 +7,6 @@ import {
   Contributor,
   ContributorMap,
 } from '../../../src/lib/types';
-// import { Project } from '../../../src/lib/gitlab/types';
 
 const fixturesFolderPath =
   path.resolve(__dirname, '../..') + '/fixtures/gitlab/';
@@ -21,12 +20,16 @@ beforeEach(() => {
     .reply(200, (uri) => {
       console.log('URI = ' + uri);
       switch (uri) {
+        case '/api/v4/user':
+          return fs.readFileSync(fixturesFolderPath + 'testUser.json');
         case '/api/v4/projects?per_page=100':
           return fs.readFileSync(fixturesFolderPath + 'testProjects.json');
         case '/api/v4/projects/10434/repository/commits?id=10434&page=2&per_page=100':
           return fs.readFileSync(
             fixturesFolderPath + 'testProjects-commits-nextPage.json',
           );
+        case '/api/v4/groups?all_available=true&search=test-group':
+          return fs.readFileSync(fixturesFolderPath + 'testGroup.json');
         default:
       }
     });
@@ -56,9 +59,13 @@ beforeEach(() => {
 
 describe('Testing gitlab interaction', () => {
   test('Test fetchGitlabProjects', async () => {
+    const gitlabInfo: GitlabTarget = {
+      token: '123',
+      url: 'https://gitlab.dev.io/',
+    };
     const projects = await gitlab.fetchGitlabProjects(
       'https://gitlab.dev.com/',
-      'testToken',
+      gitlabInfo,
     );
     expect(projects).toHaveLength(2);
     expect(projects[0].path_with_namespace).toEqual(
@@ -71,18 +78,33 @@ describe('Testing gitlab interaction', () => {
   test('Test fetchGitlabContributorsForProject', async () => {
     const gitlabInfo: GitlabTarget = {
       token: '123',
-      host: 'https://gitlab.dev.io/',
-      projectKeys: ['TechServices/testProject'],
+      url: 'https://gitlab.dev.io/',
+      groups: [],
+      project: 'TechServices/testProject',
     };
     const contributorsMap: ContributorMap =
-      await gitlab.fetchGitlabContributors(gitlabInfo, '2021-06-01T00:00:01Z');
+      await gitlab.fetchGitlabContributors(
+        gitlabInfo,
+        [],
+        '2021-06-01T00:00:01Z',
+      );
 
     const expectedMap = new Map<string, Contributor>();
     expectedMap.set('Tech Services', {
       contributionsCount: 14,
       email: 'tech.services@snyk.io',
-      reposContributedTo: ['TechServices/testProject'],
+      reposContributedTo: ['TechServices/testProject(undefined)'],
     });
     expect(contributorsMap).toEqual(expectedMap);
+  });
+
+  test('Test findGroupPaths', async () => {
+    const groups = await gitlab.findGroupPaths(
+      'https://gitlab.dev.com/',
+      '1234',
+      'test-group',
+    );
+    expect(groups).toHaveLength(1);
+    expect(groups[0].full_path).toEqual('top-level/sub-level1/testGroup');
   });
 });

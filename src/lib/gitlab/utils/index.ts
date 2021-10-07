@@ -21,6 +21,7 @@ limiter.on('failed', async (error, jobInfo) => {
 export const fetchAllPages = async (
   url: string,
   token: string,
+  itemName?: string,
 ): Promise<unknown[]> => {
   let isLastPage = false;
   let values: string[] = [];
@@ -30,7 +31,7 @@ export const fetchAllPages = async (
   };
   const headers = new Headers(meta);
   while (!isLastPage) {
-    debug(`Fetching page ${pageCount}\n`);
+    debug(`Fetching page ${pageCount} for ${itemName}\n`);
     let response = await limiter.schedule(() =>
       fetch(url, {
         method: 'GET',

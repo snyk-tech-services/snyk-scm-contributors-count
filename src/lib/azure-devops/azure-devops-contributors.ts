@@ -103,7 +103,9 @@ export const fetchAzureContributorsForRepo = async (
       const commit = parsedResponse[i];
       let contributionsCount = 1;
       let reposContributedTo = [
-        `${repo.project.name || repo.project.key}/${repo.name}`,
+        `${repo.project.name || repo.project.key}/${repo.name}(${
+          repo.project.visibility
+        })`,
       ];
 
       if (contributorsMap && contributorsMap.has(commit.author.name)) {
@@ -115,11 +117,15 @@ export const fetchAzureContributorsForRepo = async (
           contributorsMap.get(commit.author.name)?.reposContributedTo || [];
         if (
           !reposContributedTo.includes(
-            `${repo.project.name || repo.project.key}/${repo.name}`,
+            `${repo.project.name || repo.project.key}/${repo.name}(${
+              repo.project.visibility
+            })`,
           )
         ) {
           // Dedupping repo list here
-          reposContributedTo.push(`${repo.project.name}/${repo.name}`);
+          reposContributedTo.push(
+            `${repo.project.name}/${repo.name}(${repo.project.visibility})`,
+          );
         }
       }
       contributorsMap.set(commit.author.name, {
@@ -151,12 +157,19 @@ export const fetchAzureReposForProjects = async (
         const result = await repos.text();
         const parsedResponse = JSON.parse(result).value;
         parsedResponse.map(
-          (repo: { name: string; project: { id: string; name: string } }) => {
+          (repo: {
+            name: string;
+            project: { id: string; name: string; visibility: string };
+          }) => {
             const { name, project } = repo;
             if (name && project && project.id && project.name) {
               repoList.push({
                 name,
-                project: { key: project.id, name: project.name },
+                project: {
+                  key: project.id,
+                  name: project.name,
+                  visibility: project.visibility,
+                },
               });
             }
           },

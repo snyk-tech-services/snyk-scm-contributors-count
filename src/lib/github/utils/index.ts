@@ -1,16 +1,11 @@
-import fetch from 'node-fetch';
 import * as debugLib from 'debug';
-import { repoListApiResponse, Commits } from '../types';
 import Bottleneck from 'bottleneck';
-
-const debug = debugLib('snyk:bitbucket-server-count');
+import fetch from 'node-fetch';
+const debug = debugLib('snyk:github-count');
 
 const limiter = new Bottleneck({
-  reservoir: 1000, // initial value
-  reservoirRefreshAmount: 1000,
-  reservoirRefreshInterval: 3600 * 1000,
   maxConcurrent: 1,
-  minTime: 1000,
+  minTime: 800,
 });
 
 limiter.on('failed', async (error, jobInfo) => {
@@ -23,34 +18,18 @@ limiter.on('failed', async (error, jobInfo) => {
   }
 });
 
-export const isAnyCommitMoreThan90Days = (values: unknown[]): boolean => {
-  const date: Date = new Date();
-  if (process.env.NODE_ENV == 'test') {
-    date.setFullYear(2020, 6, 15);
-  }
-
-  const typedValues = values as Commits[];
-  // return true to break pagination if any commit if more than 90 days old
-  return typedValues.some(
-    (typedValue) => date.getTime() - 7776000000 > typedValue.authorTimestamp,
-  );
-};
-
 export const fetchAllPages = async (
   url: string,
   token: string,
   itemName?: string,
-  breakIfTrue?: (values: unknown[]) => boolean,
 ): Promise<unknown[]> => {
   let isLastPage = false;
-
-  let values: unknown[] = [];
+  let values: string[] = [];
   let pageCount = 1;
-  let start = 0;
   while (!isLastPage) {
     debug(`Fetching page ${pageCount} for ${itemName}\n`);
     let response = await limiter.schedule(() =>
-      fetch(`${url}?start=${start}`, {
+      fetch(url, {
         method: 'GET',
         headers: { Authorization: 'Bearer ' + token },
       }),
@@ -64,25 +43,36 @@ export const fetchAllPages = async (
         debug(`Retrying to fetch page: ${url}`);
         debug(`Fetching page ${pageCount}\n`);
         response = await limiter.schedule(() =>
-          fetch(`${url}?start=${start}`, {
+          fetch(url, {
             method: 'GET',
             headers: { Authorization: 'Bearer ' + token },
           }),
         );
+      } else if (response.status == 409) {
+        return [];
       } else {
         debug(
           `Failed to fetch page: ${url}\nResponse Status: ${response.status}\nResponse Status Text: ${response.statusText} `,
         );
       }
     }
-    const apiResponse = (await response.json()) as repoListApiResponse;
-    values = values.concat(apiResponse.values);
-    isLastPage = apiResponse.isLastPage;
-    start = apiResponse.nextPageStart || -1;
-    pageCount++;
-    if (typeof breakIfTrue == 'function' && breakIfTrue(values)) {
-      break;
+    const apiResponse = await response.json();
+    values = values.concat(apiResponse) as string[];
+    const nextPage = response.headers.get('link');
+    if (nextPage && nextPage?.includes('rel="next"')) {
+      const nextPageLink = nextPage
+        .split(',')
+        .find((element) => element.includes('rel="next"'));
+      if (nextPageLink) {
+        url = nextPageLink.split(';')[0].replace('<', '').replace('>', '');
+        if (!url.includes('https')) {
+          url = url.replace('http', 'https');
+        }
+      }
+    } else {
+      isLastPage = true;
     }
+    pageCount++;
   }
   return values;
 };

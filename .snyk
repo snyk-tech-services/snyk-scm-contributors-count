@@ -34,39 +34,21 @@ ignore:
     - '@types/jest > pretty-format > ansi-regex':
         reason: None given
         expires: '2021-10-13T07:44:03.121Z'
-      snyk-api-ts-client > snyk > @snyk/inquirer > strip-ansi > ansi-regex:
-        reason: None given
-        expires: '2021-10-16T15:15:48.406Z'
     - '@types/jest > jest-diff > pretty-format > ansi-regex':
         reason: None given
         expires: '2021-10-13T07:44:03.121Z'
-      snyk-api-ts-client > snyk > @snyk/inquirer > string-width > strip-ansi > ansi-regex:
-        reason: None given
-        expires: '2021-10-16T15:15:48.406Z'
     - yargs > string-width > strip-ansi > ansi-regex:
         reason: None given
         expires: '2021-10-13T07:44:03.121Z'
-      snyk-api-ts-client > snyk-request-manager > snyk > @snyk/inquirer > strip-ansi > ansi-regex:
-        reason: None given
-        expires: '2021-10-16T15:15:48.406Z'
     - yargs > cliui > strip-ansi > ansi-regex:
         reason: None given
         expires: '2021-10-13T07:44:03.121Z'
-      snyk-api-ts-client > snyk-request-manager > snyk > @snyk/inquirer > string-width > strip-ansi > ansi-regex:
-        reason: None given
-        expires: '2021-10-16T15:15:48.406Z'
     - snyk-api-ts-client > snyk > @snyk/fix > strip-ansi > ansi-regex:
         reason: None given
         expires: '2021-10-13T07:44:03.121Z'
-      snyk-api-ts-client > snyk > update-notifier > boxen > ansi-align > string-width > strip-ansi > ansi-regex:
-        reason: None given
-        expires: '2021-10-16T15:15:48.406Z'
     - yargs > cliui > string-width > strip-ansi > ansi-regex:
         reason: None given
         expires: '2021-10-13T07:44:03.121Z'
-      snyk-api-ts-client > snyk-request-manager > snyk > update-notifier > boxen > ansi-align > string-width > strip-ansi > ansi-regex:
-        reason: None given
-        expires: '2021-10-16T15:15:48.406Z'
     - snyk-api-ts-client > snyk > @snyk/inquirer > strip-ansi > ansi-regex:
         reason: None given
         expires: '2021-10-13T07:44:03.121Z'
@@ -178,4 +160,29 @@ ignore:
     - snyk-api-ts-client > snyk-request-manager > snyk > update-notifier > boxen > ansi-align > string-width > strip-ansi > ansi-regex:
         reason: no upgrade available
         expires: '2021-10-16T14:59:01.240Z'
+    - snyk-api-ts-client > snyk > @snyk/inquirer > strip-ansi > ansi-regex:
+        reason: None given
+        expires: '2021-10-16T15:15:48.406Z'
+    - snyk-api-ts-client > snyk > @snyk/inquirer > string-width > strip-ansi > ansi-regex:
+        reason: None given
+        expires: '2021-10-16T15:15:48.406Z'
+    - snyk-api-ts-client > snyk-request-manager > snyk > @snyk/inquirer > strip-ansi > ansi-regex:
+        reason: None given
+        expires: '2021-10-16T15:15:48.406Z'
+    - snyk-api-ts-client > snyk-request-manager > snyk > @snyk/inquirer > string-width > strip-ansi > ansi-regex:
+        reason: None given
+        expires: '2021-10-16T15:15:48.406Z'
+    - snyk-api-ts-client > snyk > update-notifier > boxen > ansi-align > string-width > strip-ansi > ansi-regex:
+        reason: None given
+        expires: '2021-10-16T15:15:48.406Z'
+    - snyk-api-ts-client > snyk-request-manager > snyk > update-notifier > boxen > ansi-align > string-width > strip-ansi > ansi-regex:
+        reason: None given
+        expires: '2021-10-16T15:15:48.406Z'
+  SNYK-JS-SSH2-1656673:
+    - snyk-api-ts-client > snyk > snyk-docker-plugin > docker-modem > ssh2:
+        reason: None given
+        expires: '2021-10-22T08:01:12.198Z'
+    - snyk-api-ts-client > snyk-request-manager > snyk > snyk-docker-plugin > docker-modem > ssh2:
+        reason: None given
+        expires: '2021-10-22T08:01:12.198Z'
 patch: {}
