@@ -128,11 +128,16 @@ export const fetchBitbucketContributorsForRepo = async (
           );
         }
       }
-      contributorsMap.set(commit.author.name, {
-        email: commit.author.emailAddress,
-        contributionsCount: contributionsCount,
-        reposContributedTo: reposContributedTo,
-      });
+      if (
+        !commit.author.emailAddress.endsWith('@users.noreply.github.com') &&
+        commit.author.emailAddress != 'snyk-bot@snyk.io'
+      ) {
+        contributorsMap.set(commit.author.name, {
+          email: commit.author.emailAddress,
+          contributionsCount: contributionsCount,
+          reposContributedTo: reposContributedTo,
+        });
+      }
     }
   } catch (err) {
     debug('Failed to retrieve commits from bitbucket-server.\n' + err);
