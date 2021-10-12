@@ -128,11 +128,16 @@ export const fetchAzureContributorsForRepo = async (
           );
         }
       }
-      contributorsMap.set(commit.author.name, {
-        email: commit.author.email,
-        contributionsCount: contributionsCount,
-        reposContributedTo: reposContributedTo,
-      });
+      if (
+        !commit.author.email.endsWith('@users.noreply.github.com') &&
+        commit.author.email != 'snyk-bot@snyk.io'
+      ) {
+        contributorsMap.set(commit.author.name, {
+          email: commit.author.email,
+          contributionsCount: contributionsCount,
+          reposContributedTo: reposContributedTo,
+        });
+      }
     }
   } catch (err) {
     debug('Failed to retrieve commits from Azure Devops.\n' + err);

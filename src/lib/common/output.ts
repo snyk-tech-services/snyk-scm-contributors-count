@@ -16,10 +16,10 @@ export const printOutResults = (
 ): void => {
   debug(resultMap);
   const output: Output = {
-    contributorsCount: resultMap.contributorsCount,
-    repoCount: resultMap.repoCount,
     privateRepoList: filteredRepoList(resultMap, '(private)'),
     publicRepoList: filteredRepoList(resultMap, '(public)'),
+    contributorsCount: resultMap.contributorsCount,
+    repoCount: resultMap.repoCount,
     undefinedRepoList: filteredRepoList(resultMap, '(undefined)'),
     exclusionCount: resultMap.exclusionCount,
     contributorsDetails: Array.from(resultMap.contributorsDetails.entries()),
@@ -28,7 +28,11 @@ export const printOutResults = (
     console.log(JSON.stringify(output, null, 4));
   } else {
     console.log(`\n${chalk.yellowBright('#### Summary')}`);
-    console.log(`Total Contributors Count: ${output.contributorsCount}`);
+    console.log(
+      `${chalk.blueBright(
+        '** This summary indicates the number of contributors who have made at least one commit in the last 90 days to repositories **\n',
+      )}`,
+    );
     console.log(
       `Private Repos Contributors Count: ${privateReposContributors.length}`,
     );
@@ -40,6 +44,9 @@ export const printOutResults = (
         `Undefined Repos Contributors Count: ${undefinedReposContributors.length}`,
       );
     }
+    console.log(
+      `Total Unique Contributors Count for Private and Public repositories: ${output.contributorsCount}`,
+    );
     console.log(`Private Repository Count: ${output.privateRepoList.length}`);
     console.log(`Public Repository Count: ${output.publicRepoList.length}`);
     if (output.undefinedRepoList.length > 0) {
@@ -70,7 +77,11 @@ export const printOutResults = (
       );
     }
     console.log(`\n${chalk.yellowBright('#### Summary')}`);
-    console.log(`Total Contributors Count: ${output.contributorsCount}`);
+    console.log(
+      `${chalk.blueBright(
+        '** This summary indicates the number of contributors who have made at least one commit in the last 90 days to repositories **\n',
+      )}`,
+    );
     console.log(
       `Private Repos Contributors Count: ${privateReposContributors.length}`,
     );
@@ -82,6 +93,9 @@ export const printOutResults = (
         `Undefined Repos Contributors Count: ${undefinedReposContributors.length}`,
       );
     }
+    console.log(
+      `Total Unique Contributors Count for Private and Public repositories: ${output.contributorsCount}`,
+    );
     console.log(`Private Repository Count: ${output.privateRepoList.length}`);
     console.log(`Public Repository Count: ${output.publicRepoList.length}`);
     if (output.undefinedRepoList.length > 0) {

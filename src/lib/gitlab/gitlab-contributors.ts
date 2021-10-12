@@ -125,11 +125,16 @@ export const fetchGitlabContributorsForProject = async (
           );
         }
       }
-      contributorsMap.set(commit.author_name, {
-        email: commit.author_email,
-        contributionsCount: contributionsCount,
-        reposContributedTo: reposContributedTo,
-      });
+      if (
+        !commit.author_email.endsWith('@users.noreply.github.com') &&
+        commit.author_email != 'snyk-bot@snyk.io'
+      ) {
+        contributorsMap.set(commit.author_name, {
+          email: commit.author_email,
+          contributionsCount: contributionsCount,
+          reposContributedTo: reposContributedTo,
+        });
+      }
     }
   } catch (err) {
     debug('Failed to retrieve commits from Gitlab.\n' + err);

@@ -18,10 +18,10 @@ export interface ContributorMapWithSummary {
 }
 
 export interface Output {
-  contributorsCount: number;
-  repoCount: number;
   privateRepoList: string[];
   publicRepoList: string[];
+  contributorsCount: number;
+  repoCount: number;
   undefinedRepoList: string[];
   exclusionCount: number;
   contributorsDetails: [string, Contributor][];

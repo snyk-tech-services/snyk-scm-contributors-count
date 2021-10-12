@@ -125,11 +125,16 @@ export const fetchGithubEnterpriseContributorsForRepo = async (
           );
         }
       }
-      contributorsMap.set(commit.commit.author.name, {
-        email: commit.commit.author.email,
-        contributionsCount: contributionsCount,
-        reposContributedTo: reposContributedTo,
-      });
+      if (
+        !commit.commit.author.email.endsWith('@users.noreply.github.com') &&
+        commit.commit.author.email != 'snyk-bot@snyk.io'
+      ) {
+        contributorsMap.set(commit.commit.author.name, {
+          email: commit.commit.author.email,
+          contributionsCount: contributionsCount,
+          reposContributedTo: reposContributedTo,
+        });
+      }
     }
   } catch (err) {
     debug('Failed to retrieve commits from Github Enterprise.\n' + err);
