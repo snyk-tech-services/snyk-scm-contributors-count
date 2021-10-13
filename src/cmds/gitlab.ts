@@ -11,7 +11,7 @@ d.setDate(d.getDate() - 90);
 export const threeMonthsDate =
   d.getFullYear() +
   '-' +
-  d.getMonth() +
+  (d.getMonth()+1) +
   '-' +
   d.getDate() +
   'T' +
