@@ -9,6 +9,7 @@ const azureDefaultUrl = 'https://dev.azure.com/';
 
 const d = new Date();
 d.setDate(d.getDate() - 90);
+d.setMonth(d.getMonth() + 1);
 export const threeMonthsDate =
   d.getFullYear() +
   '/' +

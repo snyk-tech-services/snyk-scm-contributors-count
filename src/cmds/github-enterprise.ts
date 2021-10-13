@@ -7,7 +7,7 @@ import { fetchGithubEnterpriseContributors } from '../lib/github-enterprise/gith
 const debug = debugLib('snyk:github-enterprise-count');
 const d = new Date();
 d.setDate(d.getDate() - 90);
-
+d.setMonth(d.getMonth() + 1);
 export const threeMonthsDate =
   d.getFullYear() +
   '-' +
