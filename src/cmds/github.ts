@@ -8,10 +8,11 @@ const debug = debugLib('snyk:github-count');
 const githubDefaultUrl = 'https://github.com/';
 const d = new Date();
 d.setDate(d.getDate() - 90);
+d.setMonth(d.getMonth() + 1);
 export const threeMonthsDate =
   d.getFullYear() +
   '-' +
-  (d.getMonth()+1) +
+  d.getMonth() +
   '-' +
   d.getDate() +
   'T' +
