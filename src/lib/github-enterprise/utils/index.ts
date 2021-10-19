@@ -37,7 +37,7 @@ export const fetchAllPages = async (
     if (!response.ok) {
       if (response.status == 429) {
         debug(
-          `Failed to fetch page: ${url}\nResponse Status: ${response.status}\nToo many requests \nWaiting for 3 minutes before resuming`,
+          `Failed to fetch page: ${url}\n, Response Status: ${response.status}\nToo many requests \nWaiting for 3 minutes before resuming`,
         );
         await sleepNow(180000);
         debug(`Retrying to fetch page: ${url}`);
@@ -52,7 +52,7 @@ export const fetchAllPages = async (
         return [];
       } else {
         debug(
-          `Failed to fetch page: ${url}\nResponse Status: ${response.status}\nResponse Status Text: ${response.statusText} `,
+          `Failed to fetch page: ${url}\n, Response Status: ${response.status}\nResponse Status Text: ${response.statusText} `,
         );
       }
     }

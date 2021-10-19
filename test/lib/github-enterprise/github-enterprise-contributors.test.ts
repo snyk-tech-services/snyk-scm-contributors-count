@@ -6,6 +6,7 @@ import {
   GithubEnterpriseTarget,
   Contributor,
   ContributorMap,
+  Integration,
 } from '../../../src/lib/types';
 
 const fixturesFolderPath =
@@ -106,6 +107,9 @@ describe('Testing github-enterprise interaction', () => {
       await ghe.fetchGithubEnterpriseContributors(
         gheInfo,
         [],
+        [],
+        '',
+        '',
         '2021-06-01T00:00:01Z',
       );
 

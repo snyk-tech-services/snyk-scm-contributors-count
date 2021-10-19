@@ -6,6 +6,7 @@ import {
   AzureDevopsTarget,
   Contributor,
   ContributorMap,
+  Integration,
 } from '../../../src/lib/types';
 import { Repo } from '../../../src/lib/azure-devops/types';
 
@@ -102,6 +103,9 @@ describe('Testing azure-devops interaction', () => {
       await azureDevops.fetchAzureDevopsContributors(
         azureDevopsInfo,
         [],
+        [],
+        '',
+        '',
         '2000/01/01 12:00',
       );
 

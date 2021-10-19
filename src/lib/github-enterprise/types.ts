@@ -15,8 +15,19 @@ export interface Repo {
     login: string;
   };
   private?: boolean;
+  default_branch?: string;
 }
 
 export interface Org {
   login: string;
+}
+
+export interface Target {
+  orgId?: string;
+  integrationId?: string;
+  target: {
+    name: string;
+    owner: string;
+    branch?: string;
+  };
 }

@@ -6,6 +6,7 @@ import {
   GithubTarget,
   Contributor,
   ContributorMap,
+  Integration,
 } from '../../../src/lib/types';
 
 const fixturesFolderPath =
@@ -88,6 +89,9 @@ describe('Testing github interaction', () => {
       await github.fetchGithubContributors(
         githubInfo,
         [],
+        [],
+        '',
+        '',
         '2021-06-01T00:00:01Z',
       );
 

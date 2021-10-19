@@ -3,22 +3,31 @@ import {
   Username,
   Contributor,
   ContributorMap,
+  Integration,
 } from '../types';
 import { Commits, Repo, Org } from './types';
 import { fetchAllPages } from './utils';
-
 import * as debugLib from 'debug';
+import { createImportFile, genericRepo, genericTarget } from '../common/utils';
+
 const debug = debugLib('snyk:github-enterprise-count');
 
 export const fetchGithubEnterpriseContributors = async (
   githubEnterpriseInfo: GithubEnterpriseTarget,
   SnykMonitoredRepos: string[],
+  integrations: Integration[],
+  importConfDir: string,
+  importFileRepoType: string,
   threeMonthsDate: string,
 ): Promise<ContributorMap> => {
   const contributorsMap = new Map<Username, Contributor>();
+  let filePath = '';
   try {
     let repoList: Repo[] = [];
     let orgList: Org[] = [];
+    if (importConfDir && (!SnykMonitoredRepos || !integrations)) {
+      console.log('No org or integration data was found');
+    }
     if (
       githubEnterpriseInfo.repo &&
       (!githubEnterpriseInfo.orgs || githubEnterpriseInfo.orgs.length > 1)
@@ -57,7 +66,26 @@ export const fetchGithubEnterpriseContributors = async (
         await fetchGithubEnterpriseReposForOrgs(githubEnterpriseInfo),
       );
     }
-
+    // Create an api-import files for unmonitored repos
+    if (importConfDir) {
+      const unmonitoredRepos: Repo[] = repoList.filter(
+        (repo) =>
+          !SnykMonitoredRepos.includes(`${repo.owner.login}/${repo.name}`),
+      );
+      filePath = await createImportFile(
+        unmonitoredRepos,
+        integrations,
+        importConfDir,
+        importFileRepoType,
+        'github-enterprise',
+        filterRepoList,
+        orgNameFromRepo,
+        populateUnmonitoredRepoList,
+      );
+    }
+    if (filePath != '') {
+      console.log(`Import file was created at ${filePath}`);
+    }
     if (SnykMonitoredRepos && SnykMonitoredRepos.length > 0) {
       repoList = repoList.filter((repo) =>
         SnykMonitoredRepos.includes(`${repo.owner.login}/${repo.name}`),
@@ -161,6 +189,7 @@ export const fetchGithubEnterpriseReposForOrgs = async (
             name: string;
             owner: { login: string };
             private?: boolean;
+            default_branch?: string;
           }) => {
             const { name, owner } = repo;
             if (name && owner.login) {
@@ -168,6 +197,7 @@ export const fetchGithubEnterpriseReposForOrgs = async (
                 name,
                 owner: { login: owner.login },
                 private: repo.private,
+                default_branch: repo.default_branch,
               });
             }
           },
@@ -203,4 +233,43 @@ export const fetchGithubEnterpriseOrgs = async (
     );
   }
   return orgList;
+};
+
+export const filterRepoList = async (
+  unmonitoredRepoList: genericRepo[],
+  repoType: string,
+): Promise<genericRepo[]> => {
+  let reTypedRepoList = unmonitoredRepoList as Repo[];
+  if (repoType.toLowerCase() == 'private') {
+    reTypedRepoList = reTypedRepoList.filter((repo) => repo.private == true);
+  } else if (repoType.toLowerCase() == 'public') {
+    reTypedRepoList = reTypedRepoList.filter((repo) => repo.private == false);
+  }
+  return reTypedRepoList;
+};
+
+export const orgNameFromRepo = async (repo: genericRepo): Promise<string> => {
+  const reTypedRepo = repo as Repo;
+  return reTypedRepo.owner.login;
+};
+
+export const populateUnmonitoredRepoList = async (
+  repo: genericRepo,
+  integration: Integration,
+  orgID: string,
+  integrationID: string,
+): Promise<genericTarget[]> => {
+  const reTypedRepo = repo as Repo;
+  const targetList: genericTarget[] = [];
+  targetList.push({
+    integrationId:
+      integration.integrations['github-enterprise'] || integrationID,
+    orgId: integration.org.id || orgID,
+    target: {
+      name: reTypedRepo.name,
+      owner: reTypedRepo.owner.login,
+      branch: reTypedRepo.default_branch || 'master',
+    },
+  });
+  return targetList;
 };

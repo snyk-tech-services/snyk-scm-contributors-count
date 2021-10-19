@@ -29,3 +29,12 @@ export interface Repo {
   };
   public?: boolean;
 }
+
+export interface Target {
+  orgId?: string;
+  integrationId?: string;
+  target: {
+    projectKey: string;
+    repoSlug: string;
+  };
+}

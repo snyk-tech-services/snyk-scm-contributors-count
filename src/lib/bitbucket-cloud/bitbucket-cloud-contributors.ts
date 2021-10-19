@@ -3,10 +3,11 @@ import {
   Username,
   Contributor,
   ContributorMap,
+  Integration,
 } from '../types';
 import { Commits, Repo } from './types';
 import { fetchAllPages, isAnyCommitMoreThan90Days } from './utils';
-
+import { createImportFile, genericRepo, genericTarget } from '../common/utils';
 import * as debugLib from 'debug';
 const bitbucketCloudDefaultUrl = 'https://bitbucket.org';
 const debug = debugLib('snyk:bitbucket-cloud-count');
@@ -14,8 +15,12 @@ const debug = debugLib('snyk:bitbucket-cloud-count');
 export const fetchBitbucketCloudContributors = async (
   bitbucketCloudInfo: BitbucketCloudTarget,
   SnykMonitoredRepos: string[],
+  integrations: Integration[],
+  importConfDir: string,
+  importFileRepoType: string,
 ): Promise<ContributorMap> => {
   const contributorsMap = new Map<Username, Contributor>();
+  let filePath = '';
   try {
     let repoList: Repo[] = [];
 
@@ -41,6 +46,27 @@ export const fetchBitbucketCloudContributors = async (
       repoList = repoList.concat(
         await fetchBitbucketCloudReposForWorkspaces(bitbucketCloudInfo),
       );
+    }
+    if (importConfDir) {
+      const unmonitoredRepos: Repo[] = repoList.filter(
+        (repo) =>
+          !SnykMonitoredRepos.includes(`${repo.workspace.uuid}/${repo.slug}`) ||
+          !SnykMonitoredRepos.includes(`${repo.workspace.slug}/${repo.slug}`),
+      );
+      filePath = await createImportFile(
+        unmonitoredRepos,
+        integrations,
+        importConfDir,
+        importFileRepoType,
+        'bitbucket-cloud',
+        filterRepoList,
+        orgNameFromRepo,
+        populateUnmonitoredRepoList,
+      );
+    }
+
+    if (filePath != '') {
+      console.log(`Import file was created at ${filePath}`);
     }
 
     if (SnykMonitoredRepos && SnykMonitoredRepos.length > 0) {
@@ -205,4 +231,44 @@ export const fetchBitbucketCloudReposForWorkspaces = async (
     );
   }
   return repoList;
+};
+
+export const filterRepoList = async (
+  unmonitoredRepoList: genericRepo[],
+  repoType: string,
+): Promise<genericRepo[]> => {
+  let reTypedRepoList = unmonitoredRepoList as Repo[];
+  if (repoType.toLowerCase() == 'private') {
+    reTypedRepoList = reTypedRepoList.filter((repo) => repo.is_private == true);
+  } else if (repoType.toLowerCase() == 'public') {
+    reTypedRepoList = reTypedRepoList.filter(
+      (repo) => repo.is_private == false,
+    );
+  }
+  return reTypedRepoList;
+};
+
+export const orgNameFromRepo = async (repo: genericRepo): Promise<string> => {
+  const reTypedRepo = repo as Repo;
+  return reTypedRepo.workspace.slug!;
+};
+
+export const populateUnmonitoredRepoList = async (
+  repo: genericRepo,
+  integration: Integration,
+  orgID: string,
+  integrationID: string,
+): Promise<genericTarget[]> => {
+  const reTypedRepo = repo as Repo;
+  const targetList: genericTarget[] = [];
+  targetList.push({
+    integrationId: integration.integrations['bitbucket-cloud'] || integrationID,
+    orgId: integration.org.id || orgID,
+    target: {
+      name: reTypedRepo.slug,
+      owner: reTypedRepo.workspace.slug!,
+      branch: reTypedRepo.mainbranch?.name || 'master',
+    },
+  });
+  return targetList;
 };

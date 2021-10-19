@@ -76,34 +76,36 @@ export const printOutResults = (
         )}`,
       );
     }
-    console.log(`\n${chalk.yellowBright('#### Summary')}`);
-    console.log(
-      `${chalk.blueBright(
-        '** This summary indicates the number of contributors who have made at least one commit in the last 90 days to repositories **\n',
-      )}`,
-    );
-    console.log(
-      `Private Repos Contributors Count: ${privateReposContributors.length}`,
-    );
-    console.log(
-      `Public Repos Contributors Count: ${publicReposContributors.length}`,
-    );
-    if (output.undefinedRepoList.length > 0) {
+    if (output.repoCount > 0) {
+      console.log(`\n${chalk.yellowBright('#### Summary')}`);
       console.log(
-        `Undefined Repos Contributors Count: ${undefinedReposContributors.length}`,
+        `${chalk.blueBright(
+          '** This summary indicates the number of contributors who have made at least one commit in the last 90 days to repositories **\n',
+        )}`,
       );
-    }
-    console.log(
-      `Total Unique Contributors Count for Private and Public repositories: ${output.contributorsCount}`,
-    );
-    console.log(`Private Repository Count: ${output.privateRepoList.length}`);
-    console.log(`Public Repository Count: ${output.publicRepoList.length}`);
-    if (output.undefinedRepoList.length > 0) {
       console.log(
-        `Undefined Repository Count: ${output.undefinedRepoList.length}`,
+        `Private Repos Contributors Count: ${privateReposContributors.length}`,
       );
+      console.log(
+        `Public Repos Contributors Count: ${publicReposContributors.length}`,
+      );
+      if (output.undefinedRepoList.length > 0) {
+        console.log(
+          `Undefined Repos Contributors Count: ${undefinedReposContributors.length}`,
+        );
+      }
+      console.log(
+        `Total Unique Contributors Count for Private and Public repositories: ${output.contributorsCount}`,
+      );
+      console.log(`Private Repository Count: ${output.privateRepoList.length}`);
+      console.log(`Public Repository Count: ${output.publicRepoList.length}`);
+      if (output.undefinedRepoList.length > 0) {
+        console.log(
+          `Undefined Repository Count: ${output.undefinedRepoList.length}`,
+        );
+      }
+      console.log(`Total Repository Count: ${output.repoCount}`);
+      console.log(`Exclusion Count: ${output.exclusionCount}`);
     }
-    console.log(`Total Repository Count: ${output.repoCount}`);
-    console.log(`Exclusion Count: ${output.exclusionCount}`);
   }
 };

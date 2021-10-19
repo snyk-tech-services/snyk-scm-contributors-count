@@ -3,19 +3,23 @@ import {
   Username,
   Contributor,
   ContributorMap,
+  Integration,
 } from '../types';
 import { Commits, Repo } from './types';
 import { fetchAllPages, isAnyCommitMoreThan90Days } from './utils';
-
 import * as debugLib from 'debug';
-
 const debug = debugLib('snyk:bitbucket-server-count');
+import { createImportFile, genericRepo, genericTarget } from '../common/utils';
 
 export const fetchBitbucketContributors = async (
   bitbucketServerInfo: BitbucketServerTarget,
   SnykMonitoredRepos: string[],
+  integrations: Integration[],
+  importConfDir: string,
+  importFileRepoType: string,
 ): Promise<ContributorMap> => {
   const contributorsMap = new Map<Username, Contributor>();
+  let filePath = '';
   try {
     let repoList: Repo[] = [];
 
@@ -39,6 +43,29 @@ export const fetchBitbucketContributors = async (
       repoList = repoList.concat(
         await fetchBitbucketReposForProjects(bitbucketServerInfo),
       );
+    }
+
+    // Create an api-import files for unmonitored repos
+    if (importConfDir) {
+      const unmonitoredRepos: Repo[] = repoList.filter(
+        (repo) =>
+          !SnykMonitoredRepos.includes(`${repo.project.key}/${repo.name}`) ||
+          !SnykMonitoredRepos.includes(`${repo.project.name}/${repo.name}`),
+      );
+      filePath = await createImportFile(
+        unmonitoredRepos,
+        integrations,
+        importConfDir,
+        importFileRepoType,
+        'bitbucket-server',
+        filterRepoList,
+        orgNameFromRepo,
+        populateUnmonitoredRepoList,
+      );
+    }
+
+    if (filePath != '') {
+      console.log(`Import file was created at ${filePath}`);
     }
 
     if (SnykMonitoredRepos && SnykMonitoredRepos.length > 0) {
@@ -178,4 +205,42 @@ export const fetchBitbucketReposForProjects = async (
     );
   }
   return repoList;
+};
+
+export const filterRepoList = async (
+  unmonitoredRepoList: genericRepo[],
+  repoType: string,
+): Promise<genericRepo[]> => {
+  let reTypedRepoList = unmonitoredRepoList as Repo[];
+  if (repoType.toLowerCase() == 'private') {
+    reTypedRepoList = reTypedRepoList.filter((repo) => repo.public == false);
+  } else if (repoType.toLowerCase() == 'public') {
+    reTypedRepoList = reTypedRepoList.filter((repo) => repo.public == true);
+  }
+  return reTypedRepoList;
+};
+
+export const orgNameFromRepo = async (repo: genericRepo): Promise<string> => {
+  const reTypedRepo = repo as Repo;
+  return reTypedRepo.project.name!;
+};
+
+export const populateUnmonitoredRepoList = async (
+  repo: genericRepo,
+  integration: Integration,
+  orgID: string,
+  integrationID: string,
+): Promise<genericTarget[]> => {
+  const reTypedRepo = repo as Repo;
+  const targetList: genericTarget[] = [];
+  targetList.push({
+    integrationId:
+      integration.integrations['bitbucket-server'] || integrationID,
+    orgId: integration.org.id || orgID,
+    target: {
+      projectKey: reTypedRepo.project.key,
+      repoSlug: reTypedRepo.name,
+    },
+  });
+  return targetList;
 };

@@ -6,6 +6,7 @@ import {
   GitlabTarget,
   Contributor,
   ContributorMap,
+  Integration,
 } from '../../../src/lib/types';
 
 const fixturesFolderPath =
@@ -86,6 +87,9 @@ describe('Testing gitlab interaction', () => {
       await gitlab.fetchGitlabContributors(
         gitlabInfo,
         [],
+        [],
+        '',
+        '',
         '2021-06-01T00:00:01Z',
       );
 

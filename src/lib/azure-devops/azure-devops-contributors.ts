@@ -3,9 +3,11 @@ import {
   Username,
   Contributor,
   ContributorMap,
+  Integration,
 } from '../types';
 import { Commits, Repo, Project } from './types';
 import { getRepoCommits, getReposPerProjects, getProjects } from './utils';
+import { createImportFile, genericRepo, genericTarget } from '../common/utils';
 
 import * as debugLib from 'debug';
 const azureDefaultUrl = 'https://dev.azure.com/';
@@ -14,12 +16,16 @@ const debug = debugLib('snyk:azure-devops-count');
 export const fetchAzureDevopsContributors = async (
   azureInfo: AzureDevopsTarget,
   SnykMonitoredRepos: string[],
+  integrations: Integration[],
+  importConfDir: string,
+  importFileRepoType: string,
   threeMonthsDate: string,
 ): Promise<ContributorMap> => {
   const contributorsMap = new Map<Username, Contributor>();
   try {
     let repoList: Repo[] = [];
     let projectList: Project[] = [];
+    let filePath = '';
     if (
       azureInfo.repo &&
       (!azureInfo.projectKeys || azureInfo.projectKeys.length > 1)
@@ -53,7 +59,27 @@ export const fetchAzureDevopsContributors = async (
       // Otherwise retrieve all repos (for given projects or all repos)
       repoList = repoList.concat(await fetchAzureReposForProjects(azureInfo));
     }
-
+    // Create an api-import files for unmonitored repos
+    if (importConfDir) {
+      const unmonitoredRepos: Repo[] = repoList.filter(
+        (repo) =>
+          !SnykMonitoredRepos.includes(`${repo.project.name}/${repo.name}`) ||
+          !SnykMonitoredRepos.includes(`${repo.project.name}/${repo.name}`),
+      );
+      filePath = await createImportFile(
+        unmonitoredRepos,
+        integrations,
+        importConfDir,
+        importFileRepoType,
+        'azure-devops',
+        filterRepoList,
+        orgNameFromRepo,
+        populateUnmonitoredRepoList,
+      );
+    }
+    if (filePath != '') {
+      console.log(`Import file was created at ${filePath}`);
+    }
     if (SnykMonitoredRepos && SnykMonitoredRepos.length > 0) {
       repoList = repoList.filter(
         (repo) =>
@@ -165,8 +191,9 @@ export const fetchAzureReposForProjects = async (
           (repo: {
             name: string;
             project: { id: string; name: string; visibility: string };
+            defaultBranch: string;
           }) => {
-            const { name, project } = repo;
+            const { name, project, defaultBranch } = repo;
             if (name && project && project.id && project.name) {
               repoList.push({
                 name,
@@ -175,6 +202,7 @@ export const fetchAzureReposForProjects = async (
                   name: project.name,
                   visibility: project.visibility,
                 },
+                defaultBranch: defaultBranch,
               });
             }
           },
@@ -213,4 +241,46 @@ export const fetchAzureProjects = async (
     );
   }
   return projectList;
+};
+
+export const filterRepoList = async (
+  unmonitoredRepoList: genericRepo[],
+  repoType: string,
+): Promise<genericRepo[]> => {
+  let reTypedRepoList = unmonitoredRepoList as Repo[];
+  if (repoType.toLowerCase() == 'private') {
+    reTypedRepoList = reTypedRepoList.filter(
+      (repo) => repo.project.visibility?.toLocaleLowerCase() == 'private',
+    );
+  } else if (repoType.toLowerCase() == 'public') {
+    reTypedRepoList = reTypedRepoList.filter(
+      (repo) => repo.project.visibility?.toLocaleLowerCase() == 'public',
+    );
+  }
+  return reTypedRepoList;
+};
+
+export const orgNameFromRepo = async (repo: genericRepo): Promise<string> => {
+  const reTypedRepo = repo as Repo;
+  return reTypedRepo.project.name!;
+};
+
+export const populateUnmonitoredRepoList = async (
+  repo: genericRepo,
+  integration: Integration,
+  orgID: string,
+  integrationID: string,
+): Promise<genericTarget[]> => {
+  const reTypedRepo = repo as Repo;
+  const targetList: genericTarget[] = [];
+  targetList.push({
+    integrationId: integration.integrations['azure-repos'] || integrationID,
+    orgId: integration.org.id || orgID,
+    target: {
+      name: reTypedRepo.name,
+      owner: reTypedRepo.project.name!,
+      branch: reTypedRepo.defaultBranch || 'master',
+    },
+  });
+  return targetList;
 };

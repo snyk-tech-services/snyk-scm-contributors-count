@@ -33,5 +33,18 @@ export interface Repo {
     uuid: string;
     slug?: string;
   };
+  mainbranch?: {
+    name: string;
+  };
   is_private?: boolean;
+}
+
+export interface Target {
+  orgId?: string;
+  integrationId?: string;
+  target: {
+    name: string;
+    owner: string;
+    branch?: string;
+  };
 }
