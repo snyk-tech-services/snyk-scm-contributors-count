@@ -1,7 +1,7 @@
 import { Orgs, Org } from 'snyk-api-ts-client';
 import * as debugLib from 'debug';
 import { ProjectsPostResponseType } from 'snyk-api-ts-client/dist/client/generated/org';
-
+import { Integration } from '../types';
 const debug = debugLib('snyk:snyk');
 
 export enum SourceType {
@@ -55,6 +55,27 @@ export const retrieveMonitoredRepos = async (
   return snykMonitoredRepos;
 };
 
+export const retrieveOrgsAndIntegrations = async (): Promise<Integration[]> => {
+  const integrations: Integration[] = [];
+  try {
+    const orgs = (await new Orgs().get()) as OrgsResponseType;
+    for (let i = 0; i < orgs.orgs.length; i++) {
+      const integrationsInfo = await new Org({ orgId: orgs.orgs[i].id })
+        .integrations()
+        .get();
+      integrations.push({
+        org: { name: orgs.orgs[i].name, id: orgs.orgs[i].id },
+        integrations: integrationsInfo,
+      });
+    }
+
+    return integrations;
+  } catch (err) {
+    console.log(err);
+  }
+  return integrations;
+};
+
 export const retrieveMonitoredReposBySourceType = async (
   orgs: OrgType[],
   sourceType: SourceType,
@@ -66,7 +87,6 @@ export const retrieveMonitoredReposBySourceType = async (
       const projectList = await new Org({ orgId: orgs[i].id }).projects.post({
         filters: { origin: SourceType[sourceType], isMonitored: true },
       });
-
       // projects is always there even if empty
 
       const projectNameList =

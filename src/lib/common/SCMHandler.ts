@@ -6,8 +6,12 @@ import {
   calculateSummaryStats,
   printOutResults,
 } from '.';
-import { ContributorMap } from '../types';
-import { retrieveMonitoredRepos, SourceType } from '../snyk';
+import { ContributorMap, Integration } from '../types';
+import {
+  retrieveMonitoredRepos,
+  SourceType,
+  retrieveOrgsAndIntegrations,
+} from '../snyk';
 import * as debugLib from 'debug';
 
 const debug = debugLib('snyk:scm-handler');
@@ -23,16 +27,22 @@ export abstract class SCMHandlerClass {
 
   abstract fetchSCMContributors(
     snykMonitoredRepos?: string[],
+    integrations?: Integration[],
+    importConfDir?: string,
+    importFileRepoType?: string,
   ): Promise<ContributorMap>;
 
   scmContributorCount = async (
     url: string,
     sourceType: SourceType,
     skipSnykMonitoredRepos: boolean,
+    importConfDir: string,
+    importFileRepoType: string,
     exclusionFilePath: string,
     json: boolean,
   ): Promise<void> => {
     let isQuiet = false;
+    let integrations: Integration[] = [];
     if (process.env.DEBUG) {
       debug('DEBUG MODE ENABLED \n');
       isQuiet = true;
@@ -50,10 +60,19 @@ export abstract class SCMHandlerClass {
       return;
     }
     spinner.start();
+    if (importConfDir && process.env.SNYK_TOKEN) {
+      debug('Retrieving Org and Integration data');
+      integrations = await retrieveOrgsAndIntegrations();
+    } else if (importConfDir && !process.env.SNYK_TOKEN) {
+      debug(
+        'Snyk token was not provided, continuing without fetching integration data from Snyk ',
+      );
+    }
     if (!skipSnykMonitoredRepos) {
       spinner.text = 'Loading snyk monitored repos list';
     }
     let snykImportedRepos: string[] = [];
+
     if (!skipSnykMonitoredRepos) {
       snykImportedRepos = await this.retrieveMonitoredRepos(url, sourceType);
       spinner.succeed();
@@ -65,7 +84,6 @@ export abstract class SCMHandlerClass {
       debug(snykImportedRepos);
       spinner.succeed();
     }
-
     spinner.start();
     debug('Retrieving projects/orgs from the SCM \n');
     spinner.text =
@@ -73,6 +91,9 @@ export abstract class SCMHandlerClass {
 
     let contributors = (await this.fetchSCMContributors(
       snykImportedRepos,
+      integrations,
+      importConfDir,
+      importFileRepoType,
     )) as ContributorMap;
     spinner.succeed();
 

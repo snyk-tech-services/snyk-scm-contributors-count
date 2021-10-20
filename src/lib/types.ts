@@ -1,3 +1,5 @@
+import { IntegrationsGetResponseType } from 'snyk-api-ts-client/dist/client/generated/org';
+
 export type ContributorMap = Map<Username, Contributor>;
 
 export type Username = string;
@@ -25,6 +27,14 @@ export interface Output {
   undefinedRepoList: string[];
   exclusionCount: number;
   contributorsDetails: [string, Contributor][];
+}
+
+export interface Integration {
+  org: {
+    name: string;
+    id: string;
+  };
+  integrations: IntegrationsGetResponseType;
 }
 
 export interface BitbucketServerTarget {

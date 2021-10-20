@@ -7,6 +7,7 @@ import {
   BitbucketServerTarget,
   Contributor,
   ContributorMap,
+  Integration,
 } from '../../../src/lib/types';
 import { Repo } from '../../../src/lib/bitbucket-server/types';
 
@@ -100,7 +101,13 @@ describe('Testing bitbucket-server interaction', () => {
     };
 
     const contributorsMap: ContributorMap =
-      await bitbucketServer.fetchBitbucketContributors(bitbucketServerInfo, []);
+      await bitbucketServer.fetchBitbucketContributors(
+        bitbucketServerInfo,
+        [],
+        [],
+        '',
+        '',
+      );
 
     const expectedMap = new Map<string, Contributor>();
     expectedMap.set('aarlaud', {

@@ -1,8 +1,10 @@
 import * as debugLib from 'debug';
-import { AzureDevopsTarget, ContributorMap } from '../lib/types';
+import { AzureDevopsTarget, ContributorMap, Integration } from '../lib/types';
 import { SCMHandlerClass } from '../lib/common/SCMHandler';
 import { SourceType } from '../lib/snyk';
 import { fetchAzureDevopsContributors } from '../lib/azure-devops/azure-devops-contributors';
+import { access } from 'fs/promises';
+import { constants } from 'fs';
 
 const debug = debugLib('snyk:azure-devops-count');
 const azureDefaultUrl = 'https://dev.azure.com/';
@@ -55,6 +57,15 @@ export const builder = {
     required: false,
     desc: '[Optional] Skip Snyk monitored repos and count contributors for all repos',
   },
+  importConfDir: {
+    required: false,
+    desc: '[Optional] A path to a valid folder for the generated import files',
+  },
+  importFileRepoType: {
+    required: false,
+    default: 'all',
+    desc: '[Optional] Specify the type of repos to be added to the import file. Options: all/private/public. Default: all',
+  },
 };
 
 class AzureDevops extends SCMHandlerClass {
@@ -66,13 +77,24 @@ class AzureDevops extends SCMHandlerClass {
 
   async fetchSCMContributors(
     SnykMonitoredRepos: string[],
+    integrations: Integration[],
+    importConfDir: string,
+    importFileRepoType: string,
   ): Promise<ContributorMap> {
     let contributors: ContributorMap = new Map();
     try {
-      debug('ℹ️  Options: ' + JSON.stringify(this.azureConnInfo));
+      debug(
+        'ℹ️  Options: ' +
+          JSON.stringify(
+            `Org name: ${this.azureConnInfo.OrgName}, Project Key: ${this.azureConnInfo.projectKeys}, Repo: ${this.azureConnInfo.repo}`,
+          ),
+      );
       contributors = await fetchAzureDevopsContributors(
         this.azureConnInfo,
         SnykMonitoredRepos,
+        integrations,
+        importConfDir,
+        importFileRepoType,
         threeMonthsDate,
       );
     } catch (e) {
@@ -91,12 +113,40 @@ export async function handler(argv: {
   exclusionFilePath: string;
   json: boolean;
   skipSnykMonitoredRepos: boolean;
+  importConfDir: string;
+  importFileRepoType: string;
 }): Promise<void> {
   if (process.env.DEBUG) {
     debug('DEBUG MODE ENABLED \n');
-    debug('ℹ️  Options: ' + JSON.stringify(argv));
+    debug(
+      'ℹ️  Options: ' +
+        JSON.stringify(
+          `Org name: ${argv.org}, Project Keys: ${argv.projectKeys}, Repo: ${argv.repo}, skipSnykMonitoredRepos: ${argv.skipSnykMonitoredRepos}, ExclusionFile: ${argv.exclusionFilePath}, ImportConfDir: ${argv.importConfDir}, ImportFileRepoType: ${argv.importFileRepoType}`,
+        ),
+    );
   }
-
+  if (argv.importConfDir) {
+    try {
+      await access(argv.importConfDir, constants.W_OK);
+    } catch {
+      console.error(
+        `Cannot access ${argv.importConfDir} for writing, please restart and provide a valid path`,
+      );
+      process.exit(1);
+    }
+  }
+  if (argv.importConfDir && argv.repo) {
+    console.log(
+      'Triggering the importConfDir flag cannot be done for a single repo. Please remove the flag from the command or run without the repo flag',
+    );
+    process.exit(1);
+  }
+  if (argv.importFileRepoType != '' && !argv.importConfDir) {
+    console.log(
+      'The importFileRepoType flag was set without the importConfDir flag, please restart and pass the importConfDir or remove the importFileRepoType flag',
+    );
+    process.exit(1);
+  }
   const scmTarget: AzureDevopsTarget = {
     token: argv.token,
     OrgName: argv.org,
@@ -110,6 +160,8 @@ export async function handler(argv: {
     azureDefaultUrl,
     SourceType['azure-repos'],
     argv.skipSnykMonitoredRepos,
+    argv.importConfDir,
+    argv.importFileRepoType,
     argv.exclusionFilePath,
     argv.json,
   );

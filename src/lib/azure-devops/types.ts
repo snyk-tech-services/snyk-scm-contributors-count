@@ -15,9 +15,20 @@ export interface Repo {
     name?: string;
     visibility?: string;
   };
+  defaultBranch?: string;
 }
 
 export interface Project {
   name: string;
   id: string;
+}
+
+export interface Target {
+  orgId?: string;
+  integrationId?: string;
+  target: {
+    name: string;
+    owner: string;
+    branch?: string;
+  };
 }

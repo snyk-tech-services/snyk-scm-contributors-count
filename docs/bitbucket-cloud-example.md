@@ -10,6 +10,8 @@ Available options:
   --exclusionFilePath       [Optional] Exclusion list filepath
   --json                    [Optional] JSON output
   --skipSnykMonitoredRepos  [Optional] Skip Snyk monitored repos and count contributors for all repos
+  --importConfDir           [Optional] Generate an import file with the unmonitored repos: A path to a valid folder for the generated import files
+  --importFileRepoType      [Optional] To be used with the importConfDir flag: Specify the type of repos to be added to the import file. Options: all/private/public. Default: all
 ```
 
 Before running the command:
@@ -57,6 +59,11 @@ snyk-scm-contributors-count bitbucket-cloud --user USERNAME --password PASSWORD 
 - I want the output to be in json format => add the `--json` flag to the command:
 ```
 snyk-scm-contributors-count bitbucket-cloud --user USERNAME --password PASSWORD --workspaces Workspace1 --repo Repo1 --json
+```
+
+- I want the tool to create an import file for me with my unmonitored repos => add the `--importConfDir` flag to the command with a valid (writable) path to a folder in which the import files will be stored and add the `--importFileRepoType` flag (optional) with the repo types to add to the file (all/private/public, defaults to all). (**Note that these flags can not be set with the `--repo` flag**):
+```
+snyk-scm-contributors-count bitbucket-cloud --user USERNAME --password PASSWORD --importConfDir ValidPathToFolder --importFileRepoType private/public/all
 ```
 
 - I want to run in debug mode for verbose output => add `DEBUG=snyk*` to the beginning of the command:

@@ -14,8 +14,18 @@ export interface Project {
   path_with_namespace: string;
   id?: string;
   visibility?: string;
+  default_branch?: string;
 }
 
 export interface User {
   id: string;
+}
+
+export interface Target {
+  orgId?: string;
+  integrationId?: string;
+  target: {
+    id: string;
+    branch?: string;
+  };
 }
