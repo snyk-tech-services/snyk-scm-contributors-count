@@ -51,7 +51,7 @@ export const builder = {
   },
   importFileRepoType: {
     required: false,
-    default: 'all',
+    default: '',
     desc: '[Optional] Specify the type of repos to be added to the import file. Options: all/private/public. Default: all',
   },
 };
