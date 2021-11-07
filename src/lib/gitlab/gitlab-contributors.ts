@@ -57,6 +57,7 @@ export const fetchGitlabContributors = async (
           gitlabInfo,
         ),
       );
+      debug(`Found ${groupsList.length} Groups`);
     } else {
       // Otherwise retrieve all projects (for given groups or all projects)
       projectList = projectList.concat(
@@ -66,6 +67,7 @@ export const fetchGitlabContributors = async (
         ),
       );
     }
+    debug(`Found ${projectList.length} Projects`);
     // Create an api-import files for unmonitored repos
     if (importConfDir) {
       const unmonitoredProjects: Project[] = projectList.filter(
@@ -108,7 +110,7 @@ export const fetchGitlabContributors = async (
     );
   }
   debug(contributorsMap);
-  return contributorsMap;
+  return new Map([...contributorsMap.entries()].sort());
 };
 
 export const fetchGitlabContributorsForProject = async (
@@ -136,13 +138,21 @@ export const fetchGitlabContributorsForProject = async (
         `${project.path_with_namespace || project.id}(${project.visibility})`,
       ];
 
-      if (contributorsMap && contributorsMap.has(commit.author_name)) {
-        contributionsCount =
-          contributorsMap.get(commit.author_name)?.contributionsCount || 0;
+      if (
+        contributorsMap &&
+        (contributorsMap.has(commit.author_name) ||
+          contributorsMap.has(commit.author_email))
+      ) {
+        contributionsCount = contributorsMap.get(commit.author_email)
+          ?.contributionsCount
+          ? contributorsMap.get(commit.author_email)!.contributionsCount
+          : contributorsMap.get(commit.author_name)?.contributionsCount || 0;
         contributionsCount++;
 
-        reposContributedTo =
-          contributorsMap.get(commit.author_name)?.reposContributedTo || [];
+        reposContributedTo = contributorsMap.get(commit.author_email)
+          ?.reposContributedTo
+          ? contributorsMap.get(commit.author_email)!.reposContributedTo
+          : contributorsMap.get(commit.author_name)?.reposContributedTo || [];
         if (
           !reposContributedTo.includes(
             `${project.path_with_namespace || project.id}(${
@@ -158,11 +168,16 @@ export const fetchGitlabContributorsForProject = async (
           );
         }
       }
+      const isDuplicateName = await changeDuplicateAuthorNames(
+        commit.author_name,
+        commit.author_email,
+        contributorsMap,
+      );
       if (
         !commit.author_email.endsWith('@users.noreply.github.com') &&
         commit.author_email != 'snyk-bot@snyk.io'
       ) {
-        contributorsMap.set(commit.author_name, {
+        contributorsMap.set(isDuplicateName, {
           email: commit.author_email,
           contributionsCount: contributionsCount,
           reposContributedTo: reposContributedTo,
@@ -175,6 +190,19 @@ export const fetchGitlabContributorsForProject = async (
       'Failed to retrieve commits from Gitlab. Try running with `DEBUG=snyk* snyk-contributor`',
     );
   }
+};
+
+const changeDuplicateAuthorNames = async (
+  name: string,
+  email: string,
+  contributorMap: ContributorMap,
+): Promise<string> => {
+  for (const [username, contributor] of contributorMap) {
+    if (username == name && email != contributor.email) {
+      return `${name}(duplicate)`;
+    }
+  }
+  return name;
 };
 
 export const fetchGitlabProjects = async (

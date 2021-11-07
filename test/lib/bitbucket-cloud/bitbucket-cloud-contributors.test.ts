@@ -80,7 +80,7 @@ describe('Testing bitbucket-cloud interaction', () => {
       reposContributedTo: ['snyk-test/testRepo1(Private)'],
     });
     expectedMap.set('snyk test', {
-      contributionsCount: 1,
+      contributionsCount: 2,
       email: 'snyk-test@snyk.io',
       reposContributedTo: ['snyk-test/testRepo1(Private)'],
     });

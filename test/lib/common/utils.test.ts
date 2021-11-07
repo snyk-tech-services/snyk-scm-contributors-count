@@ -93,4 +93,19 @@ describe('Testing utils functions', () => {
 
     expect(utils.getUniqueReposFromMap(deduppedMap)).toEqual(repoList);
   });
+
+  test('createImportFile', () => {
+    const deduppedMapJson = fs
+      .readFileSync(fixturesFolderPath + 'deduppedContributorsMap.json')
+      .toString();
+    const deduppedMap = utils.serializeMapFromJson(deduppedMapJson);
+    const repoList = [
+      'antoine-snyk-demo/testOrgana',
+      'antoine-snyk-demo/xyz',
+      'antoine-snyk-demo/TestRepoAntoine',
+      'project/repo',
+    ];
+
+    expect(utils.getUniqueReposFromMap(deduppedMap)).toEqual(repoList);
+  });
 });
