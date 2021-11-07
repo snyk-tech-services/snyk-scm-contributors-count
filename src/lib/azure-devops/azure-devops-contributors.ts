@@ -54,11 +54,13 @@ export const fetchAzureDevopsContributors = async (
       for (let i = 0; i < projectList.length; i++) {
         azureInfo.projectKeys.push(projectList[i].name);
       }
+      debug(`Found ${projectList.length} Projects`);
       repoList = repoList.concat(await fetchAzureReposForProjects(azureInfo));
     } else {
       // Otherwise retrieve all repos (for given projects or all repos)
       repoList = repoList.concat(await fetchAzureReposForProjects(azureInfo));
     }
+    debug(`Found ${repoList.length} Repos`);
     // Create an api-import files for unmonitored repos
     if (importConfDir) {
       const unmonitoredRepos: Repo[] = repoList.filter(
@@ -103,7 +105,7 @@ export const fetchAzureDevopsContributors = async (
     );
   }
   debug(contributorsMap);
-  return contributorsMap;
+  return new Map([...contributorsMap.entries()].sort());
 };
 
 export const fetchAzureContributorsForRepo = async (
@@ -134,13 +136,21 @@ export const fetchAzureContributorsForRepo = async (
         })`,
       ];
 
-      if (contributorsMap && contributorsMap.has(commit.author.name)) {
-        contributionsCount =
-          contributorsMap.get(commit.author.name)?.contributionsCount || 0;
+      if (
+        contributorsMap &&
+        (contributorsMap.has(commit.author.name) ||
+          contributorsMap.has(commit.author.email))
+      ) {
+        contributionsCount = contributorsMap.get(commit.author.email)
+          ?.contributionsCount
+          ? contributorsMap.get(commit.author.email)!.contributionsCount
+          : contributorsMap.get(commit.author.name)!.contributionsCount || 0;
         contributionsCount++;
 
-        reposContributedTo =
-          contributorsMap.get(commit.author.name)?.reposContributedTo || [];
+        reposContributedTo = contributorsMap.get(commit.author.email)
+          ?.reposContributedTo
+          ? contributorsMap.get(commit.author.email)!.reposContributedTo
+          : contributorsMap.get(commit.author.name)!.reposContributedTo || [];
         if (
           !reposContributedTo.includes(
             `${repo.project.name || repo.project.key}/${repo.name}(${
@@ -154,11 +164,16 @@ export const fetchAzureContributorsForRepo = async (
           );
         }
       }
+      const isDuplicateName = await changeDuplicateAuthorNames(
+        commit.author.name,
+        commit.author.email,
+        contributorsMap,
+      );
       if (
         !commit.author.email.endsWith('@users.noreply.github.com') &&
         commit.author.email != 'snyk-bot@snyk.io'
       ) {
-        contributorsMap.set(commit.author.name, {
+        contributorsMap.set(isDuplicateName, {
           email: commit.author.email,
           contributionsCount: contributionsCount,
           reposContributedTo: reposContributedTo,
@@ -171,6 +186,19 @@ export const fetchAzureContributorsForRepo = async (
       'Failed to retrieve commits from Azure Devops. Try running with `DEBUG=snyk* snyk-contributor`',
     );
   }
+};
+
+const changeDuplicateAuthorNames = async (
+  name: string,
+  email: string,
+  contributorMap: ContributorMap,
+): Promise<string> => {
+  for (const [username, contributor] of contributorMap) {
+    if (username == name && email != contributor.email) {
+      return `${name}(duplicate)`;
+    }
+  }
+  return name;
 };
 
 export const fetchAzureReposForProjects = async (

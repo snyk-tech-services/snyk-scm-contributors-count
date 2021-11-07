@@ -47,6 +47,7 @@ export const fetchBitbucketCloudContributors = async (
         await fetchBitbucketCloudReposForWorkspaces(bitbucketCloudInfo),
       );
     }
+    debug(`Found ${repoList.length} Repos`);
     if (importConfDir) {
       const unmonitoredRepos: Repo[] = repoList.filter(
         (repo) =>
@@ -93,7 +94,7 @@ export const fetchBitbucketCloudContributors = async (
     );
   }
   debug(contributorsMap);
-  return contributorsMap;
+  return new Map([...contributorsMap.entries()].sort());
 };
 
 export const fetchBitbucketCloudContributorsForRepo = async (
@@ -157,13 +158,22 @@ export const fetchBitbucketCloudContributorsForRepo = async (
         }(${visibility})`,
       ];
 
-      if (contributorsMap && contributorsMap.has(commit.author.name)) {
-        contributionsCount =
-          contributorsMap.get(commit.author.name)?.contributionsCount || 0;
+      if (
+        contributorsMap &&
+        (contributorsMap.has(commit.author.name) ||
+          contributorsMap.has(commit.author.emailAddress))
+      ) {
+        contributionsCount = contributorsMap.get(commit.author.emailAddress)
+          ?.contributionsCount
+          ? contributorsMap.get(commit.author.emailAddress)!.contributionsCount
+          : contributorsMap.get(commit.author.name)?.contributionsCount || 0;
         contributionsCount++;
 
-        reposContributedTo =
-          contributorsMap.get(commit.author.name)?.reposContributedTo || [];
+        reposContributedTo = contributorsMap.get(commit.author.emailAddress)
+          ?.reposContributedTo
+          ? contributorsMap.get(commit.author.emailAddress)!.reposContributedTo
+          : contributorsMap.get(commit.author.emailAddress)
+              ?.reposContributedTo || [];
         if (
           !reposContributedTo.includes(
             `${repo.workspace.slug || repo.workspace.uuid}/${
@@ -177,11 +187,16 @@ export const fetchBitbucketCloudContributorsForRepo = async (
           );
         }
       }
+      const isDuplicateName = await changeDuplicateAuthorNames(
+        commit.author.name,
+        commit.author.emailAddress,
+        contributorsMap,
+      );
       if (
         !commit.author.emailAddress.endsWith('@users.noreply.github.com') &&
         commit.author.emailAddress != 'snyk-bot@snyk.io'
       ) {
-        contributorsMap.set(commit.author.name, {
+        contributorsMap.set(isDuplicateName, {
           email: commit.author.emailAddress,
           contributionsCount: contributionsCount,
           reposContributedTo: reposContributedTo,
@@ -194,6 +209,19 @@ export const fetchBitbucketCloudContributorsForRepo = async (
       'Failed to retrieve commits from bitbucket-cloud. Try running with `DEBUG=snyk* snyk-contributor`',
     );
   }
+};
+
+const changeDuplicateAuthorNames = async (
+  name: string,
+  email: string,
+  contributorMap: ContributorMap,
+): Promise<string> => {
+  for (const [username, contributor] of contributorMap) {
+    if (username == name && email != contributor.email) {
+      return `${name}(duplicate)`;
+    }
+  }
+  return name;
 };
 
 export const fetchBitbucketCloudReposForWorkspaces = async (

@@ -7,12 +7,14 @@ import {
   undefinedReposContributors,
   filteredRepoList,
 } from './utils';
+import fs = require('fs');
 
 const debug = debugLib('snyk:count-output');
 
 export const printOutResults = (
   resultMap: ContributorMapWithSummary,
   isJsonOutput = false,
+  fileOutputPath?: string,
 ): void => {
   debug(resultMap);
   const output: Output = {
@@ -106,6 +108,19 @@ export const printOutResults = (
       }
       console.log(`Total Repository Count: ${output.repoCount}`);
       console.log(`Exclusion Count: ${output.exclusionCount}`);
+    }
+  }
+  if (fileOutputPath != '' && fileOutputPath != undefined) {
+    try {
+      fs.writeFileSync(
+        `${fileOutputPath}consolidated-results.json`,
+        JSON.stringify(output, null, 4),
+      );
+      console.log(
+        `Consolidated results were written to ${fileOutputPath}consolidated-results.json`,
+      );
+    } catch (err) {
+      console.log(err);
     }
   }
 };

@@ -103,10 +103,9 @@ describe('Testing output functions', () => {
     ];
     /* eslint-enable no-useless-escape */
 
-    utils.printOutResults(resultsWithStats);
+    utils.printOutResults(resultsWithStats, false, '');
     output.forEach((line: string) => {
       expect(consoleOutput.join()).toContain(line);
     });
-    // expect(consoleOutput).toEqual(output);
   });
 });

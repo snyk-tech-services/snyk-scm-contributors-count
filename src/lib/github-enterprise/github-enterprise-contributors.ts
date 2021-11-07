@@ -57,6 +57,7 @@ export const fetchGithubEnterpriseContributors = async (
       for (let i = 0; i < orgList.length; i++) {
         githubEnterpriseInfo.orgs.push(orgList[i].login);
       }
+      debug(`Found ${orgList.length} Orgs`);
       repoList = repoList.concat(
         await fetchGithubEnterpriseReposForOrgs(githubEnterpriseInfo),
       );
@@ -66,6 +67,7 @@ export const fetchGithubEnterpriseContributors = async (
         await fetchGithubEnterpriseReposForOrgs(githubEnterpriseInfo),
       );
     }
+    debug(`Found ${repoList.length} Repos`);
     // Create an api-import files for unmonitored repos
     if (importConfDir) {
       const unmonitoredRepos: Repo[] = repoList.filter(
@@ -107,7 +109,7 @@ export const fetchGithubEnterpriseContributors = async (
     );
   }
   debug(contributorsMap);
-  return contributorsMap;
+  return new Map([...contributorsMap.entries()].sort());
 };
 
 export const fetchGithubEnterpriseContributorsForRepo = async (
@@ -133,15 +135,23 @@ export const fetchGithubEnterpriseContributorsForRepo = async (
         `${repo.owner.login}/${repo.name}(${visibility})`,
       ];
 
-      if (contributorsMap && contributorsMap.has(commit.commit.author.name)) {
-        contributionsCount =
-          contributorsMap.get(commit.commit.author.name)?.contributionsCount ||
-          0;
+      if (
+        contributorsMap &&
+        (contributorsMap.has(commit.commit.author.name) ||
+          contributorsMap.has(commit.commit.author.email))
+      ) {
+        contributionsCount = contributorsMap.get(commit.commit.author.email)
+          ?.contributionsCount
+          ? contributorsMap.get(commit.commit.author.email)!.contributionsCount
+          : contributorsMap.get(commit.commit.author.name)
+              ?.contributionsCount || 0;
         contributionsCount++;
 
-        reposContributedTo =
-          contributorsMap.get(commit.commit.author.name)?.reposContributedTo ||
-          [];
+        reposContributedTo = contributorsMap.get(commit.commit.author.email)
+          ?.reposContributedTo
+          ? contributorsMap.get(commit.commit.author.email)!.reposContributedTo
+          : contributorsMap.get(commit.commit.author.name)
+              ?.reposContributedTo || [];
         if (
           !reposContributedTo.includes(
             `${repo.owner.login}/${repo.name}(${visibility})`,
@@ -153,11 +163,16 @@ export const fetchGithubEnterpriseContributorsForRepo = async (
           );
         }
       }
+      const isDuplicateName = await changeDuplicateAuthorNames(
+        commit.commit.author.name,
+        commit.commit.author.email,
+        contributorsMap,
+      );
       if (
         !commit.commit.author.email.endsWith('@users.noreply.github.com') &&
         commit.commit.author.email != 'snyk-bot@snyk.io'
       ) {
-        contributorsMap.set(commit.commit.author.name, {
+        contributorsMap.set(isDuplicateName, {
           email: commit.commit.author.email,
           contributionsCount: contributionsCount,
           reposContributedTo: reposContributedTo,
@@ -170,6 +185,19 @@ export const fetchGithubEnterpriseContributorsForRepo = async (
       'Failed to retrieve commits from Github Enterprise. Try running with `DEBUG=snyk* snyk-contributor`',
     );
   }
+};
+
+const changeDuplicateAuthorNames = async (
+  name: string,
+  email: string,
+  contributorMap: ContributorMap,
+): Promise<string> => {
+  for (const [username, contributor] of contributorMap) {
+    if (username == name && email != contributor.email) {
+      return `${name}(duplicate)`;
+    }
+  }
+  return name;
 };
 
 export const fetchGithubEnterpriseReposForOrgs = async (

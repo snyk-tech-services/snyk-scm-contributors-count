@@ -1,0 +1,36 @@
+{
+    "privateRepoList": [
+        "snyk-fixtures/goof-private(Private) - Contributors count: 1",
+        "snyk-test/repo-with-tests(Private) - Contributors count: 1"
+    ],
+    "publicRepoList": [],
+    "contributorsCount": 1,
+    "repoCount": 2,
+    "undefinedRepoList": [],
+    "exclusionCount": 0,
+    "contributorsDetails": [
+        [
+            "ghe",
+            {
+                "email": "ghe@snyk.io",
+                "contributionsCount": 4,
+                "reposContributedTo": [
+                    "snyk-fixtures/goof(Public)",
+                    "snyk-test/repo-tests(Public)"
+                ]
+            }
+        ],
+[
+            "some name",
+            {
+                "email": "name@company.io",
+                "contributionsCount": 22,
+                "reposContributedTo": [
+                    "snyk-tech-services/test-repo(Public)",
+                    "Snyk-fixtures/goof(Private)",
+                    "snyk-tech-services/new-repo(Private)"
+                ]
+            }
+        ]
+    ]
+}

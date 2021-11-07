@@ -54,14 +54,21 @@ export const fetchGithubContributors = async (
           githubInfo.token,
         ),
       ) as Org[];
+      if (orgList.length < 1) {
+        console.log(
+          'Did not find any Orgs related to the user, please try to append one/few org/s to the command with the orgs flag and try again',
+        );
+      }
       for (let i = 0; i < orgList.length; i++) {
         githubInfo.orgs.push(orgList[i].login);
       }
+      debug(`Found ${orgList.length} Orgs`);
       repoList = repoList.concat(await fetchGithubReposForOrgs(githubInfo));
     } else {
       // Otherwise retrieve all repos (for given projects or all repos)
       repoList = repoList.concat(await fetchGithubReposForOrgs(githubInfo));
     }
+    debug(`Found ${repoList.length} Repos`);
     // Create an api-import files for unmonitored repos
     if (importConfDir) {
       const unmonitoredRepos: Repo[] = repoList.filter(
@@ -103,7 +110,7 @@ export const fetchGithubContributors = async (
     );
   }
   debug(contributorsMap);
-  return contributorsMap;
+  return new Map([...contributorsMap.entries()].sort());
 };
 
 export const fetchGithubContributorsForRepo = async (
@@ -129,15 +136,23 @@ export const fetchGithubContributorsForRepo = async (
         `${repo.owner.login}/${repo.name}(${visibility})`,
       ];
 
-      if (contributorsMap && contributorsMap.has(commit.commit.author.name)) {
-        contributionsCount =
-          contributorsMap.get(commit.commit.author.name)?.contributionsCount ||
-          0;
+      if (
+        contributorsMap &&
+        (contributorsMap.has(commit.commit.author.name) ||
+          contributorsMap.has(commit.commit.author.email))
+      ) {
+        contributionsCount = contributorsMap.get(commit.commit.author.email)
+          ?.contributionsCount
+          ? contributorsMap.get(commit.commit.author.email)!.contributionsCount
+          : contributorsMap.get(commit.commit.author.name)
+              ?.contributionsCount || 0;
         contributionsCount++;
 
-        reposContributedTo =
-          contributorsMap.get(commit.commit.author.name)?.reposContributedTo ||
-          [];
+        reposContributedTo = contributorsMap.get(commit.commit.author.email)
+          ?.reposContributedTo
+          ? contributorsMap.get(commit.commit.author.email)!.reposContributedTo
+          : contributorsMap.get(commit.commit.author.name)
+              ?.reposContributedTo || [];
         if (
           !reposContributedTo.includes(
             `${repo.owner.login}/${repo.name}(${visibility})`,
@@ -149,11 +164,16 @@ export const fetchGithubContributorsForRepo = async (
           );
         }
       }
+      const isDuplicateName = await changeDuplicateAuthorNames(
+        commit.commit.author.name,
+        commit.commit.author.email,
+        contributorsMap,
+      );
       if (
         !commit.commit.author.email.endsWith('@users.noreply.github.com') &&
         commit.commit.author.email != 'snyk-bot@snyk.io'
       ) {
-        contributorsMap.set(commit.commit.author.name, {
+        contributorsMap.set(isDuplicateName, {
           email: commit.commit.author.email,
           contributionsCount: contributionsCount,
           reposContributedTo: reposContributedTo,
@@ -166,6 +186,19 @@ export const fetchGithubContributorsForRepo = async (
       'Failed to retrieve commits from Github. Try running with `DEBUG=snyk* snyk-contributor`',
     );
   }
+};
+
+const changeDuplicateAuthorNames = async (
+  name: string,
+  email: string,
+  contributorMap: ContributorMap,
+): Promise<string> => {
+  for (const [username, contributor] of contributorMap) {
+    if (username == name && email != contributor.email) {
+      return `${name}(duplicate)`;
+    }
+  }
+  return name;
 };
 
 export const fetchGithubReposForOrgs = async (
@@ -215,7 +248,7 @@ export const fetchGithubOrgs = async (
 ): Promise<Org[]> => {
   const orgList: Org[] = [];
   try {
-    const orgs = (await fetchAllPages(url, token)) as Org[];
+    const orgs = (await fetchAllPages(url, token, 'Orgs')) as Org[];
     orgs.map((org: { login: string }) => {
       const { login } = org;
       if (login) {
