@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import * as debugLib from 'debug';
-import { repoListApiResponse, Commits } from '../types';
+import { RepoListApiResponse, Commits } from '../types';
 import Bottleneck from 'bottleneck';
 import base64 = require('base-64');
 
@@ -38,13 +38,13 @@ export const isAnyCommitMoreThan90Days = (values: unknown[]): boolean => {
   );
 };
 
-export const fetchAllPages = async (
+export const fetchAllPages = async <R>(
   url: string,
   user: string,
   password: string,
   itemName?: string,
   breakIfTrue?: (values: unknown[]) => boolean,
-): Promise<unknown[]> => {
+): Promise<R[]> => {
   let isLastPage = false;
   let values: unknown[] = [];
   let pageCount = 1;
@@ -80,7 +80,7 @@ export const fetchAllPages = async (
         );
       }
     }
-    const apiResponse = (await response.json()) as repoListApiResponse;
+    const apiResponse = (await response.json()) as RepoListApiResponse;
     values = values.concat(apiResponse.values);
     if (apiResponse.next) {
       url = apiResponse.next;
@@ -92,7 +92,7 @@ export const fetchAllPages = async (
       break;
     }
   }
-  return values;
+  return values as R[];
 };
 
 const sleepNow = (delay: number): unknown =>

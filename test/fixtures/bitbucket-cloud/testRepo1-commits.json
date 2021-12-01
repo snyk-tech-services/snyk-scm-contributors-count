@@ -56,9 +56,9 @@
                 "type": "author"
             },
             "summary": {
-                "raw": "Create project.fsproj\n",
+                "raw": "this commit has no user, will not be counted\n",
                 "markup": "markdown",
-                "html": "<p>Create project.fsproj</p>",
+                "html": "<p>this commit has no user, will not be counted</p>",
                 "type": "rendered"
             },
             "parents": [
@@ -178,6 +178,198 @@
         {
             "rendered": {
                 "message": {
+                    "raw": "chore: bump dependencies",
+                    "markup": "markdown",
+                    "html": "<p>chore: bump dependencies</p>",
+                    "type": "rendered"
+                }
+            },
+            "hash": "b8efbdb22db77795002c8f5501238576ac2599cf",
+            "repository": {
+                "links": {
+                    "self": {
+                        "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1"
+                    },
+                    "html": {
+                        "href": "https://bitbucket.org/snyk-test/testRepo1"
+                    },
+                    "avatar": {
+                        "href": "https://bytebucket.org/ravatar/%7B3045b484-573c-4d57-a561-27982ed66b75%7D?ts=default"
+                    }
+                },
+                "type": "repository",
+                "name": "testRepo1",
+                "full_name": "snyk-test/testRepo1",
+                "uuid": "{3045b484-573c-4d57-a561-27982ed66b75}"
+            },
+            "links": {
+                "self": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/commit/b66c2f78b1bc53145dd018fd27e6c723bc876024"
+                },
+                "comments": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/commit/b66c2f78b1bc53145dd018fd27e6c723bc876024/comments"
+                },
+                "patch": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/patch/b66c2f78b1bc53145dd018fd27e6c723bc876024"
+                },
+                "html": {
+                    "href": "https://bitbucket.org/snyk-test/testRepo1/commits/b66c2f78b1bc53145dd018fd27e6c723bc876024"
+                },
+                "diff": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/diff/b66c2f78b1bc53145dd018fd27e6c723bc876024"
+                },
+                "approve": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/commit/b66c2f78b1bc53145dd018fd27e6c723bc876024/approve"
+                },
+                "statuses": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/commit/b66c2f78b1bc53145dd018fd27e6c723bc876024/statuses"
+                }
+            },
+            "author": {
+                "raw": "snyk test <other-snyk-test@snyk.io>",
+                "type": "author",
+                "user": {
+                    "display_name": "snyk test 2",
+                    "uuid": "{52463be6-6577-483e-9d8a-89fe2f24ccd6}",
+                    "links": {
+                        "self": {
+                            "href": "https://bitbucket.org/!api/2.0/users/%7B52463be6-6577-483e-9d8a-89fe2f24ccd6%7D"
+                        },
+                        "html": {
+                            "href": "https://bitbucket.org/%7B52463be6-6577-483e-9d8a-89fe2f24ccd6%7D/"
+                        },
+                        "avatar": {
+                            "href": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5bb9ad18ee5d7e7580edac6f/a884903c-7ee5-4933-9842-b9af21026c72/128"
+                        }
+                    },
+                    "type": "user",
+                    "nickname": "snyk test 2",
+                    "account_id": "5bb9ad18ee5d7e7580edac6f"
+                }
+            },
+            "summary": {
+                "raw": "same UUID as snyk-test@snyk.io, different email-address\n",
+                "markup": "markdown",
+                "html": "<p>same UUID as snyk-test@snyk.io, different email-address</p>",
+                "type": "rendered"
+            },
+            "parents": [
+                {
+                    "hash": "fb35df2ce2050b1dddc875cc8e1aa2d85018bf1b",
+                    "type": "commit",
+                    "links": {
+                        "self": {
+                            "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/commit/fb35df2ce2050b1dddc875cc8e1aa2d85018bf1b"
+                        },
+                        "html": {
+                            "href": "https://bitbucket.org/snyk-test/testRepo1/commits/fb35df2ce2050b1dddc875cc8e1aa2d85018bf1b"
+                        }
+                    }
+                }
+            ],
+            "date": "2020-11-20T12:40:02+00:00",
+            "message": "same UUID as snyk-test@snyk.io, different email-address",
+            "type": "commit"
+        },
+        {
+            "rendered": {
+                "message": {
+                    "raw": "chore: bump dependencies",
+                    "markup": "markdown",
+                    "html": "<p>chore: bump dependencies</p>",
+                    "type": "rendered"
+                }
+            },
+            "hash": "768e91be64b730e0817bc83a4e4de595f1e98d37",
+            "repository": {
+                "links": {
+                    "self": {
+                        "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1"
+                    },
+                    "html": {
+                        "href": "https://bitbucket.org/snyk-test/testRepo1"
+                    },
+                    "avatar": {
+                        "href": "https://bytebucket.org/ravatar/%7B3045b484-573c-4d57-a561-27982ed66b75%7D?ts=default"
+                    }
+                },
+                "type": "repository",
+                "name": "testRepo1",
+                "full_name": "snyk-test/testRepo1",
+                "uuid": "{3045b484-573c-4d57-a561-27982ed66b75}"
+            },
+            "links": {
+                "self": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/commit/b66c2f78b1bc53145dd018fd27e6c723bc876024"
+                },
+                "comments": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/commit/b66c2f78b1bc53145dd018fd27e6c723bc876024/comments"
+                },
+                "patch": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/patch/b66c2f78b1bc53145dd018fd27e6c723bc876024"
+                },
+                "html": {
+                    "href": "https://bitbucket.org/snyk-test/testRepo1/commits/b66c2f78b1bc53145dd018fd27e6c723bc876024"
+                },
+                "diff": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/diff/b66c2f78b1bc53145dd018fd27e6c723bc876024"
+                },
+                "approve": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/commit/b66c2f78b1bc53145dd018fd27e6c723bc876024/approve"
+                },
+                "statuses": {
+                    "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/commit/b66c2f78b1bc53145dd018fd27e6c723bc876024/statuses"
+                }
+            },
+            "author": {
+                "raw": "snyk test 2 <snyk-test-2@snyk.io>",
+                "type": "author",
+                "user": {
+                    "display_name": "snyk test 2",
+                    "uuid": "{acff6872-6689-4b31-b6f1-fb91f4565822}",
+                    "links": {
+                        "self": {
+                            "href": "https://bitbucket.org/!api/2.0/users/%7Bacff6872-6689-4b31-b6f1-fb91f4565822%7D"
+                        },
+                        "html": {
+                            "href": "https://bitbucket.org/%7Bacff6872-6689-4b31-b6f1-fb91f45658227D/"
+                        },
+                        "avatar": {
+                            "href": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/5bb9ad18ee5d7e7580edac6f/a884903c-7ee5-4933-9842-b9af21026c72/128"
+                        }
+                    },
+                    "type": "user",
+                    "nickname": "snyk test 2",
+                    "account_id": "1239ad18aa5d7e7580edac61"
+                }
+            },
+            "summary": {
+                "raw": "same email-address as snyk-test@snyk.io, different UUID\n",
+                "markup": "markdown",
+                "html": "<p>same email-address as snyk-test@snyk.io, different UUID</p>",
+                "type": "rendered"
+            },
+            "parents": [
+                {
+                    "hash": "fb35df2ce2050b1dddc875cc8e1aa2d85018bf1b",
+                    "type": "commit",
+                    "links": {
+                        "self": {
+                            "href": "https://bitbucket.org/!api/2.0/repositories/snyk-test/testRepo1/commit/fb35df2ce2050b1dddc875cc8e1aa2d85018bf1b"
+                        },
+                        "html": {
+                            "href": "https://bitbucket.org/snyk-test/testRepo1/commits/fb35df2ce2050b1dddc875cc8e1aa2d85018bf1b"
+                        }
+                    }
+                }
+            ],
+            "date": "2020-11-20T12:40:02+00:00",
+            "message": "same email-address as snyk-test@snyk.io, different UUID",
+            "type": "commit"
+        },
+        {
+            "rendered": {
+                "message": {
                     "raw": "feat: mixed test cases for dotnet support\n",
                     "markup": "markdown",
                     "html": "<p>feat: mixed test cases for dotnet support</p>",
@@ -248,14 +440,14 @@
                 }
             },
             "summary": {
-                "raw": "feat: mixed test cases for dotnet support\n",
+                "raw": "this commit is too old, will not be counted",
                 "markup": "markdown",
-                "html": "<p>feat: mixed test cases for dotnet support</p>",
+                "html": "<p>this commit is too old, will not be counted</p>",
                 "type": "rendered"
             },
             "parents": [],
             "date": "2018-09-11T18:26:46+00:00",
-            "message": "feat: mixed test cases for dotnet support\n",
+            "message": "this commit is too old, will not be counted\n",
             "type": "commit"
         }
     ]

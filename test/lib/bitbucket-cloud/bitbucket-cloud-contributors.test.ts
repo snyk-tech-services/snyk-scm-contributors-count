@@ -2,14 +2,17 @@ import * as nock from 'nock';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as bitbucketCloud from '../../../src/lib/bitbucket-cloud/bitbucket-cloud-contributors';
-import * as bitbucketCloudUtils from '../../../src/lib/bitbucket-cloud/utils';
 import {
-  BitbucketCloudTarget,
+  extractEmailAddress,
+  processCommit,
+} from '../../../src/lib/bitbucket-cloud/bitbucket-cloud-contributors';
+import { BitbucketCloudTarget } from '../../../src/lib/types';
+import {
   Contributor,
   ContributorMap,
-  Integration,
-} from '../../../src/lib/types';
-import { Repo } from '../../../src/lib/bitbucket-cloud/types';
+  Repo,
+} from '../../../src/lib/bitbucket-cloud/types';
+import { Commits } from '../../../dist/lib/bitbucket-cloud/types';
 
 const fixturesFolderPath =
   path.resolve(__dirname, '../..') + '/fixtures/bitbucket-cloud/';
@@ -32,6 +35,115 @@ beforeEach(() => {
         default:
       }
     });
+});
+
+describe('Extracting email-addresses from author.raw', () => {
+  test('regular author.raw value', () => {
+    const expected = 'foo@bar.com';
+    const mockRaw = `Foo Bar <${expected}>`;
+
+    expect(extractEmailAddress(mockRaw)).toEqual(expected);
+  });
+
+  test('raw value without name', () => {
+    const expected = 'foo@bar.com';
+    const mockRaw = `<${expected}>`;
+
+    expect(extractEmailAddress(mockRaw)).toEqual(expected);
+  });
+
+  test('raw value without angle-brackets returns null', () => {
+    const expected = null;
+    const mockRaw = `Foo Bar foo@bar.com`;
+
+    expect(extractEmailAddress(mockRaw)).toEqual(expected);
+  });
+
+  test('raw value without @ returns null', () => {
+    const expected = null;
+    const mockRaw = `Foo Bar <foo.bar.com>`;
+
+    expect(extractEmailAddress(mockRaw)).toEqual(expected);
+  });
+
+  test('empty raw value returns null', () => {
+    const expected = null;
+    const mockRaw = ``;
+
+    expect(extractEmailAddress(mockRaw)).toEqual(expected);
+  });
+});
+
+describe('Processing bitbucket-cloud commits', () => {
+  let mockCommit1: Commits;
+  let mockCommit2: Commits;
+  let mockCommit3: Commits;
+  let mockCommit4: Commits;
+
+  beforeAll(async () => {
+    const MockCommits = await import('./bitbucket-cloud-mock-commits');
+    mockCommit1 = MockCommits.mockCommit1;
+    mockCommit2 = MockCommits.mockCommit2;
+    mockCommit3 = MockCommits.mockCommit3;
+    mockCommit4 = MockCommits.mockCommit4;
+  });
+
+  test('Test processCommit with empty contributorsMap', async () => {
+    const mockCommit = mockCommit1;
+    const mockUuid = mockCommit1.author.user.uuid;
+    const exp: Contributor = {
+      email: '<mockEmail1@example.com>',
+      name: 'mockDisplayName1',
+      alternateEmails: [],
+      contributionsCount: 1,
+      reposContributedTo: ['mockRepo'],
+    };
+
+    const actual = processCommit(mockCommit, 'mockRepo', new Map());
+    expect(actual).toEqual(new Map([[mockUuid, exp]]));
+  });
+
+  test('Test multiple email-addresses for the same UUID', () => {
+    const commits = [mockCommit1, mockCommit2];
+    const mockUuid = mockCommit1.author.user.uuid;
+    const exp: Contributor = {
+      email: '<mockEmail1@example.com>',
+      name: 'mockDisplayName1',
+      alternateEmails: [mockCommit2.author.emailAddress],
+      contributionsCount: 2,
+      reposContributedTo: ['mockRepo'],
+    };
+    let contributorsMap = new Map<string, Contributor>([]);
+    for (const commit of commits) {
+      contributorsMap = processCommit(commit, 'mockRepo', contributorsMap);
+    }
+
+    expect(mockCommit1.author.user.uuid).toEqual(mockCommit2.author.user.uuid);
+    expect(contributorsMap).toEqual(new Map([[mockUuid, exp]]));
+  });
+
+  test("Test multiple UUID's for the same email-address", () => {
+    const expectedContributor = {
+      email: '<mockEmail3@example.com>',
+      name: 'mockDisplayName3',
+      alternateEmails: [],
+      contributionsCount: 1,
+      reposContributedTo: ['mockRepo'],
+    };
+    const commits = [mockCommit3, mockCommit4];
+    const expected = new Map<string, Contributor>([
+      [mockCommit3.author.user.uuid, expectedContributor],
+      [mockCommit4.author.user.uuid, expectedContributor],
+    ]);
+
+    let contributorsMap = new Map<string, Contributor>();
+    for (const commit of commits) {
+      contributorsMap = processCommit(commit, 'mockRepo', contributorsMap);
+    }
+
+    expect(mockCommit3.author.raw).toEqual(mockCommit4.author.raw);
+    expect(contributorsMap).toEqual(expected);
+  });
 });
 
 describe('Testing bitbucket-cloud interaction', () => {
@@ -74,15 +186,19 @@ describe('Testing bitbucket-cloud interaction', () => {
     );
 
     const expectedMap = new Map<string, Contributor>();
-    expectedMap.set('snyk-test@snyk.io', {
-      contributionsCount: 1,
-      email: 'snyk-test@snyk.io',
-      reposContributedTo: ['snyk-test/testRepo1(Private)'],
-    });
-    expectedMap.set('snyk test', {
+    expectedMap.set('{52463be6-6577-483e-9d8a-89fe2f24ccd6}', {
       contributionsCount: 2,
       email: 'snyk-test@snyk.io',
       reposContributedTo: ['snyk-test/testRepo1(Private)'],
+      alternateEmails: ['other-snyk-test@snyk.io'],
+      name: 'snyk test',
+    });
+    expectedMap.set('{acff6872-6689-4b31-b6f1-fb91f4565822}', {
+      contributionsCount: 1,
+      email: 'snyk-test-2@snyk.io',
+      reposContributedTo: ['snyk-test/testRepo1(Private)'],
+      alternateEmails: [],
+      name: 'snyk test 2',
     });
     expect(contributorsMap).toEqual(expectedMap);
   });

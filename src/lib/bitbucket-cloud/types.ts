@@ -1,30 +1,37 @@
-export interface CommitsApiResponse {
-  values: Commits[];
-}
+import type { Contributor as ContributorBase } from '../types';
+
 export interface Commits {
-  author: author;
+  author: Author;
   date: number;
 }
 
-export interface author {
+export type ContributorMap = Map<string, Contributor>;
+
+export interface Contributor extends ContributorBase {
+  name: string;
+  alternateEmails: string[];
+}
+
+export interface Author {
   raw: string;
   name: string;
   emailAddress: string;
   displayName: string;
-  user: user;
+  user: User;
 }
 
-interface user {
+interface User {
   display_name: string;
   type: string;
   nickname: string;
+  uuid: string;
 }
 
-export interface repoListApiResponse {
+export interface RepoListApiResponse {
   size: number;
   isLastPage: boolean;
   next?: string;
-  values: unknown[];
+  values: Repo[];
 }
 
 export interface Repo {
