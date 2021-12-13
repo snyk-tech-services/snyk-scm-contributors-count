@@ -91,7 +91,11 @@ export const fetchGithubContributors = async (
     }
     if (SnykMonitoredRepos && SnykMonitoredRepos.length > 0) {
       repoList = repoList.filter((repo) =>
-        SnykMonitoredRepos.includes(`${repo.owner.login}/${repo.name}`),
+        SnykMonitoredRepos.some((monitoredRepo) => {
+          return monitoredRepo
+            .replace('.git', '')
+            .endsWith(`${repo.owner.login}/${repo.name}`);
+        }),
       );
     }
 

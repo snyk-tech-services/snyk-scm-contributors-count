@@ -61,7 +61,7 @@ export const getReposPerProjects = async (
     fetch(
       url +
         '/' +
-        project +
+        encodeURIComponent(project) +
         '/_apis/git/repositories?$top=1000000&api-version=4.1',
       {
         method: 'GET',

@@ -71,10 +71,17 @@ export const fetchBitbucketCloudContributors = async (
     }
 
     if (SnykMonitoredRepos && SnykMonitoredRepos.length > 0) {
-      repoList = repoList.filter(
-        (repo) =>
-          SnykMonitoredRepos.includes(`${repo.workspace.uuid}/${repo.slug}`) ||
-          SnykMonitoredRepos.includes(`${repo.workspace.slug}/${repo.slug}`),
+      repoList = repoList.filter((repo) =>
+        SnykMonitoredRepos.some((monitoredRepo) => {
+          return (
+            monitoredRepo
+              .replace('.git', '')
+              .endsWith(`${repo.workspace.uuid}/${repo.slug}`) ||
+            monitoredRepo
+              .replace('.git', '')
+              .endsWith(`${repo.workspace.slug}/${repo.slug}`)
+          );
+        }),
       );
     }
 
