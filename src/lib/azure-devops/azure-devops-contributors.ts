@@ -83,10 +83,17 @@ export const fetchAzureDevopsContributors = async (
       console.log(`Import file was created at ${filePath}`);
     }
     if (SnykMonitoredRepos && SnykMonitoredRepos.length > 0) {
-      repoList = repoList.filter(
-        (repo) =>
-          SnykMonitoredRepos.includes(`${repo.project.key}/${repo.name}`) ||
-          SnykMonitoredRepos.includes(`${repo.project.name}/${repo.name}`),
+      repoList = repoList.filter((repo) =>
+        SnykMonitoredRepos.some((monitoredRepo) => {
+          return (
+            monitoredRepo
+              .replace('.git', '')
+              .endsWith(`${repo.project.key}/${repo.name}`) ||
+            monitoredRepo
+              .replace('.git', '')
+              .endsWith(`${repo.project.name}/${repo.name}`)
+          );
+        }),
       );
     }
 

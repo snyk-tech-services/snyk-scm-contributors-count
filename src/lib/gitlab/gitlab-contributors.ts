@@ -90,7 +90,11 @@ export const fetchGitlabContributors = async (
     }
     if (SnykMonitoredRepos && SnykMonitoredRepos.length > 0) {
       projectList = projectList.filter((project) =>
-        SnykMonitoredRepos.includes(`${project.path_with_namespace}`),
+        SnykMonitoredRepos.some((monitoredRepo) => {
+          return monitoredRepo
+            .replace('.git', '')
+            .endsWith(`${project.path_with_namespace}`);
+        }),
       );
     }
 
