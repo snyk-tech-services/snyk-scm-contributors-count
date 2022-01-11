@@ -76,10 +76,10 @@ export const fetchBitbucketCloudContributors = async (
           return (
             monitoredRepo
               .replace('.git', '')
-              .endsWith(`${repo.workspace.uuid}/${repo.slug}`) ||
+              .includes(`${repo.workspace.uuid}/${repo.slug}`) ||
             monitoredRepo
               .replace('.git', '')
-              .endsWith(`${repo.workspace.slug}/${repo.slug}`)
+              .includes(`${repo.workspace.slug}/${repo.slug}`)
           );
         }),
       );
