@@ -110,7 +110,10 @@ const extractRepoFromSCMProjectName = (
   return projectList.projects
     ? projectList.projects
         ?.filter((x) => x)
-        .map((project) => project.name?.split(':')[0] || '')
+        .map(
+          (project) =>
+            checkAndRemoveParentesis(project.name!.split(':')[0]) || '',
+        )
     : [];
 };
 
@@ -121,6 +124,15 @@ const extractRepoFromCLIProjectName = (
   const projectWithRemoteRepoUrlList =
     projectList.projects
       ?.filter((x) => x.remoteRepoUrl && x.remoteRepoUrl.includes(scmHostname))
-      .map((project) => project.remoteRepoUrl || '') || [];
+      .map(
+        (project) => checkAndRemoveParentesis(project.remoteRepoUrl!) || '',
+      ) || [];
   return projectWithRemoteRepoUrlList;
+};
+
+const checkAndRemoveParentesis = (projectName: string): string => {
+  if (projectName.includes('(') && projectName.endsWith(')')) {
+    return projectName.split('(')[0];
+  }
+  return projectName;
 };
