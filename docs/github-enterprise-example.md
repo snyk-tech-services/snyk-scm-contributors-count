@@ -6,13 +6,13 @@ Available options:
   --token                   Github Enterprise token                    [required]
   --url                     Your Github host custom URL.
                             e.g https://ghe.prod.company.org/          [required]
-  --orgs                    [Optional] A list of Github Enterprise organizations, separeted by comma, 
+  --orgs                    [Optional] A list of Github Enterprise organizations, separated by comma, 
                             to fetch and count contributors for their repositories              
   --repo                    [Optional] Specific repo to count only for
   --fetchAllOrgs            [Optional] When enabled, will fetch all orgs that the token has access to
                             rather than fetching only the orgs your authorized to operate in.
   --exclusionFilePath       [Optional] Exclusion list filepath
-  --json                    [Optional] JSON output, requiered when using the "consolidateResults" command
+  --json                    [Optional] JSON output, required when using the "consolidateResults" command
   --skipSnykMonitoredRepos  [Optional] Skip Snyk monitored repos and count contributors for all repos
   --importConfDir           [Optional] Generate an import file with the unmonitored repos: A path to a valid folder for the generated import files
   --importFileRepoType      [Optional] To be used with the importConfDir flag: Specify the type of repos to be added to the import file. Options: all/private/public. Default: all
@@ -26,7 +26,7 @@ Before running the command:
     ```
     export SNYK_TOKEN=<YOUR-SNYK-TOKEN>
     ```
-2. Get your Github Enterprose token or create a new one with this [guide](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) =>
+2. Get your Github Enterprise token or create a new one with this [guide](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) =>
     - Make sure that your token has access to the repos that you want to get the contributors count for
 
 ### Running the command
