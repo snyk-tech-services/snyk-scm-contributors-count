@@ -56,7 +56,9 @@ export abstract class SCMHandlerClass {
     }
     // TODO: Add option to set this to empty array when we want to count irrespective of what's in snyk
     if (!process.env.SNYK_TOKEN && !skipSnykMonitoredRepos) {
-      debug('SNYK_TOKEN must be exported before running the script');
+      throw new Error(
+        'SNYK_TOKEN must be exported before running the script without the skipSnykMonitoredFlag set',
+      );
       return;
     }
     spinner.start();
