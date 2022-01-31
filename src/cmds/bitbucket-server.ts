@@ -138,7 +138,7 @@ export async function handler(argv: {
 
   const scmTarget: BitbucketServerTarget = {
     token: argv.token,
-    url: argv.url,
+    url: argv.url.endsWith('/') ? argv.url.slice(0, -1) : argv.url,
     projectKeys: argv.projectKeys?.toString().split(','),
     repo: argv.repo,
   };

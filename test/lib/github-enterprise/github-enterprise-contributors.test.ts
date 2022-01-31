@@ -6,7 +6,6 @@ import {
   GithubEnterpriseTarget,
   Contributor,
   ContributorMap,
-  Integration,
 } from '../../../src/lib/types';
 
 const fixturesFolderPath =
@@ -83,7 +82,7 @@ describe('Testing github-enterprise interaction', () => {
   test('Test fetchGithubEnterpriseReposForOrgs', async () => {
     const gheInfo: GithubEnterpriseTarget = {
       token: 'testToken',
-      url: 'https://test.ghe.company.com/',
+      url: 'https://test.ghe.company.com',
       orgs: ['snyk-fixtures'],
     };
     const repos = await ghe.fetchGithubEnterpriseReposForOrgs(gheInfo);
@@ -100,7 +99,7 @@ describe('Testing github-enterprise interaction', () => {
   test('Test fetchGithubEnterpriseContributorsForRepo', async () => {
     const gheInfo: GithubEnterpriseTarget = {
       token: 'testToken',
-      url: 'https://ghe.company.com/',
+      url: 'https://ghe.company.com',
       fetchAllOrgs: true,
     };
     const contributorsMap: ContributorMap =
