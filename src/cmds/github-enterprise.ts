@@ -164,7 +164,7 @@ export async function handler(argv: {
   }
 
   const scmTarget: GithubEnterpriseTarget = {
-    url: argv.url,
+    url: argv.url.endsWith('/') ? argv.url.slice(0, -1) : argv.url,
     token: argv.token,
     orgs: argv.orgs?.toString().split(','),
     repo: argv.repo,

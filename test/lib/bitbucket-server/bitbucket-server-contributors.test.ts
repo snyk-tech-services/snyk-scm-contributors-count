@@ -7,7 +7,6 @@ import {
   BitbucketServerTarget,
   Contributor,
   ContributorMap,
-  Integration,
 } from '../../../src/lib/types';
 import { Repo } from '../../../src/lib/bitbucket-server/types';
 

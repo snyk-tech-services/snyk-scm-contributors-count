@@ -150,7 +150,7 @@ export async function handler(argv: {
   }
   const scmTarget: GitlabTarget = {
     token: argv.token,
-    url: argv.url,
+    url: argv.url.endsWith('/') ? argv.url.slice(0, -1) : argv.url,
     groups: argv.groups?.toString().split(','),
     project: argv.project,
   };

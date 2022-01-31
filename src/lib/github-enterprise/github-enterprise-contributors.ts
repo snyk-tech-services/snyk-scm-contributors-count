@@ -49,8 +49,8 @@ export const fetchGithubEnterpriseContributors = async (
       orgList = orgList.concat(
         await fetchGithubEnterpriseOrgs(
           githubEnterpriseInfo.fetchAllOrgs
-            ? `${githubEnterpriseInfo.url}api/v3/organizations?per_page=100`
-            : `${githubEnterpriseInfo.url}api/v3/user/orgs?per_page=100`,
+            ? `${githubEnterpriseInfo.url}/api/v3/organizations?per_page=100`
+            : `${githubEnterpriseInfo.url}/api/v3/user/orgs?per_page=100`,
           githubEnterpriseInfo.token,
         ),
       );
@@ -127,7 +127,7 @@ export const fetchGithubEnterpriseContributorsForRepo = async (
       `Fetching single repo contributor from Github Enterprise. Owner/Org: ${repo.owner?.login} - Repo: ${repo.name}\n`,
     );
     const commits = (await fetchAllPages(
-      `${githubEnterpriseInfo.url}api/v3/repos/${repo.owner.login}/${repo.name}/commits?per_page=100&since=${threeMonthsDate}`,
+      `${githubEnterpriseInfo.url}/api/v3/repos/${repo.owner.login}/${repo.name}/commits?per_page=100&since=${threeMonthsDate}`,
       githubEnterpriseInfo.token,
       repo.name,
     )) as Commits[];
@@ -212,7 +212,7 @@ export const fetchGithubEnterpriseReposForOrgs = async (
     try {
       for (let i = 0; i < githubEnterpriseInfo.orgs.length; i++) {
         const repos = (await fetchAllPages(
-          `${githubEnterpriseInfo.url}api/v3/orgs/${githubEnterpriseInfo.orgs[i]}/repos?per_page=100&sort=full_name`,
+          `${githubEnterpriseInfo.url}/api/v3/orgs/${githubEnterpriseInfo.orgs[i]}/repos?per_page=100&sort=full_name`,
           githubEnterpriseInfo.token,
           githubEnterpriseInfo.orgs[i],
         )) as Repo[];
