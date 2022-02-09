@@ -130,8 +130,7 @@ export const fetchGitlabContributorsForProject = async (
     );
     const encodedProjectPath = encodeURIComponent(project.path_with_namespace);
     const response = (await fetchAllPages(
-      url +
-        `api/v4/projects/${encodedProjectPath}/repository/commits?since=${threeMonthsDate}&per_page=100`,
+      `${url}/api/v4/projects/${encodedProjectPath}/repository/commits?since=${threeMonthsDate}&per_page=100`,
       gitlabInfo.token,
       project.id,
     )) as Commits[];
@@ -215,21 +214,21 @@ export const fetchGitlabProjects = async (
 ): Promise<Project[]> => {
   const projectList: Project[] = [];
   const user = (await fetchAllPages(
-    `${host}api/v4/user`,
+    `${host}/api/v4/user`,
     gitlabInfo.token,
     'User',
   )) as User[];
   const fullUrlSet: string[] = !gitlabInfo.groups
     ? [
         host.includes('gitlab.com')
-          ? 'api/v4/projects?per_page=100&membership=true'
-          : 'api/v4/projects?per_page=100',
+          ? '/api/v4/projects?per_page=100&membership=true'
+          : '/api/v4/projects?per_page=100',
       ]
     : gitlabInfo.groups.map(
-        (group) => `api/v4/groups/${group}/projects?per_page=100`,
+        (group) => `/api/v4/groups/${group}/projects?per_page=100`,
       );
   if (gitlabInfo.groups) {
-    fullUrlSet.push(`api/v4/users/${user[0].id}/projects?per_page=100`);
+    fullUrlSet.push(`/api/v4/users/${user[0].id}/projects?per_page=100`);
   }
   try {
     for (let i = 0; i < fullUrlSet.length; i++) {
@@ -274,7 +273,7 @@ export const findGroupPaths = async (
   const groupsList: Group[] = [];
   try {
     const groups = (await fetchAllPages(
-      `${host}api/v4/groups?all_available=true&search=${groupName}`,
+      `${host}/api/v4/groups?all_available=true&search=${groupName}`,
       token,
       'Groups',
     )) as Group[];
