@@ -62,10 +62,10 @@ describe('Testing gitlab interaction', () => {
   test('Test fetchGitlabProjects', async () => {
     const gitlabInfo: GitlabTarget = {
       token: '123',
-      url: 'https://gitlab.dev.io/',
+      url: 'https://gitlab.dev.io',
     };
     const projects = await gitlab.fetchGitlabProjects(
-      'https://gitlab.dev.com/',
+      'https://gitlab.dev.com',
       gitlabInfo,
     );
     expect(projects).toHaveLength(2);
@@ -79,7 +79,7 @@ describe('Testing gitlab interaction', () => {
   test('Test fetchGitlabContributorsForProject', async () => {
     const gitlabInfo: GitlabTarget = {
       token: '123',
-      url: 'https://gitlab.dev.io/',
+      url: 'https://gitlab.dev.io',
       groups: [],
       project: 'TechServices/testProject',
     };
@@ -104,7 +104,7 @@ describe('Testing gitlab interaction', () => {
 
   test('Test findGroupPaths', async () => {
     const groups = await gitlab.findGroupPaths(
-      'https://gitlab.dev.com/',
+      'https://gitlab.dev.com',
       '1234',
       'test-group',
     );
