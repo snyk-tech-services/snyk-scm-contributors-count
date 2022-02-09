@@ -17,7 +17,7 @@ Available options:
 ```
 
 Before running the command:
-1. Export SNYK_TOKEN (if you want to get the contributors ONLY for projects that are already monitored by Snyk) =>
+1. Export SNYK_TOKEN (if you want to get the contributors ONLY for projects that are already monitored by Snyk) => 
     - Go to [Snyk-account](https://app.snyk.io/account) and create a token if not already exists.
     - Copy the token value
     - Export the token in your enviroment: 
