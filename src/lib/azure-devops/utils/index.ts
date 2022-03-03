@@ -46,7 +46,7 @@ export const getRepoCommits = async (
     ),
   );
   if (!data.ok) {
-    debug(`Failed to fetch page: ${url}\n${data.body}`);
+    debug(`Failed to fetch page: ${url}\n${JSON.stringify(data.body)}`);
   }
   return data;
 };
@@ -70,7 +70,7 @@ export const getReposPerProjects = async (
     ),
   );
   if (!data.ok) {
-    debug(`Failed to fetch page: ${url}\n${data.body}`);
+    debug(`Failed to fetch page: ${url}\n${JSON.stringify(data.body)}`);
   }
   return data;
 };
@@ -91,7 +91,7 @@ export const getProjects = async (
     ),
   );
   if (!data.ok) {
-    debug(`Failed to fetch page: ${url}\n${data.body}`);
+    debug(`Failed to fetch page: ${url}\n${JSON.stringify(data.body)}`);
   }
   return data;
 };

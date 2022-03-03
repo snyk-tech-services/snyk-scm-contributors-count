@@ -133,7 +133,7 @@ export const fetchAzureContributorsForRepo = async (
       threeMonthsDate,
     );
     const result = await response.text();
-    const parsedResponse = JSON.parse(result).value as Commits[];
+    const parsedResponse: Commits[] = JSON.parse(result).value ?? [];
     for (let i = 0; i < parsedResponse.length; i++) {
       const commit = parsedResponse[i];
       let contributionsCount = 1;
