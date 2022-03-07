@@ -11,17 +11,9 @@ const azureDefaultUrl = 'https://dev.azure.com/';
 
 const d = new Date();
 d.setDate(d.getDate() - 90);
-d.setMonth(d.getMonth() + 1);
-export const threeMonthsDate =
-  d.getFullYear() +
-  '/' +
-  d.getMonth() +
-  '/' +
-  d.getDate() +
-  ' ' +
-  d.getHours() +
-  ':' +
-  d.getMinutes();
+export const threeMonthsDate = `${d.getUTCFullYear()}/${
+  d.getMonth() + 1
+}/${d.getUTCDate()} ${d.getHours()}:${d.getMinutes()}`;
 
 export const command = ['azure-devops'];
 export const desc = 'Count contributors for azure-devops.\n';
