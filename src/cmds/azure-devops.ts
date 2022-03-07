@@ -39,7 +39,7 @@ export const builder = {
   exclusionFilePath: {
     required: false,
     default: undefined,
-    desc: '[Optional] Exclusion list filepath',
+    desc: '[Optional] Exclusion list filepath ',
   },
   json: {
     required: false,
