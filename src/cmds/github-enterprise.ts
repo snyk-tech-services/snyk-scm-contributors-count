@@ -13,20 +13,10 @@ import { constants } from 'fs';
 const debug = debugLib('snyk:github-enterprise-count');
 const d = new Date();
 d.setDate(d.getDate() - 90);
-d.setMonth(d.getMonth() + 1);
-export const threeMonthsDate =
-  d.getFullYear() +
-  '-' +
-  d.getMonth() +
-  '-' +
-  d.getDate() +
-  'T' +
-  d.getHours() +
-  ':' +
-  d.getMinutes() +
-  ':' +
-  d.getSeconds() +
-  'Z';
+d.setDate(d.getDate() - 90);
+export const threeMonthsDate = `${d.getUTCFullYear()}-${
+  d.getMonth() + 1
+}-${d.getUTCDate()}T${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}Z`;
 
 export const command = ['github-enterprise'];
 export const desc = 'Count contributors for Github enterprise.\n';
