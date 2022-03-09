@@ -31,14 +31,7 @@ export const getRepoCommits = async (
   debug('Fetching commits for ' + repo);
   const data = await limiter.schedule(() =>
     fetch(
-      url +
-        '/' +
-        project +
-        '/_apis/git/repositories/' +
-        repo +
-        '/commits?$top=1000000&searchCriteria.fromDate=' +
-        threeMonthsDate +
-        '&api-version=4.1',
+      `${url}/${project}/_apis/git/repositories/${repo}/commits?$top=1000000&searchCriteria.fromDate=${threeMonthsDate}&api-version=4.1`,
       {
         method: 'GET',
         headers: { Authorization: 'Basic ' + base64.encode(':' + token) },
@@ -46,7 +39,7 @@ export const getRepoCommits = async (
     ),
   );
   if (!data.ok) {
-    debug(`Failed to fetch page: ${url}\n${JSON.stringify(data.body)}`);
+    debug(`Failed to fetch page: ${url}/${project}/_apis/git/repositories/${repo}/commits?$top=1000000&searchCriteria.fromDate=${threeMonthsDate}&api-version=4.1\n Status Code: ${JSON.stringify(data.status)}\n Status Text:${JSON.stringify(data.statusText)}`);
   }
   return data;
 };
@@ -59,10 +52,7 @@ export const getReposPerProjects = async (
   debug('Fetching repos for ' + project);
   const data = await limiter.schedule(() =>
     fetch(
-      url +
-        '/' +
-        encodeURIComponent(project) +
-        '/_apis/git/repositories?$top=1000000&api-version=4.1',
+      `${url}/${encodeURIComponent(project)}/_apis/git/repositories?$top=1000000&api-version=4.1`,
       {
         method: 'GET',
         headers: { Authorization: 'Basic ' + base64.encode(':' + token) },
@@ -70,7 +60,7 @@ export const getReposPerProjects = async (
     ),
   );
   if (!data.ok) {
-    debug(`Failed to fetch page: ${url}\n${JSON.stringify(data.body)}`);
+    debug(`Failed to fetch page: ${url}/${encodeURIComponent(project)}/_apis/git/repositories?$top=1000000&api-version=4.1\n Status Code: ${JSON.stringify(data.status)}\n Status Text:${JSON.stringify(data.statusText)}`);
   }
   return data;
 };
@@ -83,7 +73,7 @@ export const getProjects = async (
   debug('Fetching projects');
   const data = await limiter.schedule(() =>
     fetch(
-      url + '/' + OrgName + '/_apis/projects?$top=1000000&api-version=4.1',
+      `${url}/${OrgName}/_apis/projects?$top=1000000&api-version=4.1`,
       {
         method: 'GET',
         headers: { Authorization: 'Basic ' + base64.encode(':' + token) },
@@ -91,7 +81,7 @@ export const getProjects = async (
     ),
   );
   if (!data.ok) {
-    debug(`Failed to fetch page: ${url}\n${JSON.stringify(data.body)}`);
+    debug(`Failed to fetch page: ${url}/${OrgName}/_apis/projects?$top=1000000&api-version=4.1\n Status Code: ${JSON.stringify(data.status)}\n Status Text: ${JSON.stringify(data.statusText)}`);
   }
   return data;
 };
