@@ -9,20 +9,9 @@ import { constants } from 'fs';
 const debug = debugLib('snyk:gitlab-count');
 const d = new Date();
 d.setDate(d.getDate() - 90);
-d.setMonth(d.getMonth() + 1);
-export const threeMonthsDate =
-  d.getFullYear() +
-  '-' +
-  d.getMonth() +
-  '-' +
-  d.getDate() +
-  'T' +
-  d.getHours() +
-  ':' +
-  d.getMinutes() +
-  ':' +
-  d.getSeconds() +
-  'Z';
+export const threeMonthsDate = `${d.getFullYear()}-${
+  d.getMonth() + 1
+}-${d.getDate()}T${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}Z`;
 
 export const command = ['gitlab'];
 export const desc = 'Count contributors for Gitlab.\n';
