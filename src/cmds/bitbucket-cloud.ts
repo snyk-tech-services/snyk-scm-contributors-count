@@ -11,7 +11,7 @@ import { access } from 'fs/promises';
 import { constants } from 'fs';
 
 const debug = debugLib('snyk:bitbucket-cloud-count');
-const bitbucketCLoudDefaultUrl = 'https://bitbucket.org/';
+const bitbucketCloudDefaultUrl = 'https://bitbucket.org/';
 export const command = ['bitbucket-cloud'];
 export const desc = 'Count contributors for bitbucket-cloud.\n';
 
@@ -149,7 +149,7 @@ export async function handler(argv: {
   const bitbucketCloudTask = new BitbucketCloud(scmTarget);
 
   await bitbucketCloudTask.scmContributorCount(
-    bitbucketCLoudDefaultUrl,
+    bitbucketCloudDefaultUrl,
     SourceType['bitbucket-cloud'],
     argv.skipSnykMonitoredRepos,
     argv.importConfDir,

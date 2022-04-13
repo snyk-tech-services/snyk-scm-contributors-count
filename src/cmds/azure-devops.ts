@@ -7,7 +7,7 @@ import { access } from 'fs/promises';
 import { constants } from 'fs';
 
 const debug = debugLib('snyk:azure-devops-count');
-const azureDefaultUrl = 'https://dev.azure.com/';
+const azureDefaultUrls = 'https://dev.azure.com,https://visualstudio.com';
 
 const d = new Date();
 d.setDate(d.getDate() - 90);
@@ -149,7 +149,7 @@ export async function handler(argv: {
   const azureDevopsTask = new AzureDevops(scmTarget);
 
   await azureDevopsTask.scmContributorCount(
-    azureDefaultUrl,
+    azureDefaultUrls,
     SourceType['azure-repos'],
     argv.skipSnykMonitoredRepos,
     argv.importConfDir,
