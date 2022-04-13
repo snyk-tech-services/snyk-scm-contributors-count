@@ -88,9 +88,11 @@ export const fetchAzureDevopsContributors = async (
           return (
             monitoredRepo
               .replace('.git', '')
+              .replace('/_git/', '/')
               .endsWith(`${repo.project.key}/${repo.name}`) ||
             monitoredRepo
               .replace('.git', '')
+              .replace('/_git/', '/')
               .endsWith(`${repo.project.name}/${repo.name}`)
           );
         }),

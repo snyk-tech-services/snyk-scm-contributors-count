@@ -76,7 +76,12 @@ export abstract class SCMHandlerClass {
     let snykImportedRepos: string[] = [];
 
     if (!skipSnykMonitoredRepos) {
-      snykImportedRepos = await this.retrieveMonitoredRepos(url, sourceType);
+      const parsedUrl: string[] = url.split(',');
+      for (let i = 0; i < parsedUrl.length; i++) {
+        snykImportedRepos = snykImportedRepos.concat(
+          await this.retrieveMonitoredRepos(parsedUrl[i], sourceType),
+        ); //(url, sourceType);
+      }
       spinner.succeed();
 
       spinner.start();
