@@ -21,11 +21,11 @@ beforeEach(() => {
     .reply(200, (uri) => {
       console.log(uri);
       switch (uri) {
-        case '/api/2.0/repositories/snyk-test':
+        case '/api/2.0/repositories/snyk-test?pagelen=100':
           return fs.readFileSync(fixturesFolderPath + 'snyk-test-repos.json');
-        case '/api/2.0/repositories/69a57492-684f-4c09-b8ba-17e03bd5e04a/testRepo1/commits':
+        case '/api/2.0/repositories/69a57492-684f-4c09-b8ba-17e03bd5e04a/testRepo1/commits?pagelen=100':
           return fs.readFileSync(fixturesFolderPath + 'testRepo1-commits.json');
-        case '/api/2.0/repositories/snyk-main':
+        case '/api/2.0/repositories/snyk-main?pagelen=100':
           return fs.readFileSync(fixturesFolderPath + 'repos-page1.json');
         case '/api/2.0/repositories/snyk-main/page2':
           return fs.readFileSync(fixturesFolderPath + 'repos-page2.json');
