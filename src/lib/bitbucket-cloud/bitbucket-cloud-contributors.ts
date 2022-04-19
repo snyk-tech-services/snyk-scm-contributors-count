@@ -109,7 +109,7 @@ export const fetchBitbucketCloudContributorsForRepo = async (
   repo: Repo,
   contributorsMap: ContributorMap,
 ): Promise<void> => {
-  const fullUrl = `${bitbucketCloudDefaultUrl}/api/2.0/repositories/${repo.workspace.uuid}/${repo.slug}/commits`;
+  const fullUrl = `${bitbucketCloudDefaultUrl}/api/2.0/repositories/${repo.workspace.uuid}/${repo.slug}/commits?pagelen=100`;
   try {
     debug(
       `Fetching single repo contributor from bitbucket-cloud. Worspace ${repo.workspace.uuid} - Repo ${repo.slug}\n`,
@@ -244,7 +244,7 @@ export const fetchBitbucketCloudReposForWorkspaces = async (
       ]
     : bitbucketCloudInfo.workspaces.map(
         (workspace) =>
-          `${bitbucketCloudDefaultUrl}/api/2.0/repositories/${workspace}`,
+          `${bitbucketCloudDefaultUrl}/api/2.0/repositories/${workspace}?pagelen=100`,
       );
   try {
     for (let i = 0; i < fullUrlSet.length; i++) {
