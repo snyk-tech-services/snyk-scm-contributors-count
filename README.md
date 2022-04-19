@@ -18,6 +18,8 @@ npm i -g snyk-scm-contributors-count
 ```
 or use corresponding binaries in the [release page](https://github.com/snyk-tech-services/snyk-scm-contributors-count/releases)
 
+## Link to full documetation
+[Snyk Docs](https://docs.snyk.io/features/other-tools/snyk-scm-contributors-count-cli-tool)
 
 ## Usage
 

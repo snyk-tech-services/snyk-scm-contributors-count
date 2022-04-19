@@ -8,7 +8,7 @@ import {
 import { Commits, Repo, Org } from './types';
 import { fetchAllPages } from './utils';
 import * as debugLib from 'debug';
-import { createImportFile, genericRepo, genericTarget } from '../common/utils';
+import { genericRepo, genericTarget } from '../common/utils';
 
 const debug = debugLib('snyk:github-count');
 let githubDefaultUrl = 'https://api.github.com/';
@@ -19,19 +19,11 @@ if (process.env.NODE_ENV == 'test') {
 
 export const fetchGithubContributors = async (
   githubInfo: GithubTarget,
-  SnykMonitoredRepos: string[],
-  integrations: Integration[],
-  importConfDir: string,
-  importFileRepoType: string,
   threeMonthsDate: string,
 ): Promise<ContributorMap> => {
   const contributorsMap = new Map<Username, Contributor>();
-  let filePath = '';
   try {
     let repoList: Repo[] = [];
-    if (importConfDir && (!SnykMonitoredRepos || !integrations)) {
-      console.log('No org or integration data was found');
-    }
     if (githubInfo.repo && (!githubInfo.orgs || githubInfo.orgs.length > 1)) {
       // If repo is specified, then a single project key is expected, bail otherwise
       console.log(
@@ -69,35 +61,6 @@ export const fetchGithubContributors = async (
       repoList = repoList.concat(await fetchGithubReposForOrgs(githubInfo));
     }
     debug(`Found ${repoList.length} Repos`);
-    // Create an api-import files for unmonitored repos
-    if (importConfDir) {
-      const unmonitoredRepos: Repo[] = repoList.filter(
-        (repo) =>
-          !SnykMonitoredRepos.includes(`${repo.owner.login}/${repo.name}`),
-      );
-      filePath = await createImportFile(
-        unmonitoredRepos,
-        integrations,
-        importConfDir,
-        importFileRepoType,
-        'github',
-        filterRepoList,
-        orgNameFromRepo,
-        populateUnmonitoredRepoList,
-      );
-    }
-    if (filePath != '') {
-      console.log(`Import file was created at ${filePath}`);
-    }
-    if (SnykMonitoredRepos && SnykMonitoredRepos.length > 0) {
-      repoList = repoList.filter((repo) =>
-        SnykMonitoredRepos.some((monitoredRepo) => {
-          return monitoredRepo
-            .replace('.git', '')
-            .endsWith(`${repo.owner.login}/${repo.name}`);
-        }),
-      );
-    }
 
     for (let i = 0; i < repoList.length; i++) {
       await fetchGithubContributorsForRepo(
@@ -266,42 +229,4 @@ export const fetchGithubOrgs = async (
     );
   }
   return orgList;
-};
-
-export const filterRepoList = async (
-  unmonitoredRepoList: genericRepo[],
-  repoType: string,
-): Promise<genericRepo[]> => {
-  let reTypedRepoList = unmonitoredRepoList as Repo[];
-  if (repoType.toLowerCase() == 'private') {
-    reTypedRepoList = reTypedRepoList.filter((repo) => repo.private == true);
-  } else if (repoType.toLowerCase() == 'public') {
-    reTypedRepoList = reTypedRepoList.filter((repo) => repo.private == false);
-  }
-  return reTypedRepoList;
-};
-
-export const orgNameFromRepo = async (repo: genericRepo): Promise<string> => {
-  const reTypedRepo = repo as Repo;
-  return reTypedRepo.owner.login;
-};
-
-export const populateUnmonitoredRepoList = async (
-  repo: genericRepo,
-  integration: Integration,
-  orgID: string,
-  integrationID: string,
-): Promise<genericTarget[]> => {
-  const reTypedRepo = repo as Repo;
-  const targetList: genericTarget[] = [];
-  targetList.push({
-    integrationId: integration.integrations['github'] || integrationID,
-    orgId: integration.org.id || orgID,
-    target: {
-      name: reTypedRepo.name,
-      owner: reTypedRepo.owner.login,
-      branch: reTypedRepo.default_branch || 'master',
-    },
-  });
-  return targetList;
 };

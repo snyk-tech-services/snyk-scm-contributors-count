@@ -8,26 +8,18 @@ import {
 import { Commits, Project, Group, User } from './types';
 import { fetchAllPages } from './utils';
 import * as debugLib from 'debug';
-import { createImportFile, genericRepo, genericTarget } from '../common/utils';
+import { genericRepo, genericTarget } from '../common/utils';
 
 const gitlabDefaultUrl = 'https://gitlab.com/';
 const debug = debugLib('snyk:gitlab-count');
 
 export const fetchGitlabContributors = async (
   gitlabInfo: GitlabTarget,
-  SnykMonitoredRepos: string[],
-  integrations: Integration[],
-  importConfDir: string,
-  importFileRepoType: string,
   threeMonthsDate: string,
 ): Promise<ContributorMap> => {
   const contributorsMap = new Map<Username, Contributor>();
-  let filePath = '';
   try {
     let projectList: Project[] = [];
-    if (importConfDir && (!SnykMonitoredRepos || !integrations)) {
-      console.log('No org or integration data was found');
-    }
     // In Gitlab there's no need to provide a group for fetching project details, the project's path/namespace is enough
     if (gitlabInfo.project) {
       debug('Counting contributors for single project');
@@ -68,35 +60,6 @@ export const fetchGitlabContributors = async (
       );
     }
     debug(`Found ${projectList.length} Projects`);
-    // Create an api-import files for unmonitored repos
-    if (importConfDir) {
-      const unmonitoredProjects: Project[] = projectList.filter(
-        (project) =>
-          !SnykMonitoredRepos.includes(`${project.path_with_namespace}`),
-      );
-      filePath = await createImportFile(
-        unmonitoredProjects,
-        integrations,
-        importConfDir,
-        importFileRepoType,
-        'gitlab',
-        filterRepoList,
-        orgNameFromRepo,
-        populateUnmonitoredRepoList,
-      );
-    }
-    if (filePath != '') {
-      console.log(`Import file was created at ${filePath}`);
-    }
-    if (SnykMonitoredRepos && SnykMonitoredRepos.length > 0) {
-      projectList = projectList.filter((project) =>
-        SnykMonitoredRepos.some((monitoredRepo) => {
-          return monitoredRepo
-            .replace('.git', '')
-            .endsWith(`${project.path_with_namespace}`);
-        }),
-      );
-    }
 
     for (let i = 0; i < projectList.length; i++) {
       await fetchGitlabContributorsForProject(
@@ -294,58 +257,4 @@ export const findGroupPaths = async (
     );
   }
   return groupsList;
-};
-
-export const filterRepoList = async (
-  unmonitoredRepoList: genericRepo[],
-  repoType: string,
-): Promise<genericRepo[]> => {
-  let reTypedRepoList = unmonitoredRepoList as Project[];
-  if (repoType.toLowerCase() == 'private') {
-    reTypedRepoList = reTypedRepoList.filter(
-      (project) =>
-        project.visibility?.toLowerCase() == 'private' ||
-        project.visibility?.toLowerCase() == 'internal',
-    );
-  } else if (repoType.toLowerCase() == 'public') {
-    reTypedRepoList = reTypedRepoList.filter(
-      (project) => project.visibility?.toLowerCase() == 'public',
-    );
-  }
-  return reTypedRepoList;
-};
-
-export const orgNameFromRepo = async (
-  project: genericRepo,
-): Promise<string> => {
-  const reTypedRepo = project as Project;
-  return reTypedRepo.path_with_namespace.split('/')[0];
-};
-
-export const populateUnmonitoredRepoList = async (
-  project: genericRepo,
-  integration: Integration,
-  orgID: string,
-  integrationID: string,
-): Promise<genericTarget[]> => {
-  const reTypedProject = project as Project;
-  const targetList: genericTarget[] = [];
-  if (reTypedProject.id) {
-    targetList.push({
-      integrationId: integration.integrations['gitlab'] || integrationID,
-      orgId: integration.org.id || orgID,
-      target: {
-        id: reTypedProject.id!,
-        branch: reTypedProject.default_branch || 'master',
-      },
-    });
-  } else {
-    console.log(
-      `Could not find Project ID for ${reTypedProject.path_with_namespace}, skipping`,
-    );
-    debug(
-      `Could not find Project ID for ${reTypedProject.path_with_namespace}, skipping`,
-    );
-  }
-  return targetList;
 };

@@ -68,8 +68,8 @@ class AzureDevops extends SCMHandlerClass {
   }
 
   async fetchSCMContributors(
-    SnykMonitoredRepos: string[],
     integrations: Integration[],
+    SnykMonitoredRepos: string[],
     importConfDir: string,
     importFileRepoType: string,
   ): Promise<ContributorMap> {
@@ -151,10 +151,10 @@ export async function handler(argv: {
   await azureDevopsTask.scmContributorCount(
     azureDefaultUrls,
     SourceType['azure-repos'],
+    argv.exclusionFilePath,
+    argv.json,
     argv.skipSnykMonitoredRepos,
     argv.importConfDir,
     argv.importFileRepoType,
-    argv.exclusionFilePath,
-    argv.json,
   );
 }

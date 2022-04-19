@@ -86,14 +86,7 @@ describe('Testing github interaction', () => {
       repo: 'module',
     };
     const contributorsMap: ContributorMap =
-      await github.fetchGithubContributors(
-        githubInfo,
-        [],
-        [],
-        '',
-        '',
-        '2021-06-01T00:00:01Z',
-      );
+      await github.fetchGithubContributors(githubInfo, '2021-06-01T00:00:01Z');
 
     const expectedMap = new Map<string, Contributor>();
     expectedMap.set('Tech Services', {
