@@ -105,10 +105,6 @@ describe('Testing github-enterprise interaction', () => {
     const contributorsMap: ContributorMap =
       await ghe.fetchGithubEnterpriseContributors(
         gheInfo,
-        [],
-        [],
-        '',
-        '',
         '2021-06-01T00:00:01Z',
       );
 

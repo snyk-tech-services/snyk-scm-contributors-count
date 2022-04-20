@@ -16,13 +16,13 @@ Available options:
 
 Before running the command:
 1. Export SNYK_TOKEN (if you want to get the contributors ONLY for repos that are already monitored by Snyk) =>
-    - Go to [Snyk-account](https://app.snyk.io/account) and create a token if not already exists.
+    - Go to [Snyk-account](https://app.snyk.io/account) and create a token if not already exists, make sure that your token has Group level access or  use a service account's token that has Group level access, to learn more on how to create a service account, refer to this [guide](https://docs.snyk.io/features/integrations/managing-integrations/service-accounts#how-to-set-up-a-service-account).
     - Copy the token value
     - Export the token in your enviroment: 
     ```
     export SNYK_TOKEN=<YOUR-SNYK-TOKEN>
     ```
-2. Get your Bitbucket-Cloud user and password =>
+2. Get your Bitbucket-Cloud user and App password =>
     - Make sure that your credentials have access to the repos that you want to get the contributor count for
 
 ### Running the command

@@ -64,8 +64,8 @@ class BitbucketServer extends SCMHandlerClass {
   }
 
   async fetchSCMContributors(
-    SnykMonitoredRepos: string[],
     integrations: Integration[],
+    SnykMonitoredRepos: string[],
     importConfDir: string,
     importFileRepoType: string,
   ): Promise<ContributorMap> {
@@ -148,10 +148,10 @@ export async function handler(argv: {
   await bitbucketServerTask.scmContributorCount(
     argv.url,
     SourceType['bitbucket-server'],
+    argv.exclusionFilePath,
+    argv.json,
     argv.skipSnykMonitoredRepos,
     argv.importConfDir,
     argv.importFileRepoType,
-    argv.exclusionFilePath,
-    argv.json,
   );
 }

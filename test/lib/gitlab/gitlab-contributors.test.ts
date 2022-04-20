@@ -84,14 +84,7 @@ describe('Testing gitlab interaction', () => {
       project: 'TechServices/testProject',
     };
     const contributorsMap: ContributorMap =
-      await gitlab.fetchGitlabContributors(
-        gitlabInfo,
-        [],
-        [],
-        '',
-        '',
-        '2021-06-01T00:00:01Z',
-      );
+      await gitlab.fetchGitlabContributors(gitlabInfo, '2021-06-01T00:00:01Z');
 
     const expectedMap = new Map<string, Contributor>();
     expectedMap.set('Tech Services', {
