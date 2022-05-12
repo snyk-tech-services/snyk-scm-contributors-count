@@ -32,6 +32,12 @@ snyk-scm-contributors-count <command> <command-options>
 > If you can't type `snyk-scm-contributors-count` in your terminal, then add you bin folder to the PATH in ~/.bash_profile or equivalent.
 > If using nvm, make sure the bin folder for your node version is also in the PATH.
 
+> For running the executable on Windows, you need to set the value of the env variable SNYK_TOKEN first
+```
+set SNYK_TOKEN=<YOUR-SNYK-TOKEN>
+snyk-scm-contributors-count <command> <command-options>
+```
+
 
 ##### Examples: 
 ```
@@ -78,6 +84,13 @@ Additional options might be available depending on the command
 Use DEBUG=snyk* env var before your command, for example:
 ```
 DEBUG=snyk* snyk-scm-contributors-count bitbucket-server --token BITBUCKET-TOKEN --url http://bitbucket-server.mycompany.com --projectKeys Key1,Key2 --exclusionFilePath=./snyk.exclude
+```
+
+### Run in DEBUG MODE (On WINDOWS)
+Set the value of env var as DEBUG=snyk*  before your command, for example:
+```
+set DEBUG=snyk* 
+snyk-scm-contributors-count bitbucket-server --token BITBUCKET-TOKEN --url http://bitbucket-server.mycompany.com --projectKeys Key1,Key2 --exclusionFilePath=./snyk.exclude
 ```
 
 
