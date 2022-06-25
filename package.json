@@ -16,7 +16,7 @@
     "debug": "^4.3.4",
     "node-fetch": "^2.6.7",
     "ora": "^5.4.1",
-    "prettier": "^2.6.1",
+    "prettier": "^2.6.2",
     "snyk-api-ts-client": "^1.8.1",
     "yargs": "^17.4.1"
   },
