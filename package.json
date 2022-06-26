@@ -19,6 +19,8 @@
     "prettier": "^2.6.1",
     "snyk-api-ts-client": "^1.9.0",
     "yargs": "^17.4.1"
+    "snyk-api-ts-client": "^1.8.1",
+    "yargs": "^17.5.1"
   },
   "devDependencies": {
     "@types/debug": "^4.1.7",
