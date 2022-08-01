@@ -56,7 +56,7 @@ export const fetchAllPages = async (
         );
       }
     }
-    const apiResponse = await response.json() as string[];
+    const apiResponse = (await response.json()) as string[];
     values = values.concat(apiResponse);
     const nextPage = response.headers.get('link');
     if (nextPage && nextPage?.includes('rel="next"')) {
