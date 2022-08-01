@@ -1,5 +1,6 @@
 {
   "name": "snyk-scm-contributors-count",
+  "type": "commonjs",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
