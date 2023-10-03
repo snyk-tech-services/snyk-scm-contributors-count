@@ -1,6 +1,6 @@
 import { Orgs, Org } from 'snyk-api-ts-client';
+import { requestsManager } from 'snyk-request-manager';
 import * as debugLib from 'debug';
-import { ProjectsPostResponseType } from 'snyk-api-ts-client/dist/client/generated/org';
 import { Integration } from '../types';
 const debug = debugLib('snyk:snyk');
 
@@ -26,6 +26,12 @@ export interface OrgType {
     name: string;
     id: string;
   } | null;
+}
+
+interface Target {
+  attributes: {
+    displayName: string;
+  };
 }
 
 export const retrieveMonitoredRepos = async (
@@ -83,18 +89,18 @@ export const retrieveMonitoredReposBySourceType = async (
 ): Promise<string[]> => {
   let snykScmMonitoredRepos: string[] = [];
   try {
+    const snykRequestManager = new requestsManager();
+
     for (let i = 0; i < orgs.length; i++) {
+      const requestSync = await snykRequestManager.request({verb: "GET", url: `/orgs/${orgs[i].id}/targets?origin=${SourceType[sourceType]}&version=2023-09-29~beta`, useRESTApi: true})
+
+      const targetDisplayNames = requestSync.data.data.map((target: Target) => target.attributes.displayName)
+
       const projectList = await new Org({ orgId: orgs[i].id }).projects.post({
         filters: { origin: SourceType[sourceType], isMonitored: true },
       });
-      // projects is always there even if empty
 
-      const projectNameList =
-        sourceType == SourceType.cli && scmHostname != ''
-          ? extractRepoFromCLIProjectName(projectList, scmHostname!)
-          : extractRepoFromSCMProjectName(projectList);
-
-      snykScmMonitoredRepos = snykScmMonitoredRepos.concat(projectNameList);
+      snykScmMonitoredRepos = snykScmMonitoredRepos.concat(targetDisplayNames);
     }
     return snykScmMonitoredRepos;
   } catch (err) {
@@ -102,37 +108,4 @@ export const retrieveMonitoredReposBySourceType = async (
     console.log('Failed retrieving Snyk monitored SCM repos');
   }
   return snykScmMonitoredRepos;
-};
-
-const extractRepoFromSCMProjectName = (
-  projectList: ProjectsPostResponseType,
-): string[] => {
-  return projectList.projects
-    ? projectList.projects
-        ?.filter((x) => x)
-        .map(
-          (project) =>
-            checkAndRemoveParentesis(project.name!.split(':')[0]) || '',
-        )
-    : [];
-};
-
-const extractRepoFromCLIProjectName = (
-  projectList: ProjectsPostResponseType,
-  scmHostname: string,
-): string[] => {
-  const projectWithRemoteRepoUrlList =
-    projectList.projects
-      ?.filter((x) => x.remoteRepoUrl && x.remoteRepoUrl.includes(scmHostname))
-      .map(
-        (project) => checkAndRemoveParentesis(project.remoteRepoUrl!) || '',
-      ) || [];
-  return projectWithRemoteRepoUrlList;
-};
-
-const checkAndRemoveParentesis = (projectName: string): string => {
-  if (projectName.includes('(') && projectName.endsWith(')')) {
-    return projectName.split('(')[0];
-  }
-  return projectName;
 };
