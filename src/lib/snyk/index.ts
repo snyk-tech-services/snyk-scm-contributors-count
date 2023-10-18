@@ -41,14 +41,18 @@ export const retrieveMonitoredRepos = async (
   let snykMonitoredRepos: string[] = [];
 
   try {
-    const orgs = (await new Orgs().get()) as OrgsResponseType;
+
+    //const orgs = (await new Orgs().get()) as OrgsResponseType;
+
+    const snykRequestManager = new requestsManager();
+    const orgs = await snykRequestManager.request({verb: "GET", url: `/orgs?version=2023-09-29~beta`, useRESTApi: true})
     snykMonitoredRepos = snykMonitoredRepos.concat(
-      await retrieveMonitoredReposBySourceType(orgs.orgs, scmType),
+      await retrieveMonitoredReposBySourceType(orgs.data.data, scmType),
     );
 
     snykMonitoredRepos = snykMonitoredRepos.concat(
       await retrieveMonitoredReposBySourceType(
-        orgs.orgs,
+        orgs.data.data,
         SourceType['cli'],
         url.replace(/https?:\/\//, '').split('/')[0],
       ),
@@ -93,17 +97,18 @@ export const retrieveMonitoredReposBySourceType = async (
 
     for (let i = 0; i < orgs.length; i++) {
       const requestSync = await snykRequestManager.request({verb: "GET", url: `/orgs/${orgs[i].id}/targets?origin=${SourceType[sourceType]}&version=2023-09-29~beta`, useRESTApi: true})
-
+      console.log(requestSync.data.data)
       const targetDisplayNames = requestSync.data.data.map((target: Target) => target.attributes.displayName)
 
-      const projectList = await new Org({ orgId: orgs[i].id }).projects.post({
-        filters: { origin: SourceType[sourceType], isMonitored: true },
-      });
+      // const projectList = await new Org({ orgId: orgs[i].id }).projects.post({
+      //   filters: { origin: SourceType[sourceType], isMonitored: true },
+      // });
 
       snykScmMonitoredRepos = snykScmMonitoredRepos.concat(targetDisplayNames);
     }
     return snykScmMonitoredRepos;
   } catch (err) {
+    console.log(err.data.errors)
     debug('Failed retrieving Snyk monitored SCM repos\n' + err);
     console.log('Failed retrieving Snyk monitored SCM repos');
   }

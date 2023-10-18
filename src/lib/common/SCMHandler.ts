@@ -52,6 +52,7 @@ export abstract class SCMHandlerClass {
 
     const spinner = ora({ isSilent: isQuiet });
     let snykImportedRepos: string[] = [];
+    console.log(sourceType)
     if (
       sourceType != SourceType.github &&
       sourceType != SourceType['github-enterprise'] &&
@@ -78,6 +79,7 @@ export abstract class SCMHandlerClass {
         );
       }
       if (!skipSnykMonitoredRepos) {
+        console.log("checking repos")
         const parsedUrl: string[] = url.split(',');
         for (let i = 0; i < parsedUrl.length; i++) {
           snykImportedRepos = snykImportedRepos.concat(
