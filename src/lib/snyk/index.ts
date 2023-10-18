@@ -14,23 +14,27 @@ export enum SourceType {
   'cli',
 }
 
-interface OrgsResponseType {
-  orgs: OrgType[];
-}
 export interface OrgType {
-  name: string;
   id: string;
-  slug: string;
-  url: string;
-  group: {
+  type: string;
+  attributes: {
+    is_personal: boolean;
     name: string;
-    id: string;
-  } | null;
+    slug: string;
+    group: {
+      name: string;
+      id: string;
+    } | null;
+  };
 }
-
-interface Target {
+interface TargetType {
+  type: string;
+  id: string;
   attributes: {
     displayName: string;
+    isPrivate: boolean;
+    origin: string;
+    remoteUrl: string | null;
   };
 }
 
@@ -41,18 +45,22 @@ export const retrieveMonitoredRepos = async (
   let snykMonitoredRepos: string[] = [];
 
   try {
-
-    //const orgs = (await new Orgs().get()) as OrgsResponseType;
-
     const snykRequestManager = new requestsManager();
-    const orgs = await snykRequestManager.request({verb: "GET", url: `/orgs?version=2023-09-29~beta`, useRESTApi: true})
+    const orgsResponse = await snykRequestManager.request({
+      verb: 'GET',
+      url: `/orgs?version=2023-09-29~beta`,
+      useRESTApi: true,
+    });
+
+    const orgs = orgsResponse.data.data as OrgType[];
+
     snykMonitoredRepos = snykMonitoredRepos.concat(
-      await retrieveMonitoredReposBySourceType(orgs.data.data, scmType),
+      await retrieveMonitoredReposBySourceType(orgs, scmType),
     );
 
     snykMonitoredRepos = snykMonitoredRepos.concat(
       await retrieveMonitoredReposBySourceType(
-        orgs.data.data,
+        orgs,
         SourceType['cli'],
         url.replace(/https?:\/\//, '').split('/')[0],
       ),
@@ -68,13 +76,21 @@ export const retrieveMonitoredRepos = async (
 export const retrieveOrgsAndIntegrations = async (): Promise<Integration[]> => {
   const integrations: Integration[] = [];
   try {
-    const orgs = (await new Orgs().get()) as OrgsResponseType;
-    for (let i = 0; i < orgs.orgs.length; i++) {
-      const integrationsInfo = await new Org({ orgId: orgs.orgs[i].id })
+    const snykRequestManager = new requestsManager();
+    const orgsResponse = await snykRequestManager.request({
+      verb: 'GET',
+      url: `/orgs?version=2023-09-29~beta`,
+      useRESTApi: true,
+    });
+
+    const orgs = orgsResponse.data.data as OrgType[];
+
+    for (let i = 0; i < orgs.length; i++) {
+      const integrationsInfo = await new Org({ orgId: orgs[i].id })
         .integrations()
         .get();
       integrations.push({
-        org: { name: orgs.orgs[i].name, id: orgs.orgs[i].id },
+        org: { name: orgs[i].attributes.name, id: orgs[i].id },
         integrations: integrationsInfo,
       });
     }
@@ -96,19 +112,29 @@ export const retrieveMonitoredReposBySourceType = async (
     const snykRequestManager = new requestsManager();
 
     for (let i = 0; i < orgs.length; i++) {
-      const requestSync = await snykRequestManager.request({verb: "GET", url: `/orgs/${orgs[i].id}/targets?origin=${SourceType[sourceType]}&version=2023-09-29~beta`, useRESTApi: true})
-      console.log(requestSync.data.data)
-      const targetDisplayNames = requestSync.data.data.map((target: Target) => target.attributes.displayName)
+      const requestSync = await snykRequestManager.request({
+        verb: 'GET',
+        url: `/orgs/${orgs[i].id}/targets?origin=${SourceType[sourceType]}&version=2023-09-29~beta`,
+        useRESTApi: true,
+      });
 
-      // const projectList = await new Org({ orgId: orgs[i].id }).projects.post({
-      //   filters: { origin: SourceType[sourceType], isMonitored: true },
-      // });
+      let targets = requestSync.data.data as TargetType[];
+
+      if (SourceType[sourceType] === 'cli' && scmHostname) {
+        targets = targets.filter(
+          (target: TargetType) =>
+            target.attributes.remoteUrl &&
+            target.attributes.remoteUrl.includes(scmHostname),
+        );
+      }
+      const targetDisplayNames = targets.map(
+        (target) => target.attributes.displayName,
+      );
 
       snykScmMonitoredRepos = snykScmMonitoredRepos.concat(targetDisplayNames);
     }
     return snykScmMonitoredRepos;
-  } catch (err) {
-    console.log(err.data.errors)
+  } catch (err: any) {
     debug('Failed retrieving Snyk monitored SCM repos\n' + err);
     console.log('Failed retrieving Snyk monitored SCM repos');
   }
