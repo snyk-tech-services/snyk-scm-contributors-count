@@ -7,8 +7,6 @@
     "snyk-scm-contributors-count": "dist/index.js"
   },
   "dependencies": {
-    "@types/base-64": "^1.0.0",
-    "@types/jest": "^26.0.24",
     "ansi-regex": "^5.0.1",
     "base-64": "^1.0.0",
     "bottleneck": "^2.19.5",
@@ -22,7 +20,9 @@
     "yargs": "^17.5.1"
   },
   "devDependencies": {
+    "@types/base-64": "^1.0.0",
     "@types/debug": "^4.1.7",
+    "@types/jest": "^27.0.0",
     "@types/node-fetch": "^2.6.1",
     "@types/yargs": "^17.0.10",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
@@ -32,7 +32,7 @@
     "jest": "^27.5.1",
     "mock-stdin": "^1.0.0",
     "nock": "^13.2.4",
-    "snyk": "^1.1022.0",
+    "snyk": "^1.1236.0",
     "ts-jest": "^27.1.3",
     "typescript": "^4.6.2"
   },

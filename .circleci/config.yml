@@ -1,77 +1,77 @@
 version: 2.1
 orbs:
-    snyk: snyk/snyk@1.2.3
+  snyk: snyk/snyk@1.2.3
 
 jobs:
-    build-test-monitor:
-        docker:
-            - image: circleci/node:latest
-        steps:
-            - checkout
-            - run: npm install semantic-release @semantic-release/exec pkg --save-dev --legacy-peer-deps
-            - run: npm install
-            - run: npm run build
-            - run: npm test
-            - snyk/scan:
-                fail-on-issues: true
-                monitor-on-build: true
-                token-variable: SNYK_TOKEN
-            - run: npx semantic-release
-    build-test:
-        docker:
-            - image: circleci/node:latest
-        steps:
-            - checkout
-            - run: npm install
-            - run: npm run build
-            - run: npm test
-            - snyk/scan:
-                fail-on-issues: true
-                monitor-on-build: false
-                token-variable: SNYK_TOKEN
-    build-test-from-fork:
-        docker:
-            - image: circleci/node:latest
-        steps:
-            - checkout
-            - run: npm install
-            - run: npm run build
-            - run: npm test
+  build-test-monitor:
+    docker:
+      - image: cimg/node:18.17.1
+    steps:
+      - checkout
+      - run: npm install semantic-release @semantic-release/exec pkg --save-dev --legacy-peer-deps
+      - run: npm install
+      - run: npm run build
+      - run: npm test
+      - snyk/scan:
+          fail-on-issues: true
+          monitor-on-build: true
+          token-variable: SNYK_TOKEN
+      - run: npx semantic-release
+  build-test:
+    docker:
+      - image: cimg/node:18.17.1
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run build
+      - run: npm test
+      - snyk/scan:
+          fail-on-issues: true
+          monitor-on-build: false
+          token-variable: SNYK_TOKEN
+  build-test-from-fork:
+    docker:
+      - image: cimg/node:18.17.1
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run build
+      - run: npm test
 
 workflows:
-    version: 2
-    nightly:
-        triggers:
-          - schedule:
-              cron: "0 0 * * *"
-              filters:
-                branches:
-                  only:
-                    - main
-        jobs:
-            - build-test-monitor:
-                context: SNYK
+  version: 2
+  nightly:
+    triggers:
+      - schedule:
+          cron: '0 0 * * *'
+          filters:
+            branches:
+              only:
+                - main
+    jobs:
+      - build-test-monitor:
+          context: SNYK
 
-    build-test-monitor:
-        jobs:
-            - build-test-monitor:
-                context: SNYK
-                filters:
-                    branches:
-                        only:
-                            - main
+  build-test-monitor:
+    jobs:
+      - build-test-monitor:
+          context: SNYK
+          filters:
+            branches:
+              only:
+                - main
 
-    build-test:
-        jobs:
-            - build-test:
-                context: SNYK
-                filters:
-                    branches:
-                        ignore:
-                        - main
-                        - /pull\/[0-9]+/
-            - build-test-from-fork:
-                filters:
-                    branches:
-                        only:
-                        - /pull\/[0-9]+/
+  build-test:
+    jobs:
+      - build-test:
+          context: SNYK
+          filters:
+            branches:
+              ignore:
+                - main
+                - /pull\/[0-9]+/
+      - build-test-from-fork:
+          filters:
+            branches:
+              only:
+                - /pull\/[0-9]+/
