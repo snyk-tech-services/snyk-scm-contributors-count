@@ -80,7 +80,7 @@ export const retrieveOrgsAndIntegrations = async (): Promise<Integration[]> => {
     const snykRequestManager = new requestsManager();
     const orgsResponse = await snykRequestManager.request({
       verb: 'GET',
-      url: `/orgs?${snykApiVersion}`,
+      url: `/orgs?version=${snykApiVersion}`,
       useRESTApi: true,
     });
 
@@ -95,7 +95,6 @@ export const retrieveOrgsAndIntegrations = async (): Promise<Integration[]> => {
         integrations: integrationsInfo,
       });
     }
-
     return integrations;
   } catch (err) {
     console.log(err);
