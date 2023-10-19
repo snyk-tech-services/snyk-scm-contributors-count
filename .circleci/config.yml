@@ -2,12 +2,6 @@ version: 2.1
 orbs:
     snyk: snyk/snyk@1.2.3
 
-parameters:
-    monitor-context:
-        description: CircleCI context used by Snyk scan jobs.
-        type: string
-        default: snyk-growth-monitor
-
 jobs:
     build-test-monitor:
         docker:
@@ -56,14 +50,12 @@ workflows:
                     - main
         jobs:
             - build-test-monitor:
-                context:
-                    - << pipeline.parameters.monitor-context >>
+                context: SNYK
 
     build-test-monitor:
         jobs:
             - build-test-monitor:
-                context:
-                    - << pipeline.parameters.monitor-context >>
+                context: SNYK
                 filters:
                     branches:
                         only:
@@ -72,16 +64,13 @@ workflows:
     build-test:
         jobs:
             - build-test:
-                context:
-                    - << pipeline.parameters.monitor-context >>
+                context: SNYK
                 filters:
                     branches:
                         ignore:
                         - main
                         - /pull\/[0-9]+/
             - build-test-from-fork:
-                context:
-                    - << pipeline.parameters.monitor-context >>
                 filters:
                     branches:
                         only:
