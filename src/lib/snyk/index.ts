@@ -4,6 +4,7 @@ import * as debugLib from 'debug';
 import { Integration } from '../types';
 const debug = debugLib('snyk:snyk');
 
+export const snykApiVersion = '2023-09-29~beta';
 export enum SourceType {
   'github',
   'github-enterprise',
@@ -48,7 +49,7 @@ export const retrieveMonitoredRepos = async (
     const snykRequestManager = new requestsManager();
     const orgsResponse = await snykRequestManager.request({
       verb: 'GET',
-      url: `/orgs?version=2023-09-29~beta`,
+      url: `/orgs?version=${snykApiVersion}`,
       useRESTApi: true,
     });
 
@@ -79,7 +80,7 @@ export const retrieveOrgsAndIntegrations = async (): Promise<Integration[]> => {
     const snykRequestManager = new requestsManager();
     const orgsResponse = await snykRequestManager.request({
       verb: 'GET',
-      url: `/orgs?version=2023-09-29~beta`,
+      url: `/orgs?${snykApiVersion}`,
       useRESTApi: true,
     });
 
@@ -114,7 +115,7 @@ export const retrieveMonitoredReposBySourceType = async (
     for (let i = 0; i < orgs.length; i++) {
       const requestSync = await snykRequestManager.request({
         verb: 'GET',
-        url: `/orgs/${orgs[i].id}/targets?origin=${SourceType[sourceType]}&version=2023-09-29~beta`,
+        url: `/orgs/${orgs[i].id}/targets?origin=${SourceType[sourceType]}&version=${snykApiVersion}`,
         useRESTApi: true,
       });
 

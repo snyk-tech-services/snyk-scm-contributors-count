@@ -5,6 +5,7 @@ import {
   listAllTargetCliOnly,
   listAllTargetsScmOnly,
 } from '../../fixtures/snyk/targetMock';
+import { snykApiVersion } from '../../../src/lib/snyk';
 
 beforeEach(() => {
   return nock(/.*/)
@@ -12,9 +13,9 @@ beforeEach(() => {
     .get(/.*/)
     .reply(200, (uri) => {
       switch (uri) {
-        case '/rest/orgs/689ce7f9-7943-4a71-b704-2ba575f01088/targets?origin=cli&version=2023-09-29~beta':
+        case `/rest/orgs/689ce7f9-7943-4a71-b704-2ba575f01088/targets?origin=cli&version=${snykApiVersion}`:
           return listAllTargetCliOnly;
-        case '/rest/orgs/689ce7f9-7943-4a71-b704-2ba575f01089/targets?origin=bitbucket-server&version=2023-09-29~beta':
+        case `/rest/orgs/689ce7f9-7943-4a71-b704-2ba575f01089/targets?origin=bitbucket-server&version=${snykApiVersion}`:
           return listAllTargetsScmOnly;
         default:
       }
