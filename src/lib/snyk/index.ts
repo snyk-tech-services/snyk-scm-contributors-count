@@ -28,7 +28,7 @@ export interface OrgType {
     } | null;
   };
 }
-interface TargetType {
+export interface TargetType {
   type: string;
   id: string;
   attributes: {

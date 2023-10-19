@@ -1,5 +1,4 @@
 import * as nock from 'nock';
-import * as path from 'path';
 import * as snyk from '../../../src/lib/snyk';
 import {
   listAllTargetCliOnly,

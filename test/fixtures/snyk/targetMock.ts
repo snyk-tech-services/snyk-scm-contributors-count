@@ -1,4 +1,6 @@
-export const listAllTargetCliOnly = {
+import { TargetType } from '../../../src/lib/snyk';
+
+export const listAllTargetCliOnly: { data: TargetType[] } = {
   data: [
     {
       type: 'target',
@@ -9,7 +11,6 @@ export const listAllTargetCliOnly = {
         displayName: 'test-snyk',
         remoteUrl: 'https://not-a-real-url',
       },
-      relationships: {},
     },
     {
       type: 'target',
@@ -20,7 +21,6 @@ export const listAllTargetCliOnly = {
         displayName: 'test-snyk-2',
         remoteUrl: 'https://not-a-real-url',
       },
-      relationships: {},
     },
   ],
 };
@@ -36,7 +36,6 @@ export const listAllTargetsScmOnly = {
         displayName: 'test-snyk',
         remoteUrl: null,
       },
-      relationships: {},
     },
     {
       type: 'target',
@@ -47,7 +46,6 @@ export const listAllTargetsScmOnly = {
         displayName: 'test-snyk-2',
         remoteUrl: null,
       },
-      relationships: {},
     },
     {
       type: 'target',
@@ -58,7 +56,6 @@ export const listAllTargetsScmOnly = {
         displayName: 'test-snyk-3',
         remoteUrl: null,
       },
-      relationships: {},
     },
   ],
 };
