@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
     snyk: snyk/snyk@1.2.3
+
 jobs:
     build-test-monitor:
         docker:

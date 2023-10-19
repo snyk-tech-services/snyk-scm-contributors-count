@@ -1,38 +1,21 @@
 import * as nock from 'nock';
-import * as fs from 'fs';
-import * as path from 'path';
 import * as snyk from '../../../src/lib/snyk';
-
-const fixturesFolderPath = path.resolve(__dirname, '../..') + '/fixtures/snyk/';
+import {
+  listAllTargetCliOnly,
+  listAllTargetsScmOnly,
+} from '../../fixtures/snyk/targetMock';
+import { snykApiVersion } from '../../../src/lib/snyk';
 
 beforeEach(() => {
-  return nock('https://snyk.io')
+  return nock(/.*/)
     .persist()
     .get(/.*/)
     .reply(200, (uri) => {
       switch (uri) {
-        case '/api/v1/orgs':
-          return fs.readFileSync(fixturesFolderPath + 'list-all-orgs.json');
-        default:
-      }
-    })
-    .post(/.*/)
-    .reply(200, (uri) => {
-      switch (uri) {
-        case '/api/v1/org/689ce7f9-7943-4a71-b704-2ba575f01088/projects':
-          return fs.readFileSync(
-            fixturesFolderPath +
-              'list-all-projects-for-defaultOrg-cli-only.json',
-          );
-        case '/api/v1/org/689ce7f9-7943-4a71-b704-2ba575f01089/projects':
-          return fs.readFileSync(
-            fixturesFolderPath +
-              'list-all-projects-for-defaultOrg-scm-only.json',
-          );
-        case '/api/v1/org/a04d9cbd-ae6e-44af-b573-0556b0ad4bd2/projects':
-          return fs.readFileSync(
-            fixturesFolderPath + 'list-all-projects-for-my-other-org.json',
-          );
+        case `/rest/orgs/689ce7f9-7943-4a71-b704-2ba575f01088/targets?origin=cli&version=${snykApiVersion}`:
+          return listAllTargetCliOnly;
+        case `/rest/orgs/689ce7f9-7943-4a71-b704-2ba575f01089/targets?origin=bitbucket-server&version=${snykApiVersion}`:
+          return listAllTargetsScmOnly;
         default:
       }
     });
@@ -42,30 +25,37 @@ describe('Testing snyk lib functions', () => {
   test('Retrieve Snyk monitored repos - bitbucket-server project', async () => {
     const orgs: snyk.OrgType[] = [
       {
-        name: 'defaultOrg',
         id: '689ce7f9-7943-4a71-b704-2ba575f01089',
-        slug: 'default-org',
-        url: 'https://api.snyk.io/org/default-org',
-        group: null,
+        type: 'org',
+        attributes: {
+          name: 'defaultOrg',
+          slug: 'default-org',
+          group: null,
+          is_personal: false,
+        },
       },
     ];
-    expect(
-      await snyk.retrieveMonitoredReposBySourceType(
-        orgs,
-        snyk.SourceType['bitbucket-server'],
-        'http://123',
-      ),
-    ).toEqual(['jeff-snyk-demo/java-goof']);
+
+    const response = await snyk.retrieveMonitoredReposBySourceType(
+      orgs,
+      snyk.SourceType['bitbucket-server'],
+      'http://123',
+    );
+
+    expect(response).toEqual(['test-snyk', 'test-snyk-2', 'test-snyk-3']);
   });
 
   test('Retrieve Snyk monitored repos - CLI projects mismatching SCM hostname', async () => {
     const orgs: snyk.OrgType[] = [
       {
-        name: 'defaultOrg1',
+        type: 'org',
         id: '689ce7f9-7943-4a71-b704-2ba575f01088',
-        slug: 'default-org2',
-        url: 'https://api.snyk.io/org/default-org1',
-        group: null,
+        attributes: {
+          name: 'defaultOrg1',
+          slug: 'default-org2',
+          group: null,
+          is_personal: false,
+        },
       },
     ];
     expect(
@@ -80,20 +70,23 @@ describe('Testing snyk lib functions', () => {
   test('Retrieve Snyk monitored repos - CLI projects matching SCM hostname', async () => {
     const orgs: snyk.OrgType[] = [
       {
-        name: 'defaultOrg1',
         id: '689ce7f9-7943-4a71-b704-2ba575f01088',
-        slug: 'default-org1',
-        url: 'https://api.snyk.io/org/default-org1',
-        group: null,
+        type: 'org',
+        attributes: {
+          name: 'defaultOrg1',
+          slug: 'default-org1',
+          group: null,
+          is_personal: false,
+        },
       },
     ];
     expect(
       await snyk.retrieveMonitoredReposBySourceType(
         orgs,
         snyk.SourceType['cli'],
-        'http://bitbucket-server.dev.snyk.io',
+        'https://not-a-real-url',
       ),
-    ).toEqual(['http://bitbucket-server.dev.snyk.io/scm/an/testorgana.git']);
+    ).toEqual(['test-snyk', 'test-snyk-2']);
   });
 
   // TODO: See how to mock Snyk API better to honor filters passed in requestBody
