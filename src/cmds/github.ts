@@ -94,7 +94,7 @@ export async function handler(argv: {
 
   const githubTask = new Github(scmTarget);
 
-  console.log("Running github command")
+  console.log('Running github command');
   await githubTask.scmContributorCount(
     githubDefaultUrl,
     SourceType['github'],
