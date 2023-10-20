@@ -60,5 +60,11 @@
       ]
     }
   ],
-  "branches": ["main"]
+  "branches": [
+    "main",
+    {
+      "name": "alpha",
+      "prerelease": true
+    }
+  ]
 }

@@ -60,6 +60,7 @@ workflows:
             branches:
               only:
                 - main
+                - alpha
 
   build-test:
     jobs:
