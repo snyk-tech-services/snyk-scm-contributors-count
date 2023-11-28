@@ -110,28 +110,45 @@ export const retrieveMonitoredReposBySourceType = async (
   let snykScmMonitoredRepos: string[] = [];
   try {
     const snykRequestManager = new requestsManager();
+    let requestSync;
+    let url = "";
+    let hasData = false;
 
     for (let i = 0; i < orgs.length; i++) {
-      const requestSync = await snykRequestManager.request({
-        verb: 'GET',
-        url: `/orgs/${orgs[i].id}/targets?origin=${SourceType[sourceType]}&version=${snykApiVersion}`,
-        useRESTApi: true,
-      });
 
-      let targets = requestSync.data.data as TargetType[];
+      url = `/orgs/${orgs[i].id}/targets?origin=${SourceType[sourceType]}&version=${snykApiVersion}`
 
-      if (SourceType[sourceType] === 'cli' && scmHostname) {
-        targets = targets.filter(
-          (target: TargetType) =>
-            target.attributes.remoteUrl &&
-            target.attributes.remoteUrl.includes(scmHostname),
+      do {
+        requestSync = await snykRequestManager.request({
+          verb: 'GET',
+          url: url,
+          useRESTApi: true,
+        });
+
+        let targets = requestSync.data.data as TargetType[];
+
+        if (SourceType[sourceType] === 'cli' && scmHostname) {
+          targets = targets.filter(
+            (target: TargetType) =>
+              target.attributes.remoteUrl &&
+              target.attributes.remoteUrl.includes(scmHostname),
+          );
+        }
+        const targetDisplayNames = targets.map(
+          (target) => target.attributes.displayName,
         );
-      }
-      const targetDisplayNames = targets.map(
-        (target) => target.attributes.displayName,
-      );
 
-      snykScmMonitoredRepos = snykScmMonitoredRepos.concat(targetDisplayNames);
+        snykScmMonitoredRepos = snykScmMonitoredRepos.concat(targetDisplayNames);
+
+        if (requestSync.data.links.next) {
+          url = requestSync.data.links.next;
+          hasData = true;
+          debug(`Load more data for Org: ${orgs[i].attributes.name}`);
+
+        } else {
+          hasData = false;
+        }
+      } while(hasData);
     }
     return snykScmMonitoredRepos;
   } catch (err: any) {
