@@ -1,4 +1,4 @@
-import { TargetType } from '../../../src/lib/snyk';
+import { snykApiVersion, TargetType } from '../../../src/lib/snyk';
 
 export const listAllTargetCliOnly: { data: TargetType[] } = {
   data: [
@@ -54,6 +54,39 @@ export const listAllTargetsScmOnly = {
         isPrivate: true,
         origin: 'bitbucket-server',
         displayName: 'test-snyk-3',
+        remoteUrl: null,
+      },
+    },
+  ],
+};
+
+export const listTargetsWithNextPage = {
+  data: [
+    {
+      type: 'target',
+      id: 'ef5397fc-a8c0-4ee3-b7c8-e05902a982d6',
+      attributes: {
+        isPrivate: true,
+        origin: 'bitbucket-server',
+        displayName: 'test-snyk-first-page',
+        remoteUrl: null,
+      },
+    },
+  ],
+  links: {
+    next: `/orgs/39ab9ba8-96e4-41b5-8494-4fe31bf8907a/targets?limit=100&origin=bitbucket-server&version=${snykApiVersion}&starting_after=doesnt-matter`,
+  },
+};
+
+export const listTargetsLastPage = {
+  data: [
+    {
+      type: 'target',
+      id: 'ef5397fc-a8c0-4ee3-b7c8-e05902a982d6',
+      attributes: {
+        isPrivate: true,
+        origin: 'bitbucket-server',
+        displayName: 'test-snyk-last-page',
         remoteUrl: null,
       },
     },

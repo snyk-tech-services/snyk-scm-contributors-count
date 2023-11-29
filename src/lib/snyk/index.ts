@@ -112,27 +112,39 @@ export const retrieveMonitoredReposBySourceType = async (
     const snykRequestManager = new requestsManager();
 
     for (let i = 0; i < orgs.length; i++) {
-      const requestSync = await snykRequestManager.request({
-        verb: 'GET',
-        url: `/orgs/${orgs[i].id}/targets?origin=${SourceType[sourceType]}&version=${snykApiVersion}`,
-        useRESTApi: true,
-      });
+      let isNextPage = true;
+      let url = `/orgs/${orgs[i].id}/targets?limit=100&origin=${SourceType[sourceType]}&version=${snykApiVersion}`;
+      while (isNextPage) {
+        const targetsResponse = await snykRequestManager.request({
+          url,
+          verb: 'GET',
+          useRESTApi: true,
+        });
 
-      let targets = requestSync.data.data as TargetType[];
+        let targets = targetsResponse.data.data as TargetType[];
 
-      if (SourceType[sourceType] === 'cli' && scmHostname) {
-        targets = targets.filter(
-          (target: TargetType) =>
-            target.attributes.remoteUrl &&
-            target.attributes.remoteUrl.includes(scmHostname),
+        if (SourceType[sourceType] === 'cli' && scmHostname) {
+          targets = targets.filter(
+            (target: TargetType) =>
+              target.attributes.remoteUrl &&
+              target.attributes.remoteUrl.includes(scmHostname),
+          );
+        }
+        const targetDisplayNames = targets.map(
+          (target) => target.attributes.displayName,
         );
-      }
-      const targetDisplayNames = targets.map(
-        (target) => target.attributes.displayName,
-      );
 
-      snykScmMonitoredRepos = snykScmMonitoredRepos.concat(targetDisplayNames);
+        snykScmMonitoredRepos =
+          snykScmMonitoredRepos.concat(targetDisplayNames);
+
+        if (targetsResponse.data?.links?.next) {
+          url = targetsResponse.data.links.next;
+        } else {
+          isNextPage = false;
+        }
+      }
     }
+
     return snykScmMonitoredRepos;
   } catch (err: any) {
     debug('Failed retrieving Snyk monitored SCM repos\n' + err);
