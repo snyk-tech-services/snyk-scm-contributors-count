@@ -1,4 +1,4 @@
-import { Orgs, Org } from 'snyk-api-ts-client';
+import { Org } from 'snyk-api-ts-client';
 import { requestsManager } from 'snyk-request-manager';
 import * as debugLib from 'debug';
 import { Integration } from '../types';
@@ -138,6 +138,7 @@ export const retrieveMonitoredReposBySourceType = async (
           snykScmMonitoredRepos.concat(targetDisplayNames);
 
         if (targetsResponse.data?.links?.next) {
+          console.log('fetching next page');
           url = targetsResponse.data.links.next;
         } else {
           isNextPage = false;
