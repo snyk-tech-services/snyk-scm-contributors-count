@@ -3,6 +3,8 @@ import * as snyk from '../../../src/lib/snyk';
 import {
   listAllTargetCliOnly,
   listAllTargetsScmOnly,
+  listTargetsLastPage,
+  listTargetsWithNextPage,
 } from '../../fixtures/snyk/targetMock';
 import { snykApiVersion } from '../../../src/lib/snyk';
 
@@ -12,10 +14,14 @@ beforeEach(() => {
     .get(/.*/)
     .reply(200, (uri) => {
       switch (uri) {
-        case `/rest/orgs/689ce7f9-7943-4a71-b704-2ba575f01088/targets?origin=cli&version=${snykApiVersion}`:
+        case `/rest/orgs/689ce7f9-7943-4a71-b704-2ba575f01088/targets?limit=100&origin=cli&version=${snykApiVersion}`:
           return listAllTargetCliOnly;
-        case `/rest/orgs/689ce7f9-7943-4a71-b704-2ba575f01089/targets?origin=bitbucket-server&version=${snykApiVersion}`:
+        case `/rest/orgs/689ce7f9-7943-4a71-b704-2ba575f01089/targets?limit=100&origin=bitbucket-server&version=${snykApiVersion}`:
           return listAllTargetsScmOnly;
+        case `/rest/orgs/39ab9ba8-96e4-41b5-8494-4fe31bf8907a/targets?limit=100&origin=bitbucket-server&version=${snykApiVersion}`:
+          return listTargetsWithNextPage;
+        case `/rest/orgs/39ab9ba8-96e4-41b5-8494-4fe31bf8907a/targets?limit=100&origin=bitbucket-server&version=${snykApiVersion}&starting_after=doesnt-matter`:
+          return listTargetsLastPage;
         default:
       }
     });
@@ -87,6 +93,29 @@ describe('Testing snyk lib functions', () => {
         'https://not-a-real-url',
       ),
     ).toEqual(['test-snyk', 'test-snyk-2']);
+  });
+
+  test('Retrieve Snyk monitored repos with pagination - bitbucket-server project', async () => {
+    const orgs: snyk.OrgType[] = [
+      {
+        id: '39ab9ba8-96e4-41b5-8494-4fe31bf8907a',
+        type: 'org',
+        attributes: {
+          name: 'defaultOrg',
+          slug: 'default-org',
+          group: null,
+          is_personal: false,
+        },
+      },
+    ];
+
+    const response = await snyk.retrieveMonitoredReposBySourceType(
+      orgs,
+      snyk.SourceType['bitbucket-server'],
+      'http://123',
+    );
+
+    expect(response).toEqual(['test-snyk-first-page', 'test-snyk-last-page']);
   });
 
   // TODO: See how to mock Snyk API better to honor filters passed in requestBody
