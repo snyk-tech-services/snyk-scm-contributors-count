@@ -107,6 +107,7 @@ export async function handler(argv: {
   skipSnykMonitoredRepos: boolean;
   importConfDir: string;
   importFileRepoType: string;
+  azureUrls: string;
 }): Promise<void> {
   if (process.env.DEBUG) {
     debug('DEBUG MODE ENABLED \n');
@@ -149,7 +150,7 @@ export async function handler(argv: {
   const azureDevopsTask = new AzureDevops(scmTarget);
 
   await azureDevopsTask.scmContributorCount(
-    azureDefaultUrls,
+    argv.azureUrls || azureDefaultUrls,
     SourceType['azure-repos'],
     argv.exclusionFilePath,
     argv.json,
