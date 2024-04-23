@@ -46,7 +46,7 @@ export const fetchAzureDevopsContributors = async (
       azureInfo.projectKeys = [];
       projectList = projectList.concat(
         await fetchAzureProjects(
-          azureDefaultUrl,
+          azureInfo.url ? azureInfo.url : azureDefaultUrl,
           azureInfo.OrgName,
           azureInfo.token,
         ),
@@ -127,8 +127,9 @@ export const fetchAzureContributorsForRepo = async (
     debug(
       `Fetching single repo contributor from Azure Devops. Project ${repo.project.key} - Repo ${repo.name}\n`,
     );
+    const azureUrl = AzureInfo.url ? AzureInfo.url : azureDefaultUrl;
     const response = await getRepoCommits(
-      azureDefaultUrl + AzureInfo.OrgName,
+      azureUrl + AzureInfo.OrgName,
       repo.project.key,
       repo.name,
       AzureInfo.token,
@@ -217,8 +218,9 @@ export const fetchAzureReposForProjects = async (
   if (AzureInfo.projectKeys) {
     try {
       for (let i = 0; i < AzureInfo.projectKeys.length; i++) {
+        const azureUrl = AzureInfo.url ? AzureInfo.url : azureDefaultUrl
         const repos = await getReposPerProjects(
-          azureDefaultUrl + AzureInfo.OrgName,
+          azureUrl + AzureInfo.OrgName,
           AzureInfo.projectKeys[i],
           AzureInfo.token,
         );
@@ -256,13 +258,13 @@ export const fetchAzureReposForProjects = async (
 };
 
 export const fetchAzureProjects = async (
-  azureDefaultUrl: string,
+  azureUrl: string,
   OrgName: string,
   token: string,
 ): Promise<Project[]> => {
   const projectList: Project[] = [];
   try {
-    const projects = await getProjects(azureDefaultUrl, OrgName, token);
+    const projects = await getProjects(azureUrl, OrgName, token);
     const result = await projects.text();
     const parsedResponse = JSON.parse(result).value;
     parsedResponse.map((project: { name: string; id: string }) => {
