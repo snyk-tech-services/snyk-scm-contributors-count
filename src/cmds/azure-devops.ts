@@ -26,6 +26,11 @@ export const builder = {
     default: undefined,
     desc: 'Your Org name in Azure Devops e.g. https://dev.azure.com/{OrgName}',
   },
+  url: {
+    required: false,
+    default: 'https://dev.azure.com/',
+    desc: '[Optional] Your Azure DevOps host URL e.g. https://your.company.azure.com/\n',
+  },
   projectKeys: {
     required: false,
     default: undefined,
@@ -107,6 +112,7 @@ export async function handler(argv: {
   skipSnykMonitoredRepos: boolean;
   importConfDir: string;
   importFileRepoType: string;
+  url: string;
 }): Promise<void> {
   if (process.env.DEBUG) {
     debug('DEBUG MODE ENABLED \n');
@@ -144,6 +150,7 @@ export async function handler(argv: {
     OrgName: argv.org,
     projectKeys: argv.projectKeys?.toString().split(','),
     repo: argv.repo,
+    url: argv.url
   };
 
   const azureDevopsTask = new AzureDevops(scmTarget);
