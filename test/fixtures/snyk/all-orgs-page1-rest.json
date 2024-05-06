@@ -1,0 +1,114 @@
+
+{
+    "data": [
+        {
+            "id": "2aca25e4-6bcc-4ed5-ad16-1f00f08984ed",
+            "type": "org",
+            "attributes": {
+                "group_id": "7a3e11b1-f568-4d7f-a6cb-021bc38d8ea6",
+                "is_personal": false,
+                "name": "02f2edfc-aff1-434a-8c89-63ab2a15b6d0",
+                "slug": "02f2edfc-aff1-434a-8c89-63ab2a15b6d0"
+            }
+        },
+        {
+            "id": "1f2b66e7-f003-47ae-b263-fc38c25422f4",
+            "type": "org",
+            "attributes": {
+                "group_id": "7a3e11b1-f568-4d7f-a6cb-021bc38d8ea6",
+                "is_personal": false,
+                "name": "0920a431-294f-4f1b-8b51-b7ce11dd9b9e",
+                "slug": "0920a431-294f-4f1b-8b51-b7ce11dd9b9e"
+            }
+        },
+        {
+            "id": "6c3a016f-c245-4b9a-8958-7b668786d4ba",
+            "type": "org",
+            "attributes": {
+                "group_id": "7a3e11b1-f568-4d7f-a6cb-021bc38d8ea6",
+                "is_personal": false,
+                "name": "0ecc08c1-32b1-43a6-b609-036e972c33ef",
+                "slug": "0ecc08c1-32b1-43a6-b609-036e972c33ef"
+            }
+        },
+        {
+            "id": "7316d04a-b6e4-4d22-b85e-72b5a2b1a672",
+            "type": "org",
+            "attributes": {
+                "group_id": "7a3e11b1-f568-4d7f-a6cb-021bc38d8ea6",
+                "is_personal": false,
+                "name": "158615d6-bbd0-45b2-a08c-96f67a0b9566",
+                "slug": "158615d6-bbd0-45b2-a08c-96f67a0b9566"
+            }
+        },
+        {
+            "id": "bc68cded-828c-4ef0-81bb-5ea6d74bb4f8",
+            "type": "org",
+            "attributes": {
+                "group_id": "7a3e11b1-f568-4d7f-a6cb-021bc38d8ea6",
+                "is_personal": false,
+                "name": "186d1421-e247-446e-8f02-c892d0ded4e9",
+                "slug": "186d1421-e247-446e-8f02-c892d0ded4e9"
+            }
+        },
+        {
+            "id": "bfba8e25-0600-482d-85d7-d982acb99cfd",
+            "type": "org",
+            "attributes": {
+                "group_id": "7a3e11b1-f568-4d7f-a6cb-021bc38d8ea6",
+                "is_personal": false,
+                "name": "1cd2b5a0-bce0-4f61-bacd-47bb43c136c3",
+                "slug": "1cd2b5a0-bce0-4f61-bacd-47bb43c136c3"
+            }
+        },
+        {
+            "id": "d4456a7b-207e-46dd-becc-2a46f83814e8",
+            "type": "org",
+            "attributes": {
+                "group_id": "7a3e11b1-f568-4d7f-a6cb-021bc38d8ea6",
+                "is_personal": false,
+                "name": "1d1dcded-93d8-43a3-b74a-24b5c3109050",
+                "slug": "1d1dcded-93d8-43a3-b74a-24b5c3109050"
+            }
+        },
+        {
+            "id": "44cef555-a4e7-4981-90c2-66c2804d185c",
+            "type": "org",
+            "attributes": {
+                "group_id": "7a3e11b1-f568-4d7f-a6cb-021bc38d8ea6",
+                "is_personal": false,
+                "name": "22d62fdb-37fa-4308-9200-d3d1d9f0907b",
+                "slug": "22d62fdb-37fa-4308-9200-d3d1d9f0907b"
+            }
+        },
+        {
+            "id": "7943d207-cb50-4228-a227-bc7b567ab06e",
+            "type": "org",
+            "attributes": {
+                "group_id": "7a3e11b1-f568-4d7f-a6cb-021bc38d8ea6",
+                "is_personal": false,
+                "name": "273cd33e-6593-4615-9eec-6fc35701bf8f",
+                "slug": "273cd33e-6593-4615-9eec-6fc35701bf8f"
+            }
+        },
+        {
+            "id": "106e9577-2527-42bf-bbb6-aa382650f858",
+            "type": "org",
+            "attributes": {
+                "group_id": "7a3e11b1-f568-4d7f-a6cb-021bc38d8ea6",
+                "is_personal": false,
+                "name": "29a42a22-367e-4723-9c50-4b4321b36f71",
+                "slug": "29a42a22-367e-4723-9c50-4b4321b36f71"
+            }
+        }
+    ],
+    "jsonapi": {
+        "version": "1.0"
+    },
+    "links": {
+        "self": "/rest/orgs?limit=10&version=2023-09-29~beta",
+        "first": "/rest/orgs?limit=10&version=2023-09-29~beta",
+        "prev": "/rest/orgs?ending_before=v1.eyJuYW1lIjoiMDJmMmVkZmMtYWZmMS00MzRhLThjODktNjNhYjJhMTViNmQwIiwic2x1ZyI6IjAyZjJlZGZjLWFmZjEtNDM0YS04Yzg5LTYzYWIyYTE1YjZkMCJ9&limit=10&version=2023-09-29~beta",
+        "next": "/rest/orgs?limit=10&starting_after=v1.eyJuYW1lIjoiMjlhNDJhMjItMzY3ZS00NzIzLTljNTAtNGI0MzIxYjM2ZjcxIiwic2x1ZyI6IjI5YTQyYTIyLTM2N2UtNDcyMy05YzUwLTRiNDMyMWIzNmY3MSJ9&version=2023-09-29~beta"
+    }
+}
