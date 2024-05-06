@@ -1,4 +1,4 @@
-import { Org } from 'snyk-api-ts-client';
+import { Org } from './types/org';
 import { requestsManager } from 'snyk-request-manager';
 import * as debugLib from 'debug';
 import { Integration } from '../types';
@@ -39,6 +39,30 @@ export interface TargetType {
   };
 }
 
+export const getAllOrgs = async (recordPerPage = 10): Promise<OrgType[]> => {
+  const snykRequestManager = new requestsManager();
+  const orgs: OrgType[] = [];
+  let orgsResponse = await snykRequestManager.request({
+    verb: 'GET',
+    url: `/orgs?version=${snykApiVersion}&limit=${recordPerPage}`,
+    useRESTApi: true,
+  });
+  orgs.push(...orgsResponse.data.data);
+  let isNextPage = orgsResponse.data.links.next ? true : false;
+  while (isNextPage) {
+    const nextPageUrl = orgsResponse.data.links.next.replace(/^\/rest/, '');
+    orgsResponse = await snykRequestManager.request({
+      verb: 'GET',
+      url: nextPageUrl,
+      useRESTApi: true,
+    });
+    orgs.push(...orgsResponse.data.data);
+    isNextPage = orgsResponse.data.links.next ? true : false;
+  }
+
+  return orgs;
+};
+
 export const retrieveMonitoredRepos = async (
   url: string,
   scmType: SourceType,
@@ -46,14 +70,7 @@ export const retrieveMonitoredRepos = async (
   let snykMonitoredRepos: string[] = [];
 
   try {
-    const snykRequestManager = new requestsManager();
-    const orgsResponse = await snykRequestManager.request({
-      verb: 'GET',
-      url: `/orgs?version=${snykApiVersion}`,
-      useRESTApi: true,
-    });
-
-    const orgs = orgsResponse.data.data as OrgType[];
+    const orgs = await getAllOrgs(100);
 
     snykMonitoredRepos = snykMonitoredRepos.concat(
       await retrieveMonitoredReposBySourceType(orgs, scmType),
@@ -77,14 +94,7 @@ export const retrieveMonitoredRepos = async (
 export const retrieveOrgsAndIntegrations = async (): Promise<Integration[]> => {
   const integrations: Integration[] = [];
   try {
-    const snykRequestManager = new requestsManager();
-    const orgsResponse = await snykRequestManager.request({
-      verb: 'GET',
-      url: `/orgs?version=${snykApiVersion}`,
-      useRESTApi: true,
-    });
-
-    const orgs = orgsResponse.data.data as OrgType[];
+    const orgs = await getAllOrgs(100);
 
     for (let i = 0; i < orgs.length; i++) {
       const integrationsInfo = await new Org({ orgId: orgs[i].id })

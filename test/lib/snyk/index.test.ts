@@ -6,9 +6,15 @@ import {
   listTargetsLastPage,
   listTargetsWithNextPage,
 } from '../../fixtures/snyk/targetMock';
-import { snykApiVersion } from '../../../src/lib/snyk';
+import { getAllOrgs, snykApiVersion } from '../../../src/lib/snyk';
 
 beforeEach(() => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const listOrgsFirstPage = require('../../fixtures/snyk/all-orgs-page1-rest.json');
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const listOrgsSecondPage = require('../../fixtures/snyk/all-orgs-page2-rest.json');
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const listOrgsLastPage = require('../../fixtures/snyk/all-orgs-pagelast-rest.json');
   return nock(/.*/)
     .persist()
     .get(/.*/)
@@ -22,6 +28,12 @@ beforeEach(() => {
           return listTargetsWithNextPage;
         case `/rest/orgs/39ab9ba8-96e4-41b5-8494-4fe31bf8907a/targets?limit=100&origin=bitbucket-server&version=${snykApiVersion}&starting_after=doesnt-matter`:
           return listTargetsLastPage;
+        case `/rest/orgs?version=${snykApiVersion}&limit=10`:
+          return listOrgsFirstPage;
+        case `/rest/orgs?limit=10&starting_after=v1.eyJuYW1lIjoiMjlhNDJhMjItMzY3ZS00NzIzLTljNTAtNGI0MzIxYjM2ZjcxIiwic2x1ZyI6IjI5YTQyYTIyLTM2N2UtNDcyMy05YzUwLTRiNDMyMWIzNmY3MSJ9&version=2023-09-29~beta`:
+          return listOrgsSecondPage;
+        case `/rest/orgs?limit=10&starting_after=v1.eyJuYW1lIjoiNTIzYjM3N2ItY2MyNC00NDA2LWEwMmQtMGIwMmJhODE5ZGYxIiwic2x1ZyI6IjUyM2IzNzdiLWNjMjQtNDQwNi1hMDJkLTBiMDJiYTgxOWRmMSJ9&version=2023-09-29~beta`:
+          return listOrgsLastPage;
         default:
       }
     });
@@ -144,4 +156,18 @@ describe('Testing snyk lib functions', () => {
   //       'snyk-tech-services/training-snyk-row',
   //     ]);
   //   });
+
+  test('Test retrieval of all orgs with pagination', async () => {
+    const orgs = await getAllOrgs();
+    console.log(orgs);
+    expect(orgs.length).toEqual(30);
+    // first org on first page org
+    expect(
+      orgs.some((org) => org.id == '2aca25e4-6bcc-4ed5-ad16-1f00f08984ed'),
+    ).toBeTruthy();
+    // last org on last page
+    expect(
+      orgs.some((org) => org.id == 'acacadb8-3236-42c3-b7d3-36f4847cf902'),
+    ).toBeTruthy();
+  });
 });

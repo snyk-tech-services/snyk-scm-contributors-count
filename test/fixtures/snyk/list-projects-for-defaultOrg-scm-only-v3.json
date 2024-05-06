@@ -1,0 +1,63 @@
+{
+  "jsonapi": {
+    "version": "1.0"
+  },
+  "data": [
+    {
+      "type": "project",
+      "id": "49349720-6ae0-439b-9984-564d4e924f85",
+      "meta": {},
+      "attributes": {
+        "name": "jeff-snyk-demo/java-goof:hello-world/pom.xml",
+        "type": "maven",
+        "target_file": "pom.xml",
+        "target_reference": "master",
+        "origin": "bitbucket-server",
+        "created": "2019-06-12T07:53:01.758Z",
+        "status": "active",
+        "business_criticality": [],
+        "environment": [],
+        "lifecycle": [],
+        "tags": [],
+        "settings": {
+          "recurring_tests": {
+            "frequency": "daily"
+          },
+          "pull_requests": {
+            "fail_only_for_issues_with_fix": false
+          }
+        }
+      },
+      "relationships": {
+        "organization": {
+          "data": {
+            "type": "org",
+            "id": "689ce7f9-7943-4a71-b704-2ba575f01089"
+          },
+          "links": {
+            "related": "/orgs/689ce7f9-7943-4a71-b704-2ba575f01089"
+          }
+        },
+        "target": {
+          "data": {
+            "type": "target",
+            "id": "60744bad-77b8-45c2-8d7d-696f9ab54552"
+          },
+          "links": {
+            "related": "/orgs/689ce7f9-7943-4a71-b704-2ba575f01089/targets/60744bad-77b8-45c2-8d7d-696f9ab54552"
+          }
+        },
+        "importer": {
+          "data": {
+            "type": "user",
+            "id": "4eee4035-64c1-4d66-a2b2-5bfdcee0c448"
+          },
+          "links": {
+            "related": "/orgs/689ce7f9-7943-4a71-b704-2ba575f01089/users/4eee4035-64c1-4d66-a2b2-5bfdcee0c448"
+          }
+        }
+      }
+    }
+  ],
+  "links": {}
+}

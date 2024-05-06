@@ -1,4 +1,4 @@
-import { IntegrationsGetResponseType } from 'snyk-api-ts-client/dist/client/generated/org';
+import { IntegrationsGetResponseType } from './snyk/types/org';
 
 export type ContributorMap = Map<Username, Contributor>;
 
