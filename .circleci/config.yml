@@ -5,7 +5,7 @@ orbs:
 jobs:
   build-test-monitor:
     docker:
-      - image: cimg/node:18.17.1
+      - image: cimg/node:20.11
     steps:
       - checkout
       - run: npm install semantic-release @semantic-release/exec pkg --save-dev --legacy-peer-deps
@@ -19,7 +19,7 @@ jobs:
       - run: npx semantic-release
   build-test:
     docker:
-      - image: cimg/node:18.17.1
+      - image: cimg/node:20.11
     steps:
       - checkout
       - run: npm install
@@ -31,7 +31,7 @@ jobs:
           token-variable: SNYK_TOKEN
   build-test-from-fork:
     docker:
-      - image: cimg/node:18.17.1
+      - image: cimg/node:20.11
     steps:
       - checkout
       - run: npm install
