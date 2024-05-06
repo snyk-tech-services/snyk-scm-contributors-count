@@ -1,4 +1,4 @@
-import { Org } from 'snyk-api-ts-client';
+import { Org } from './types/org';
 import { requestsManager } from 'snyk-request-manager';
 import * as debugLib from 'debug';
 import { Integration } from '../types';

@@ -242,7 +242,8 @@ export const createImportFile = async (
       integrations,
     );
     if (
-      (integration.integrations == {} || integration.org.id == '') &&
+      (Object.keys(integration.integrations).length == 0 ||
+        integration.org.id == '') &&
       !userPromptedForDetails
     ) {
       const provideDetails = await promptUserForDetails(
