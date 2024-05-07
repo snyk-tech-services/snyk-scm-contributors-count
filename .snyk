@@ -3,7 +3,22 @@ version: v1.25.0
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
   SNYK-JS-SEMVER-3247795:
+    - '*': null
+    - reason: No upgrade path
+    - expires: '2023-11-19T13:54:01.451Z'
+  SNYK-JS-AXIOS-6032459:
     - '*':
-      reason: No upgrade path
-      expires: '2023-11-19T13:54:01.451Z'
+        reason: Not applicable to this lib and tool
+        expires: 2024-12-10T00:00:00.000Z
+        created: 2024-05-07T10:11:20.088Z
+  SNYK-JS-AXIOS-6144788:
+    - '*':
+        reason: Not applicable to this lib and tool
+        expires: 2024-12-10T00:00:00.000Z
+        created: 2024-05-07T10:11:34.424Z
+  SNYK-JS-AXIOS-6124857:
+    - '*':
+        reason: Not applicable to this lib and tool
+        expires: 2024-12-10T00:00:00.000Z
+        created: 2024-05-07T10:11:48.345Z
 patch: {}
