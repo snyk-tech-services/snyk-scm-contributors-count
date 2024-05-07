@@ -134,11 +134,13 @@ export const retrieveMonitoredReposBySourceType = async (
         let targets = targetsResponse.data.data as TargetType[];
 
         if (SourceType[sourceType] === 'cli' && scmHostname) {
-          targets = targets.filter(
-            (target: TargetType) =>
-              target.attributes.remoteUrl &&
-              target.attributes.remoteUrl.includes(scmHostname),
-          );
+          targets = targets.filter((target: TargetType) => {
+            return (
+              (target.attributes.remoteUrl &&
+                target.attributes.remoteUrl.includes(scmHostname)) ||
+              !target.attributes.remoteUrl?.startsWith('http')
+            );
+          });
         }
         const targetDisplayNames = targets.map(
           (target) => target.attributes.displayName,
