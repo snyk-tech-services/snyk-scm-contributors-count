@@ -33,14 +33,15 @@ export const consolidateResults = async (
         if (
           consolidatedContriburosList.find(
             (item) =>
-              item.contributor.email == isContributorInArray.contributor.email,
+              item.contributor.email.toLowerCase() ==
+              isContributorInArray.contributor.email.toLowerCase(),
           )
         ) {
           consolidatedContriburosList[
             consolidatedContriburosList.findIndex(
               (item) =>
-                item.contributor.email ==
-                isContributorInArray.contributor.email,
+                item.contributor.email.toLowerCase() ==
+                isContributorInArray.contributor.email.toLowerCase(),
             )
           ] = isContributorInArray;
         } else {
