@@ -72,7 +72,7 @@ export const fetchGitlabContributors = async (
     }
   } catch (err) {
     debug('Failed to retrieve contributors from Gitlab.\n' + err);
-    console.log(
+    console.error(
       'Failed to retrieve contributors from Gitlab. Try running with `DEBUG=snyk* snyk-contributor`',
     );
   }
@@ -152,7 +152,7 @@ export const fetchGitlabContributorsForProject = async (
     }
   } catch (err) {
     debug('Failed to retrieve commits from Gitlab.\n' + err);
-    console.log(
+    console.error(
       'Failed to retrieve commits from Gitlab. Try running with `DEBUG=snyk* snyk-contributor`',
     );
   }
@@ -221,7 +221,7 @@ export const fetchGitlabProjects = async (
     }
   } catch (err) {
     debug('Failed to retrieve project list from Gitlab.\n' + err);
-    console.log(
+    console.error(
       'Failed to retrieve project list from Gitlab. Try running with `DEBUG=snyk* snyk-contributor`',
     );
   }
@@ -252,7 +252,7 @@ export const findGroupPaths = async (
     });
   } catch (err) {
     debug('Failed to retrieve group from Gitlab.\n' + err);
-    console.log(
+    console.error(
       'Failed to retrieve group from Gitlab. Try running with `DEBUG=snyk* snyk-contributor`',
     );
   }
