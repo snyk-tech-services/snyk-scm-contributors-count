@@ -21,6 +21,11 @@ export const desc = 'Count contributors for azure-devops.\n';
 export const builder = {
   // options like
   token: { required: true, default: undefined, desc: 'Azure Devops token' },
+  hostname: {
+    required: false,
+    default: undefined,
+    desc: '[Optional] Custom Azure Devops hostname, e.g. https://my-azure.com',
+  },
   org: {
     required: true,
     default: undefined,
@@ -100,6 +105,7 @@ class AzureDevops extends SCMHandlerClass {
 export async function handler(argv: {
   token: string;
   org: string;
+  hostname?: string;
   projectKeys?: string;
   repo?: string;
   exclusionFilePath: string;
@@ -113,7 +119,7 @@ export async function handler(argv: {
     debug(
       'ℹ️  Options: ' +
         JSON.stringify(
-          `Org name: ${argv.org}, Project Keys: ${argv.projectKeys}, Repo: ${argv.repo}, skipSnykMonitoredRepos: ${argv.skipSnykMonitoredRepos}, ExclusionFile: ${argv.exclusionFilePath}, ImportConfDir: ${argv.importConfDir}, ImportFileRepoType: ${argv.importFileRepoType}`,
+          `Org name: ${argv.org}, Hostname: ${argv.hostname}, Project Keys: ${argv.projectKeys}, Repo: ${argv.repo}, skipSnykMonitoredRepos: ${argv.skipSnykMonitoredRepos}, ExclusionFile: ${argv.exclusionFilePath}, ImportConfDir: ${argv.importConfDir}, ImportFileRepoType: ${argv.importFileRepoType}`,
         ),
     );
   }
@@ -144,12 +150,16 @@ export async function handler(argv: {
     OrgName: argv.org,
     projectKeys: argv.projectKeys?.toString().split(','),
     repo: argv.repo,
+    hostname: argv.hostname,
   };
 
   const azureDevopsTask = new AzureDevops(scmTarget);
 
+  const urls = argv.hostname
+    ? `${azureDefaultUrls},${argv.hostname}`
+    : azureDefaultUrls;
   await azureDevopsTask.scmContributorCount(
-    azureDefaultUrls,
+    urls,
     SourceType['azure-repos'],
     argv.exclusionFilePath,
     argv.json,

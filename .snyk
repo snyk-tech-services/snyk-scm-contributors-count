@@ -1,16 +1,16 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.25.0
+version: v1.25.1
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
   SNYK-JS-SEMVER-3247795:
-    - '*': null
+    - '*': {}
     - reason: No upgrade path
     - expires: '2023-11-19T13:54:01.451Z'
   SNYK-JS-AXIOS-6032459:
     - '*':
-        reason: Not applicable to this lib and tool
-        expires: 2024-12-10T00:00:00.000Z
-        created: 2024-05-07T10:11:20.088Z
+        reason: Not applicable in CLI tool.
+        expires: 2025-09-19T11:46:32.420Z
+        created: 2025-08-20T11:46:32.423Z
   SNYK-JS-AXIOS-6144788:
     - '*':
         reason: Not applicable to this lib and tool
@@ -18,7 +18,22 @@ ignore:
         created: 2024-05-07T10:11:34.424Z
   SNYK-JS-AXIOS-6124857:
     - '*':
-        reason: Not applicable to this lib and tool
-        expires: 2024-12-10T00:00:00.000Z
-        created: 2024-05-07T10:11:48.345Z
+        reason: No reDOS applicable in CLI tool.
+        expires: 2025-09-19T11:45:52.651Z
+        created: 2025-08-20T11:45:52.654Z
+  SNYK-JS-AXIOS-9403194:
+    - '*':
+        reason: No server side forgery applicable in CLI tool.
+        expires: 2025-09-19T11:45:15.643Z
+        created: 2025-08-20T11:45:15.647Z
+  SNYK-JS-AXIOS-9292519:
+    - '*':
+        reason: No server side forgery applicable in CLI tool.
+        expires: 2025-09-19T11:45:31.385Z
+        created: 2025-08-20T11:45:31.393Z
+  SNYK-JS-FORMDATA-10841150:
+    - '*':
+        reason: 'Not applicable in CLI tool, not using forms at all.'
+        expires: 2025-09-19T11:46:10.852Z
+        created: 2025-08-20T11:46:10.856Z
 patch: {}
