@@ -22,6 +22,11 @@ export const fetchAzureDevopsContributors = async (
   threeMonthsDate: string,
 ): Promise<ContributorMap> => {
   const contributorsMap = new Map<Username, Contributor>();
+  const baseUrl = azureInfo.hostname
+    ? azureInfo.hostname.endsWith('/')
+      ? azureInfo.hostname
+      : `${azureInfo.hostname}/`
+    : azureDefaultUrl;
   try {
     let repoList: Repo[] = [];
     let projectList: Project[] = [];
@@ -45,11 +50,7 @@ export const fetchAzureDevopsContributors = async (
     } else if (!azureInfo.projectKeys) {
       azureInfo.projectKeys = [];
       projectList = projectList.concat(
-        await fetchAzureProjects(
-          azureDefaultUrl,
-          azureInfo.OrgName,
-          azureInfo.token,
-        ),
+        await fetchAzureProjects(baseUrl, azureInfo.OrgName, azureInfo.token),
       );
       for (let i = 0; i < projectList.length; i++) {
         azureInfo.projectKeys.push(projectList[i].name);
@@ -123,12 +124,17 @@ export const fetchAzureContributorsForRepo = async (
   contributorsMap: ContributorMap,
   threeMonthsDate: string,
 ): Promise<void> => {
+  const baseUrl = AzureInfo.hostname
+    ? AzureInfo.hostname.endsWith('/')
+      ? AzureInfo.hostname
+      : `${AzureInfo.hostname}/`
+    : azureDefaultUrl;
   try {
     debug(
       `Fetching single repo contributor from Azure Devops. Project ${repo.project.key} - Repo ${repo.name}\n`,
     );
     const response = await getRepoCommits(
-      azureDefaultUrl + AzureInfo.OrgName,
+      baseUrl + AzureInfo.OrgName,
       repo.project.key,
       repo.name,
       AzureInfo.token,
@@ -214,11 +220,16 @@ export const fetchAzureReposForProjects = async (
   AzureInfo: AzureDevopsTarget,
 ): Promise<Repo[]> => {
   const repoList: Repo[] = [];
+  const baseUrl = AzureInfo.hostname
+    ? AzureInfo.hostname.endsWith('/')
+      ? AzureInfo.hostname
+      : `${AzureInfo.hostname}/`
+    : azureDefaultUrl;
   if (AzureInfo.projectKeys) {
     try {
       for (let i = 0; i < AzureInfo.projectKeys.length; i++) {
         const repos = await getReposPerProjects(
-          azureDefaultUrl + AzureInfo.OrgName,
+          baseUrl + AzureInfo.OrgName,
           AzureInfo.projectKeys[i],
           AzureInfo.token,
         );

@@ -5,6 +5,8 @@ Available options:
   --help                    Show help                                  [boolean]
   --token                   Azure Devops token                         [required]
   --org                     Your Org name in Azure Devops e.g. https://dev.azure.com/{OrgName}           [required]
+  --hostname                [Optional] Custom Azure Devops hostname, e.g.
+                            https://my-azure.com
   --projectKeys             [Optional] Azure Devops project key/name to count
                             contributors for
   --repo                    [Optional] Specific repo to count only for
