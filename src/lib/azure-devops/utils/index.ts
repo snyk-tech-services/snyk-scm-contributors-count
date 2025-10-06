@@ -29,9 +29,10 @@ export const getRepoCommits = async (
   threeMonthsDate: string,
 ): Promise<Response> => {
   debug('Fetching commits for ' + repo);
+  const baseUrl = url.replace(/\/+$/, ''); // Remove trailing slashes
   const data = await limiter.schedule(() =>
     fetch(
-      `${url}/${project}/_apis/git/repositories/${repo}/commits?$top=1000000&searchCriteria.fromDate=${threeMonthsDate}&api-version=4.1`,
+      `${baseUrl}/${project}/_apis/git/repositories/${repo}/commits?$top=1000000&searchCriteria.fromDate=${threeMonthsDate}&api-version=4.1`,
       {
         method: 'GET',
         headers: { Authorization: 'Basic ' + base64.encode(':' + token) },
@@ -40,7 +41,7 @@ export const getRepoCommits = async (
   );
   if (!data.ok) {
     debug(
-      `Failed to fetch page: ${url}/${project}/_apis/git/repositories/${repo}/commits?$top=1000000&searchCriteria.fromDate=${threeMonthsDate}&api-version=4.1\n Status Code: ${JSON.stringify(
+      `Failed to fetch page: ${baseUrl}/${project}/_apis/git/repositories/${repo}/commits?$top=1000000&searchCriteria.fromDate=${threeMonthsDate}&api-version=4.1\n Status Code: ${JSON.stringify(
         data.status,
       )}\n Status Text:${JSON.stringify(data.statusText)}`,
     );
@@ -54,9 +55,10 @@ export const getReposPerProjects = async (
   token: string,
 ): Promise<Response> => {
   debug('Fetching repos for ' + project);
+  const baseUrl = url.replace(/\/+$/, ''); // Remove trailing slashes
   const data = await limiter.schedule(() =>
     fetch(
-      `${url}/${encodeURIComponent(
+      `${baseUrl}/${encodeURIComponent(
         project,
       )}/_apis/git/repositories?$top=1000000&api-version=4.1`,
       {
@@ -67,7 +69,7 @@ export const getReposPerProjects = async (
   );
   if (!data.ok) {
     debug(
-      `Failed to fetch page: ${url}/${encodeURIComponent(
+      `Failed to fetch page: ${baseUrl}/${encodeURIComponent(
         project,
       )}/_apis/git/repositories?$top=1000000&api-version=4.1\n Status Code: ${JSON.stringify(
         data.status,
@@ -83,15 +85,16 @@ export const getProjects = async (
   token: string,
 ): Promise<Response> => {
   debug('Fetching projects');
+  const baseUrl = url.replace(/\/+$/, ''); // Remove trailing slashes
   const data = await limiter.schedule(() =>
-    fetch(`${url}/${OrgName}/_apis/projects?$top=1000000&api-version=4.1`, {
+    fetch(`${baseUrl}/${OrgName}/_apis/projects?$top=1000000&api-version=4.1`, {
       method: 'GET',
       headers: { Authorization: 'Basic ' + base64.encode(':' + token) },
     }),
   );
   if (!data.ok) {
     debug(
-      `Failed to fetch page: ${url}/${OrgName}/_apis/projects?$top=1000000&api-version=4.1\n Status Code: ${JSON.stringify(
+      `Failed to fetch page: ${baseUrl}/${OrgName}/_apis/projects?$top=1000000&api-version=4.1\n Status Code: ${JSON.stringify(
         data.status,
       )}\n Status Text: ${JSON.stringify(data.statusText)}`,
     );
