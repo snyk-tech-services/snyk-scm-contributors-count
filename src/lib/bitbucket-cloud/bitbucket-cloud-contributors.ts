@@ -9,7 +9,7 @@ import { Commits, Repo } from './types';
 import { fetchAllPages, isAnyCommitMoreThan90Days } from './utils';
 import { createImportFile, genericRepo, genericTarget } from '../common/utils';
 import * as debugLib from 'debug';
-const bitbucketCloudDefaultUrl = 'https://bitbucket.org';
+const bitbucketCloudDefaultUrl = 'https://api.bitbucket.org';
 const debug = debugLib('snyk:bitbucket-cloud-count');
 
 export const fetchBitbucketCloudContributors = async (
@@ -109,7 +109,7 @@ export const fetchBitbucketCloudContributorsForRepo = async (
   repo: Repo,
   contributorsMap: ContributorMap,
 ): Promise<void> => {
-  const fullUrl = `${bitbucketCloudDefaultUrl}/api/2.0/repositories/${repo.workspace.uuid}/${repo.slug}/commits?pagelen=100`;
+  const fullUrl = `${bitbucketCloudDefaultUrl}/2.0/repositories/${repo.workspace.uuid}/${repo.slug}/commits?pagelen=100`;
   try {
     debug(
       `Fetching single repo contributor from bitbucket-cloud. Worspace ${repo.workspace.uuid} - Repo ${repo.slug}\n`,
@@ -239,12 +239,12 @@ export const fetchBitbucketCloudReposForWorkspaces = async (
   // Filtering only the lowest role (member) to get the most repos (role is mandatory when using the is_private query)
   const fullUrlSet: string[] = !bitbucketCloudInfo.workspaces
     ? [
-        `${bitbucketCloudDefaultUrl}/api/2.0/repositories?q=is_private=true&role=member`,
-        `${bitbucketCloudDefaultUrl}/api/2.0/repositories?q=is_private=false&role=member`,
+        `${bitbucketCloudDefaultUrl}/2.0/repositories?q=is_private=true&role=member`,
+        `${bitbucketCloudDefaultUrl}/2.0/repositories?q=is_private=false&role=member`,
       ]
     : bitbucketCloudInfo.workspaces.map(
         (workspace) =>
-          `${bitbucketCloudDefaultUrl}/api/2.0/repositories/${workspace}?pagelen=100`,
+          `${bitbucketCloudDefaultUrl}/2.0/repositories/${workspace}?pagelen=100`,
       );
   try {
     for (let i = 0; i < fullUrlSet.length; i++) {

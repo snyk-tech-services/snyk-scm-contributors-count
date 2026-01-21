@@ -124,5 +124,5 @@
             "description": ""
         }
     ],
-    "next": "https://bitbucket.org/api/2.0/repositories/snyk-main/page2"
+    "next": "https://api.bitbucket.org/2.0/repositories/snyk-main/page2"
 }

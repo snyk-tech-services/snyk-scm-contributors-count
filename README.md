@@ -4,6 +4,12 @@
 
 **This repository is in maintenance mode, no new features are being developed. Bug & security fixes will continue to be delivered. Open source contributions are welcome for small features & fixes (no breaking changes)**
 
+### Important note - January 2026
+
+Following bitbucket cloud app password deprecation, this tool will no longer work with app passwords and will require an API Token instead.
+
+### What this does
+
 This tool is used to count contributors with commits in the last 90 days in repositories matching the following criteria:
 
 1. Repo name XYZ (single repo mode if available for SCM command - see help)
@@ -57,7 +63,7 @@ snyk-scm-contributors-count bitbucket-server --token BITBUCKET-TOKEN --url http:
 ```
 
 ```
-snyk-scm-contributors-count bitbucket-cloud --user USERNAME --password PASSWORD --workspaces Workspace1,Workspace2 --repo Repo --skipSnykMonitoredRepos
+snyk-scm-contributors-count bitbucket-cloud --user USERNAME --password APITOKEN --workspaces Workspace1,Workspace2 --repo Repo --skipSnykMonitoredRepos
 ```
 
 ```
