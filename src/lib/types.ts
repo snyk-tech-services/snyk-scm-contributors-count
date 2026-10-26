@@ -53,8 +53,9 @@ export interface AzureDevopsTarget {
 }
 
 export interface BitbucketCloudTarget {
-  user: string;
-  password: string;
+  user?: string;
+  password?: string;
+  token?: string;
   workspaces?: string[];
   repo?: string;
 }

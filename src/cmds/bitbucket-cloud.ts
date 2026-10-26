@@ -17,14 +17,19 @@ export const desc = 'Count contributors for bitbucket-cloud.\n';
 
 export const builder = {
   user: {
-    required: true,
+    required: false,
     default: undefined,
-    desc: 'Bitbucket cloud username',
+    desc: 'Bitbucket cloud username. Required when using --password, not needed when using --token',
   },
   password: {
-    required: true,
+    required: false,
     default: undefined,
-    desc: 'Bitbucket cloud password',
+    desc: 'Bitbucket cloud password/APITOKEN (used together with --user). Not needed when using --token',
+  },
+  token: {
+    required: false,
+    default: undefined,
+    desc: 'Bitbucket cloud Access Token, used instead of --user/--password',
   },
   workspaces: {
     required: false,
@@ -98,8 +103,9 @@ class BitbucketCloud extends SCMHandlerClass {
 }
 
 export async function handler(argv: {
-  user: string;
-  password: string;
+  user?: string;
+  password?: string;
+  token?: string;
   workspaces?: string;
   repo?: string;
   exclusionFilePath: string;
@@ -139,9 +145,16 @@ export async function handler(argv: {
     );
     process.exit(1);
   }
+  if (!argv.token && !(argv.user && argv.password)) {
+    console.error(
+      'Please provide either a --token (Bitbucket Access Token) or both --user and --password to authenticate to Bitbucket Cloud',
+    );
+    process.exit(1);
+  }
   const scmTarget: BitbucketCloudTarget = {
     user: argv.user,
     password: argv.password,
+    token: argv.token,
     workspaces: argv.workspaces?.toString().split(','),
     repo: argv.repo,
   };

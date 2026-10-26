@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 import * as debugLib from 'debug';
 import { repoListApiResponse, Commits } from '../types';
+import { BitbucketCloudTarget } from '../../types';
 import Bottleneck from 'bottleneck';
 import base64 = require('base-64');
 
@@ -35,23 +36,39 @@ export const isAnyCommitMoreThan90Days = (values: unknown[]): boolean => {
   );
 };
 
+export const getAuthHeader = (
+  bitbucketCloudInfo: BitbucketCloudTarget,
+): string => {
+  // Access Tokens are passed as a Bearer token, falling back to Basic auth
+  // using the username/app password combination otherwise.
+  if (bitbucketCloudInfo.token) {
+    return 'Bearer ' + bitbucketCloudInfo.token;
+  }
+  return (
+    'Basic ' +
+    base64.encode(
+      `${bitbucketCloudInfo.user}:${bitbucketCloudInfo.password}`,
+    )
+  );
+};
+
 export const fetchAllPages = async (
   url: string,
-  user: string,
-  password: string,
+  bitbucketCloudInfo: BitbucketCloudTarget,
   itemName?: string,
   breakIfTrue?: (values: unknown[]) => boolean,
 ): Promise<unknown[]> => {
   let isLastPage = false;
   let values: unknown[] = [];
   let pageCount = 1;
+  const authHeader = getAuthHeader(bitbucketCloudInfo);
   while (!isLastPage) {
     debug(`Fetching page ${pageCount} for ${itemName}\n`);
     let response = await limiter.schedule(() =>
       fetch(`${url}`, {
         method: 'GET',
         headers: {
-          Authorization: 'Basic ' + base64.encode(user + ':' + password),
+          Authorization: authHeader,
         },
       }),
     );
@@ -67,7 +84,7 @@ export const fetchAllPages = async (
           fetch(`${url}`, {
             method: 'GET',
             headers: {
-              Authorization: 'Basic ' + base64.encode(user + ':' + password),
+              Authorization: authHeader,
             },
           }),
         );

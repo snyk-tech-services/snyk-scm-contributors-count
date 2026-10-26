@@ -119,8 +119,7 @@ export const fetchBitbucketCloudContributorsForRepo = async (
 
     const response = (await fetchAllPages(
       fullUrl,
-      bitbucketCloudInfo.user,
-      bitbucketCloudInfo.password,
+      bitbucketCloudInfo,
       repo.slug,
       isAnyCommitMoreThan90Days,
     )) as Commits[];
@@ -252,8 +251,7 @@ export const fetchBitbucketCloudReposForWorkspaces = async (
       repoList = repoList.concat(
         (await fetchAllPages(
           fullUrlSet[i],
-          bitbucketCloudInfo.user,
-          bitbucketCloudInfo.password,
+          bitbucketCloudInfo,
           'Repositories',
         )) as Repo[],
       );

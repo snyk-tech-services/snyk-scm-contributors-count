@@ -1,14 +1,15 @@
 ## Important note - January 2026
 
-Following bitbucket cloud app password deprecation, this tool will no longer work with app passwords and will require an API Token instead.
+Following bitbucket cloud app password deprecation, this tool will no longer work with app passwords and will require an email address pared with API Token or an Access Token instead.
 
 ## Bitbucket-Cloud
 Available options:
 ```
   --version                 Show version number                        [boolean]
   --help                    Show help                                  [boolean]
-  --user                    Bitbucket cloud username                   [required]
-  --password                Bitbucket cloud APITOKEN                   [required]
+  --user                    Bitbucket cloud email. Required when using --password, not needed when using --token
+  --password                Bitbucket cloud API TOKEN, used together with --user. Not needed when using --token
+  --token                   Bitbucket cloud Access Token, used instead of --user/--password
   --workspaces              [Optional] Bitbucket cloud workspace name/uuid to count contributors for
   --repo                    [Optional] Specific repo to count only for
   --exclusionFilePath       [Optional] Exclusion list filepath
@@ -18,6 +19,8 @@ Available options:
   --importFileRepoType      [Optional] To be used with the importConfDir flag: Specify the type of repos to be added to the import file. Options: all/private/public. Default: all
 ```
 
+> **Note**: You must authenticate with either `--user`/`--password` **or** `--token` (Bitbucket Cloud Access Token, sent as an `Authorization: Bearer` header). If `--token` is provided, it will be used and `--user`/`--password` can be omitted.
+
 Before running the command:
 1. Export SNYK_TOKEN (if you want to get the contributors ONLY for repos that are already monitored by Snyk) =>
     - Go to [Snyk-account](https://app.snyk.io/account) and create a token if not already exists, make sure that your token has Group level access or  use a service account's token that has Group level access, to learn more on how to create a service account, refer to this [guide](https://docs.snyk.io/features/integrations/managing-integrations/service-accounts#how-to-set-up-a-service-account).
@@ -26,7 +29,9 @@ Before running the command:
     ```
     export SNYK_TOKEN=<YOUR-SNYK-TOKEN>
     ```
-2. Get your Bitbucket-Cloud user and APITOKEN =>
+2. Get your Bitbucket-Cloud credentials, either option works =>
+    - An Email and API TOKEN (used together as `--user`/`--password`), or
+    - An Access Token (used as `--token`)
     - Make sure that your credentials have access to the repos that you want to get the contributor count for
 
 ### Running the command
@@ -34,9 +39,13 @@ Before running the command:
 Consider the following levels of usage and options:
 
 #### Usage levels:
-- I want to get commits for all workspaces and their repos in Bitbucket-Cloud => Only provide the Bitbucket-Cloud user and APITOKEN: 
+- I want to get commits for all workspaces and their repos in Bitbucket-Cloud => Only provide the Bitbucket-Cloud Email and API TOKEN: 
 ```
-snyk-scm-contributors-count bitbucket-cloud --user USERNAME --password APITOKEN
+snyk-scm-contributors-count bitbucket-cloud --user EMAIL --password API TOKEN
+```
+Or, using an Access Token instead of user/password:
+```
+snyk-scm-contributors-count bitbucket-cloud --token ACCESS_TOKEN
 ```
 
 - I want to get commits for some workspaces and their repos in Bitbucket-Cloud => Provide the Bitbucket-Cloud user, Bitbucket-Cloud APITOKEN and the workspace/s seperated by a comma:

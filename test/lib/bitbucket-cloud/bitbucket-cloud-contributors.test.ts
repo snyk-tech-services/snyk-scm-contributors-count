@@ -102,4 +102,48 @@ describe('Testing bitbucket-cloud interaction', () => {
 
     expect(repos).toEqual(expectedRepos);
   });
+
+  test('Test fetchBitbucketCloudReposForWorkspaces using an Access Token', async () => {
+    const bitbucketCloudInfo: BitbucketCloudTarget = {
+      token: 'myAccessToken123',
+      workspaces: ['snyk-test'],
+    };
+    const repos = await bitbucketCloud.fetchBitbucketCloudReposForWorkspaces(
+      bitbucketCloudInfo,
+    );
+
+    expect(repos).toEqual(
+      JSON.parse(
+        fs.readFileSync(fixturesFolderPath + 'snyk-test-repos.json').toString(),
+      ).values,
+    );
+  });
+});
+
+describe('Testing bitbucket-cloud getAuthHeader', () => {
+  test('Returns a Bearer Authorization header when a token is provided', () => {
+    const header = bitbucketCloudUtils.getAuthHeader({
+      token: 'myAccessToken123',
+    });
+    expect(header).toEqual('Bearer myAccessToken123');
+  });
+
+  test('Returns a Basic Authorization header when user/password are provided', () => {
+    const header = bitbucketCloudUtils.getAuthHeader({
+      user: 'snyk',
+      password: '123',
+    });
+    expect(header).toEqual(
+      'Basic ' + Buffer.from('snyk:123').toString('base64'),
+    );
+  });
+
+  test('Prefers the Access Token over user/password when both are provided', () => {
+    const header = bitbucketCloudUtils.getAuthHeader({
+      user: 'snyk',
+      password: '123',
+      token: 'myAccessToken123',
+    });
+    expect(header).toEqual('Bearer myAccessToken123');
+  });
 });
